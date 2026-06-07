@@ -115,8 +115,12 @@ blockquote {
 /* links */
 
 a {
-  &:focus {
+  &:focus-visible {
     @extend %tab-focus;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: 0;
   }
 
   &:hover,
@@ -260,8 +264,8 @@ figcaption {
     transition: $global-transition;
 
     &:hover {
-      color: #000;
-      border-bottom-color: #000;
+      color: var(--global-link-color-hover);
+      border-bottom-color: var(--global-link-color-hover);
     }
   }
 }

@@ -5,8 +5,12 @@
 // Determine the expected state of the theme toggle, which can be "dark", "light", or
 // "system". Default is "system".
 let determineThemeSetting = () => {
-  let themeSetting = localStorage.getItem("theme");
-  return (themeSetting != "dark" && themeSetting != "light" && themeSetting != "system") ? "system" : themeSetting;
+  try {
+    let themeSetting = localStorage.getItem("theme");
+    return (themeSetting != "dark" && themeSetting != "light" && themeSetting != "system") ? "system" : themeSetting;
+  } catch (error) {
+    return "system";
+  }
 };
 
 // Determine the computed theme, which can be "dark" or "light". If the theme setting is
@@ -16,32 +20,27 @@ let determineComputedTheme = () => {
   if (themeSetting != "system") {
     return themeSetting;
   }
-  return (userPref && userPref("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
 };
-
-// detect OS/browser preference
-const browserPref = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
 
 // Set the theme on page load or when explicitly called
 let setTheme = (theme) => {
-  const use_theme =
-    theme ||
-    localStorage.getItem("theme") ||
-    $("html").attr("data-theme") ||
-    browserPref;
+  const use_theme = theme || determineComputedTheme();
 
   if (use_theme === "dark") {
     $("html").attr("data-theme", "dark");
+    document.documentElement.style.colorScheme = "dark";
     $("#theme-icon").removeClass("fa-sun").addClass("fa-moon");
   } else if (use_theme === "light") {
-    $("html").removeAttr("data-theme");
+    $("html").attr("data-theme", "light");
+    document.documentElement.style.colorScheme = "light";
     $("#theme-icon").removeClass("fa-moon").addClass("fa-sun");
   }
 };
 
 // Toggle the theme manually
 var toggleTheme = () => {
-  const current_theme = $("html").attr("data-theme");
+  const current_theme = $("html").attr("data-theme") || determineComputedTheme();
   const new_theme = current_theme === "dark" ? "light" : "dark";
   localStorage.setItem("theme", new_theme);
   setTheme(new_theme);
@@ -94,7 +93,7 @@ $(document).ready(function () {
   setTheme();
   window.matchMedia('(prefers-color-scheme: dark)')
         .addEventListener("change", (e) => {
-          if (!localStorage.getItem("theme")) {
+          if (determineThemeSetting() === "system") {
             setTheme(e.matches ? "dark" : "light");
           }
         });

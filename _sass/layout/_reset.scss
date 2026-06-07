@@ -72,8 +72,12 @@ a {
 
 /* Apply focus state */
 
-a:focus {
+a:focus-visible {
   @extend %tab-focus;
+}
+
+a:focus:not(:focus-visible) {
+  outline: 0;
 }
 
 /* Remove outline from links */

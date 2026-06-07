@@ -7,11 +7,26 @@ layout: compress
 <!doctype html>
 <html lang="{{ site.locale | slice: 0,2 }}" class="no-js"{% if site.site_theme == "dark" %} data-theme="dark"{% endif %}>
   <head>
+    <script>
+      (function () {
+        try {
+          var storedTheme = localStorage.getItem("theme");
+          var validTheme = storedTheme === "dark" || storedTheme === "light";
+          var systemDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var theme = validTheme ? storedTheme : (systemDark ? "dark" : "light");
+          document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.style.colorScheme = theme;
+        } catch (error) {
+          document.documentElement.setAttribute("data-theme", "light");
+          document.documentElement.style.colorScheme = "light";
+        }
+      })();
+    </script>
     {% include head.html %}
     {% include head/custom.html %}
   </head>
 
-  <body>
+  <body{% if page.url == "/" %} class="home-page"{% endif %}>
 
     {% include browser-upgrade.html %}
     {% include masthead.html %}

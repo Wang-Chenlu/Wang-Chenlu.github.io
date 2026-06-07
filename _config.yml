@@ -18,13 +18,18 @@ url                      : https://wang-chenlu.github.io # The base hostname & p
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "Wang-Chenlu/Wang-Chenlu.github.io"
 
+# Optional remote endpoint for a real like counter.
+# Leave blank for a pure static site with local Like/Liked state only.
+like_counter:
+  endpoint               :
+
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
-  name             : "Chenlu Wang（王琛璐）"
+  avatar           : "profile.jpg"
+  name             : "Chenlu Wang"
   pronouns         : # example: "she/her"  
   bio              : "Postdoctoral Researcher"
   location         : "Jiangsu, China"

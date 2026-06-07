@@ -18,26 +18,43 @@
     <h3 class="author__name">{{ author.name }}</h3>
     {% if author.pronouns %}<p class="author__pronouns">{{ author.pronouns }}</p>{% endif %}
     {% if author.bio %}<p class="author__bio">{{ author.bio }}</p>{% endif %}
+    {% if page.url == "/" and author.employer %}<p class="author__affiliation">{{ author.employer }}</p>{% endif %}
   </div>
 
   <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">Follow</button>
+    <button class="btn btn--inverse">Contact</button>
     <ul class="author__urls social-icons">
       <!-- Font Awesome icons / Biographic information  -->
+      {% if page.url == "/" %}
+        {% if author.location or author.employer or author.uri or author.email %}
+          <li class="author__section-label">Info</li>
+        {% endif %}
+      {% endif %}
       {% if author.location %}
-        <li class="author__desktop"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>{{ author.location }}</li>
+        {% if page.url == "/" %}
+          <li class="author__desktop author__location">
+            <a href="https://www.google.com/maps/search/?api=1&query=Suzhou%2C+Jiangsu%2C+China" aria-label="Suzhou, Jiangsu, China" title="Suzhou, Jiangsu, China" target="_blank" rel="noopener noreferrer"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>Suzhou, Jiangsu, China</a>
+          </li>
+        {% else %}
+          <li class="author__desktop author__location"><i class="fas fa-fw fa-location-dot icon-pad-right" aria-hidden="true"></i>{{ author.location }}</li>
+        {% endif %}
       {% endif %}
       {% if author.employer %}
-        <li class="author__desktop"><i class="fas fa-fw fa-building-columns icon-pad-right" aria-hidden="true"></i>{{ author.employer }}</li>
+        <li class="author__desktop author__employer"><i class="fas fa-fw fa-building-columns icon-pad-right" aria-hidden="true"></i>{{ author.employer }}</li>
       {% endif %}
       {% if author.uri %}
         <li><a href="{{ author.uri }}"><i class="fas fa-fw fa-link icon-pad-right" aria-hidden="true"></i>{{ site.data.ui-text[site.locale].website_label | default: "Website" }}</a></li>
       {% endif %}
       {% if author.email %}
-        <li><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>{{ site.data.ui-text[site.locale].email_label | default: "Email" }}</a></li>
+        <li class="author__email"><a href="mailto:{{ author.email }}"><i class="fas fa-fw fa-envelope icon-pad-right" aria-hidden="true"></i>{{ site.data.ui-text[site.locale].email_label | default: "Email" }}</a></li>
       {% endif %}
 
       <!-- Font Awesome and Academicons icons / Academic websites -->
+      {% if page.url == "/" %}
+        {% if author.academia or author.arxiv or author.googlescholar or author.inspire-hep or author.impactstory or author.orcid or author.pubmed or author.researchgate or author.scopus or author.semantic or author.ssrn or author.zotero %}
+          <li class="author__section-label">Profiles</li>
+        {% endif %}
+      {% endif %}
       {% if author.academia %}
         <li><a href="{{ author.academia }}"><i class="ai ai-academia ai-fw icon-pad-right" aria-hidden="true"></i>Academia</a></li>
       {% endif %}
@@ -45,7 +62,7 @@
         <li><a href="{{ author.arxiv }}"><i class="ai ai-arxiv ai-fw icon-pad-right"></i>arXiv</a></li>
       {% endif %}      
       {% if author.googlescholar %}
-        <li><a href="{{ author.googlescholar }}"><i class="fas fa-fw fa-graduation-cap icon-pad-right" aria-hidden="true"></i>Google Scholar</a></li>
+        <li class="author__scholar"><a href="{{ author.googlescholar }}"><i class="fas fa-fw fa-graduation-cap icon-pad-right" aria-hidden="true"></i>Google Scholar</a></li>
       {% endif %}
       {% if author.inspire-hep %}
         <li><a href="{{ author.inspire-hep }}"><i class="ai ai-inspire ai-fw icon-pad-right"></i>INSPIRE-HEP</a></li>
@@ -54,7 +71,7 @@
         <li><a href="{{ author.impactstory }}"><i class="ai ai-impactstory ai-fw icon-pad-right"></i>Impactstory</a></li>
       {% endif %}
       {% if author.orcid %}
-        <li><a href="{{ author.orcid }}"><i class="ai ai-orcid ai-fw icon-pad-right"></i>ORCID</a></li>
+        <li class="author__orcid"><a href="{{ author.orcid }}"><i class="ai ai-orcid ai-fw icon-pad-right"></i>ORCID</a></li>
       {% endif %}
       {% if author.pubmed %}
         <li><a href="{{ author.pubmed }}"><i class="ai ai-pubmed ai-fw icon-pad-right"></i>PubMed</a></li>
@@ -76,6 +93,11 @@
       {% endif %}
 
       <!-- Font Awesome icons / Repositories and software development -->
+      {% if page.url == "/" %}
+        {% if author.bitbucket or author.codepen or author.dribbble or author.github or author.kaggle or author.stackoverflow %}
+          <li class="author__section-label">Code</li>
+        {% endif %}
+      {% endif %}
       {% if author.bitbucket %}
         <li><a href="https://bitbucket.org/{{ author.bitbucket }}"><i class="fab fa-fw fa-bitbucket icon-pad-right" aria-hidden="true"></i>Bitbucket</a></li>
       {% endif %}
@@ -86,7 +108,7 @@
         <li><a href="https://dribbble.com/{{ author.dribbble }}"><i class="fab fa-fw fa-dribbble icon-pad-right" aria-hidden="true"></i>Dribbble</a></li>
       {% endif %}      
       {% if author.github %}
-        <li><a href="https://github.com/{{ author.github }}"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
+        <li class="author__github"><a href="https://github.com/{{ author.github }}"><i class="fab fa-fw fa-github icon-pad-right" aria-hidden="true"></i>GitHub</a></li>
       {% endif %}
       {% if author.kaggle %}
         <li><a href="https://kaggle.com/{{ author.kaggle }}"><i class="fab fa-fw fa-kaggle icon-pad-right" aria-hidden="true"></i>Kaggle</a></li>
@@ -127,7 +149,11 @@
         <li><a href="https://last.fm/user/{{ author.lastfm }}"><i class="fab fa-fw fa-lastfm icon-pad-right" aria-hidden="true"></i>Last.fm</a></li>
       {% endif %}      
       {% if author.linkedin %}
-        <li><a href="https://www.linkedin.com/in/{{ author.linkedin }}"><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</a></li>
+        <li class="author__linkedin"><a href="https://www.linkedin.com/in/{{ author.linkedin }}"><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</a></li>
+      {% elsif page.url == "/" %}
+        <li class="author__linkedin author__placeholder" aria-disabled="true" title="LinkedIn">
+          <span><i class="fab fa-fw fa-linkedin icon-pad-right" aria-hidden="true"></i>LinkedIn</span>
+        </li>
       {% endif %}      
       {% if author.mastodon %}
         <li><a href="{{ author.mastodon }}"><i class="fab fa-fw fa-mastodon icon-pad-right" aria-hidden="true"></i>Mastodon</a></li>
@@ -173,4 +199,20 @@
       {% endif %}      
     </ul>
   </div>
+
+  {% if page.url == "/" %}
+  <div class="author__research">
+    <h3>Research Interests</h3>
+    <div>Molecular Simulations</div>
+    <div>Polarizable Force Fields</div>
+    <div>Electrolytes</div>
+    <div>Ionic Liquids</div>
+    <div>Nanoconfined Transport</div>
+  </div>
+  <button class="author__like" type="button" aria-pressed="false" data-like-key="home" data-like-endpoint="{{ site.like_counter.endpoint | default: '' }}">
+    <i class="fas fa-heart" aria-hidden="true"></i>
+    <span class="author__like-label">Like</span>
+    <span class="author__like-count" hidden></span>
+  </button>
+  {% endif %}
 </div>
