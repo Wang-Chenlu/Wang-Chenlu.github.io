@@ -1,0 +1,65 @@
+[site]
+title = "Chenlu Wang"
+description = "Chenlu Wang 的个人主页。"
+last_updated = "2026年6月"
+
+[author]
+name = "Chenlu Wang"
+title = "博士后研究员"
+institution = "Suzhou Laboratory"
+
+[social]
+email = "wangchenlu20@mails.ucas.ac.cn"
+location = "苏州，江苏，中国"
+location_url = "https://www.google.com/maps/search/?api=1&query=Suzhou%2C%20China"
+location_details = [
+  "Suzhou Laboratory,",
+  "苏州，江苏，中国"
+]
+google_scholar = "https://scholar.google.com/citations?user=gzQCCiEAAAAJ&hl=zh-CN"
+orcid = "https://orcid.org/0009-0007-3991-8221"
+github = "https://github.com/Wang-Chenlu"
+linkedin = ""
+cv = "/cv"
+
+[[navigation]]
+title = "关于我"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "论文"
+type = "page"
+target = "publications"
+href = "/publications"
+
+[[navigation]]
+title = "奖项"
+type = "page"
+target = "awards"
+href = "/awards"
+
+[[navigation]]
+title = "教学"
+type = "page"
+target = "teaching"
+href = "/teaching"
+
+[[navigation]]
+title = "报告"
+type = "page"
+target = "talks"
+href = "/talks"
+
+[[navigation]]
+title = "博客"
+type = "page"
+target = "blog"
+href = "/blog"
+
+[[navigation]]
+title = "简历"
+type = "page"
+target = "cv"
+href = "/cv"

@@ -1,0 +1,85 @@
+[site]
+title = "Chenlu Wang"
+description = "Personal homepage of Chenlu Wang"
+favicon = "/favicon.svg"
+last_updated = "June 2026"
+
+[author]
+name = "Chenlu Wang"
+aliases = ["王琛璐"]
+title = "Postdoctoral Researcher"
+institution = "Suzhou Laboratory"
+avatar = "/bio.jpg"
+
+[social]
+email = "wangchenlu20@mails.ucas.ac.cn"
+location = "Suzhou, Jiangsu, China"
+location_url = "https://www.google.com/maps/search/?api=1&query=Suzhou%2C%20China"
+location_details = [
+  "Suzhou Laboratory,",
+  "Suzhou, Jiangsu, China"
+]
+google_scholar = "https://scholar.google.com/citations?user=gzQCCiEAAAAJ&hl=zh-CN"
+orcid = "https://orcid.org/0009-0007-3991-8221"
+github = "https://github.com/Wang-Chenlu"
+linkedin = ""
+cv = "/cv"
+
+[features]
+enable_likes = true
+enable_one_page_mode = false
+
+[i18n]
+enabled = true
+locales = ["zh", "en"]
+default_locale = "en"
+fixed_locale = "en"
+mode = "fixed"
+persist = false
+switcher = true
+
+[i18n.labels]
+zh = "中文"
+en = "English"
+
+[[navigation]]
+title = "About"
+type = "page"
+target = "about"
+href = "/"
+
+[[navigation]]
+title = "Publications"
+type = "page"
+target = "publications"
+href = "/publications"
+
+[[navigation]]
+title = "Awards"
+type = "page"
+target = "awards"
+href = "/awards"
+
+[[navigation]]
+title = "Teaching"
+type = "page"
+target = "teaching"
+href = "/teaching"
+
+[[navigation]]
+title = "Talks"
+type = "page"
+target = "talks"
+href = "/talks"
+
+[[navigation]]
+title = "Blog & Vlogs"
+type = "page"
+target = "blog"
+href = "/blog"
+
+[[navigation]]
+title = "CV"
+type = "page"
+target = "cv"
+href = "/cv"

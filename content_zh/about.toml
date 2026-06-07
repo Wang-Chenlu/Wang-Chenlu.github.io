@@ -1,0 +1,24 @@
+type = "about"
+title = "关于我"
+
+[profile]
+research_interests = [
+  "Molecular Simulations",
+  "Polarizable Force Fields",
+  "Electrolytes",
+  "Ionic Liquids",
+  "Nanoconfined Transport"
+]
+
+[[sections]]
+id = "about"
+type = "markdown"
+source = "bio.md"
+title = "关于我"
+
+[[sections]]
+id = "featured_publications"
+type = "publications"
+title = "精选论文"
+filter = "selected"
+limit = 5

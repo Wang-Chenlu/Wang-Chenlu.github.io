@@ -1,0 +1,5 @@
+type = "card"
+title = "教学"
+description = "教学内容将稍后添加。"
+empty = "教学内容将稍后添加。"
+items = []
