@@ -19,6 +19,6 @@ title = "About"
 [[sections]]
 id = "featured_publications"
 type = "publications"
-title = "Selected Publications"
+title = "Research Directions"
 filter = "selected"
 limit = 5

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { Publication, PublicationType, ResearchArea } from '@/types/publication';
+import { Publication, PublicationRole, PublicationType, ResearchArea } from '@/types/publication';
 import { getConfig } from './config';
 import { getRuntimeI18nConfig } from './i18n/config';
 import { parseBibTeXInline } from './bibtexInline';
@@ -66,13 +66,15 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
     // Parse tags/keywords
     const keywords = tags.keywords?.split(',').map((k: string) => k.trim()) || [];
 
+    const publicationId = entry.citationKey || tags.id || `pub-${Date.now()}-${index}`;
     const selected = parseBoolean(tags.selected);
     const preview = resolvePublicPreview(tags.preview);
+    const figures = resolvePublicationFigures(publicationId, preview);
     const title = parseBibTeXInline(tags.title || 'Untitled');
 
     // Create publication object
     const publication: Publication = {
-      id: entry.citationKey || tags.id || `pub-${Date.now()}-${index}`,
+      id: publicationId,
       title: title.plainText || 'Untitled',
       titleNodes: title.nodes,
       authors,
@@ -102,12 +104,15 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       description: cleanBibTeXString(tags.description || tags.note),
       selected,
       group: cleanBibTeXString(tags.group),
+      role: parsePublicationRole(tags.role),
       preview,
+      figures,
 
       // Store original BibTeX (excluding custom fields)
       bibtex: reconstructBibTeX(entry, [
         'selected',
         'group',
+        'role',
         'preview',
         'description',
         'keywords',
@@ -164,14 +169,27 @@ function parseBoolean(value?: string): boolean {
   return normalized === 'true' || normalized === 'yes' || normalized === '1';
 }
 
+function parsePublicationRole(value?: string): PublicationRole | undefined {
+  const normalized = cleanBibTeXString(value).trim().toLowerCase();
+  const validRoles: PublicationRole[] = ['lead', 'collaborative', 'review', 'preprint'];
+
+  return validRoles.includes(normalized as PublicationRole)
+    ? normalized as PublicationRole
+    : undefined;
+}
+
 function resolvePublicPreview(value?: string): string | undefined {
-  const preview = cleanBibTeXString(value).trim().replace(/\\/g, '/').replace(/^\/+/, '');
+  const preview = cleanBibTeXString(value).trim().replace(/\\/g, '/');
 
   if (!preview) {
     return undefined;
   }
 
-  const publicPath = preview.startsWith('papers/') ? preview : path.posix.join('papers', preview);
+  const normalizedPreview = preview.replace(/^public\//, '').replace(/^\/+/, '');
+  const publicPath =
+    normalizedPreview.startsWith('papers/') || normalizedPreview.startsWith('images/')
+      ? normalizedPreview
+      : path.posix.join('papers', normalizedPreview);
   const diskPath = path.join(process.cwd(), 'public', ...publicPath.split('/'));
 
   if (!fs.existsSync(diskPath)) {
@@ -179,6 +197,41 @@ function resolvePublicPreview(value?: string): string | undefined {
   }
 
   return `/${publicPath}`;
+}
+
+function resolvePublicationFigures(publicationId: string, preview?: string): string[] | undefined {
+  const figuresDir = path.join(process.cwd(), 'public', 'images', 'publications', publicationId);
+
+  if (!fs.existsSync(figuresDir) || !fs.statSync(figuresDir).isDirectory()) {
+    return preview ? [preview] : undefined;
+  }
+
+  const figurePaths = fs.readdirSync(figuresDir)
+    .filter((filename) => /\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename))
+    .sort(compareFigureFilenames)
+    .map((filename) => toPublicUrl(path.posix.join('images', 'publications', publicationId, filename)));
+
+  return figurePaths.length > 0 ? figurePaths : (preview ? [preview] : undefined);
+}
+
+function compareFigureFilenames(left: string, right: string): number {
+  const leftNumber = getFigureNumber(left);
+  const rightNumber = getFigureNumber(right);
+
+  if (leftNumber !== rightNumber) {
+    return leftNumber - rightNumber;
+  }
+
+  return left.localeCompare(right, undefined, { numeric: true, sensitivity: 'base' });
+}
+
+function getFigureNumber(filename: string): number {
+  const match = filename.match(/figure\s*(\d+)/i);
+  return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
+}
+
+function toPublicUrl(publicPath: string): string {
+  return `/${publicPath.split('/').map(encodeURIComponent).join('/')}`;
 }
 
 function getHighlightNames(locale?: string): string[] {

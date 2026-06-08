@@ -140,7 +140,7 @@ function SelectedPublicationCard({ publication, index }: { publication: Publicat
                 className="mb-1 break-words text-sm leading-relaxed text-neutral-600 dark:text-neutral-500"
             />
             <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-2">
-                {formatPublicationVenue(publication)}
+                <PublicationVenue publication={publication} />
             </p>
             {publication.description && (
                 <p className="text-sm text-neutral-500 dark:text-neutral-500 line-clamp-2">
@@ -155,7 +155,17 @@ function formatSelectedPaperCount(count: number): string {
     return count === 1 ? '1 selected paper' : `${count} selected papers`;
 }
 
-function formatPublicationVenue(pub: Publication): string {
+function PublicationVenue({ publication }: { publication: Publication }) {
+    const pub = publication;
     const venue = pub.journal || pub.conference;
-    return venue ? `${venue}, ${pub.year}` : String(pub.year);
+    if (!venue) {
+        return <>{pub.year}</>;
+    }
+
+    return (
+        <>
+            <span className="font-semibold italic">{venue}</span>
+            {`, ${pub.year}`}
+        </>
+    );
 }

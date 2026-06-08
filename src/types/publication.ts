@@ -53,11 +53,19 @@ export interface Publication {
   featured?: boolean;
   selected?: boolean;
   group?: string;
+  role?: PublicationRole;
   preview?: string;
+  figures?: string[];
   summary?: string;
   researchArea: ResearchArea;
   description?: string;
 }
+
+export type PublicationRole =
+  | 'lead'
+  | 'collaborative'
+  | 'review'
+  | 'preprint';
 
 export type PublicationType =
   | 'journal'

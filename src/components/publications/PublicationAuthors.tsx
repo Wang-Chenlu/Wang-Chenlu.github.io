@@ -11,15 +11,16 @@ export default function PublicationAuthors({ authors, className }: PublicationAu
     <p className={className}>
       {authors.map((author, idx) => (
         <span key={idx}>
-          <span className={`${author.isHighlighted ? 'font-semibold text-accent' : ''} ${author.isCoAuthor ? `underline underline-offset-4 ${author.isHighlighted ? 'decoration-accent' : 'decoration-neutral-400'}` : ''}`}>
+          <span className={author.isHighlighted ? 'font-semibold text-accent' : undefined}>
             {author.name}
           </span>
           {author.isCoAuthor && (
             <sup
-              className={`ml-0.5 text-[0.7em] font-semibold ${author.isHighlighted ? 'text-accent' : 'text-neutral-600 dark:text-neutral-400'}`}
+              className={`ml-0.5 text-[0.72em] font-semibold ${author.isHighlighted ? 'text-accent' : 'text-neutral-600 dark:text-neutral-400'}`}
               title="Co-first author"
+              aria-label="Co-first author"
             >
-              #
+              &#8224;
             </sup>
           )}
           {author.isCorresponding && (

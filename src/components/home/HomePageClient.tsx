@@ -2,7 +2,7 @@
 
 import Profile from '@/components/home/Profile';
 import About from '@/components/home/About';
-import SelectedPublications from '@/components/home/SelectedPublications';
+import ResearchDirections from '@/components/home/ResearchDirections';
 import News, { NewsItem } from '@/components/home/News';
 import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
@@ -67,22 +67,26 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
 
         <div className="lg:col-span-2 space-y-8">
           {data.pagesToShow.map((page) => (
-            <section key={page.id} id={page.id} className="scroll-mt-24 space-y-8">
+            <section
+              key={page.id}
+              id={page.id}
+              className={`scroll-mt-24 space-y-8 ${page.type === 'about' ? 'lg:space-y-7' : ''}`}
+            >
               {page.type === 'about' && page.sections.map((section: SectionConfig) => {
                 switch (section.type) {
                   case 'markdown':
                     return (
-                      <About
-                        key={section.id}
-                        content={section.content || ''}
-                        title={section.title}
-                      />
+                      <div key={section.id} className="lg:min-h-[28rem]">
+                        <About
+                          content={section.content || ''}
+                          title={section.title}
+                        />
+                      </div>
                     );
                   case 'publications':
                     return (
-                      <SelectedPublications
+                      <ResearchDirections
                         key={section.id}
-                        publications={section.publications || []}
                         title={section.title}
                       />
                     );
