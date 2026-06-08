@@ -1,3 +1,4 @@
 type = "publication"
 title = "Publications"
+description = "A complete list of my publications, including 8 papers as first, co-first, or corresponding author, 20 collaborative papers, 1 Chinese review article, and 1 preprint."
 source = "publications.bib"
