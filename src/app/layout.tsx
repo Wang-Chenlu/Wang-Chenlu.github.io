@@ -88,6 +88,31 @@ function buildLocaleBootstrapScript(config: ReturnType<typeof getRuntimeI18nConf
   `;
 }
 
+function buildClientCacheCleanupScript(): string {
+  return `
+    try {
+      const cacheVersionKey = 'chenlu-site-cache-version';
+      const cacheVersion = '2026-06-08-prism-cleanup';
+
+      if (localStorage.getItem(cacheVersionKey) !== cacheVersion) {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations()
+            .then((registrations) => registrations.forEach((registration) => registration.unregister()))
+            .catch(() => {});
+        }
+
+        if ('caches' in window) {
+          caches.keys()
+            .then((keys) => keys.forEach((key) => caches.delete(key)))
+            .catch(() => {});
+        }
+
+        localStorage.setItem(cacheVersionKey, cacheVersion);
+      }
+    } catch (e) {}
+  `;
+}
+
 function buildLocalizedConfigMaps(
   locales: string[]
 ): {
@@ -132,15 +157,6 @@ export default function RootLayout({
     <html lang={runtimeI18n.defaultLocale} className="scroll-smooth" suppressHydrationWarning>
       <head>
         <link rel="icon" href={config.site.favicon} type="image/svg+xml" />
-        <link rel="dns-prefetch" href="https://jialeliu.com" />
-        <link rel="preconnect" href="https://jialeliu.com" crossOrigin="" />
-        <link
-          rel="preload"
-          as="font"
-          type="font/woff2"
-          href="https://jialeliu.com/fonts/georgiab.woff2"
-          crossOrigin=""
-        />
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -164,6 +180,11 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html: buildLocaleBootstrapScript(runtimeI18n),
+          }}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: buildClientCacheCleanupScript(),
           }}
         />
       </head>
