@@ -40,6 +40,7 @@ export interface ResearchDirection {
     chip: string;
     hover: string;
     glow: string;
+    link: string;
   };
   publicationIds: string[];
 }
@@ -87,6 +88,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
       chip: 'border-amber-200/80 bg-amber-50/70 text-amber-800 dark:border-amber-500/25 dark:bg-amber-500/10 dark:text-amber-300',
       hover: 'hover:border-amber-300/80 dark:hover:border-amber-500/45',
       glow: 'hover:shadow-[0_16px_36px_rgba(245,158,11,0.16)] dark:hover:shadow-[0_16px_36px_rgba(251,191,36,0.10)]',
+      link: 'text-[#d97706] hover:text-[#b45309] dark:text-amber-400 dark:hover:text-amber-300',
     },
     publicationIds: [
       'wangSystematicDrudebasedParameterization2026',
@@ -140,6 +142,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
       chip: 'border-green-200/80 bg-green-50/70 text-green-900 dark:border-green-600/25 dark:bg-green-600/10 dark:text-green-300',
       hover: 'hover:border-green-300/75 dark:hover:border-green-600/45',
       glow: 'hover:shadow-[0_16px_36px_rgba(22,101,52,0.13)] dark:hover:shadow-[0_16px_36px_rgba(74,222,128,0.08)]',
+      link: 'text-[#16a34a] hover:text-[#15803d] dark:text-green-400 dark:hover:text-green-300',
     },
     publicationIds: [
       'wangTopologicalEngineeringTwodimensional2021',
@@ -196,6 +199,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
       chip: 'border-violet-200/80 bg-violet-50/70 text-violet-800 dark:border-violet-500/25 dark:bg-violet-500/10 dark:text-violet-300',
       hover: 'hover:border-violet-300/75 dark:hover:border-violet-500/45',
       glow: 'hover:shadow-[0_16px_36px_rgba(139,92,246,0.15)] dark:hover:shadow-[0_16px_36px_rgba(167,139,250,0.10)]',
+      link: 'text-[#7c3aed] hover:text-[#6d28d9] dark:text-violet-400 dark:hover:text-violet-300',
     },
     publicationIds: [
       'diMXenebasedSolventresponsiveActuators2025',

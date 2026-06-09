@@ -27,7 +27,7 @@ export default function ResearchDirections({ title = 'Research Directions' }: Re
         >
           &middot;
         </span>
-        <p className="text-sm font-normal leading-snug text-neutral-600 dark:text-neutral-500">
+        <p className="text-sm font-normal leading-snug text-slate-500 dark:text-slate-400">
           Molecular Simulations of Fluids and Interfaces
         </p>
       </div>
@@ -115,7 +115,7 @@ function ResearchDirectionCard({
       <Link
         href="/publications/"
         prefetch={true}
-        className="mt-auto inline-flex w-fit items-center rounded-md pt-3 text-[0.76rem] font-semibold text-accent transition-colors hover:text-accent-dark hover:underline"
+        className={`mt-auto inline-flex w-fit items-center rounded-md pt-3 text-[0.76rem] font-semibold transition-colors hover:underline ${direction.accent.link}`}
       >
         View related publications &rarr;
       </Link>
@@ -144,7 +144,7 @@ function PublicationAuthorsLine({
       {parts.map((part, index) => (
         <span key={`${part}-${index}`}>
           {highlightedNames.includes(part) ? (
-            <span className={part === 'Wang C' ? 'font-semibold text-amber-700 dark:text-amber-300' : undefined}>
+            <span className={part === 'Wang C' ? 'font-semibold text-[#b45309] dark:text-amber-400' : undefined}>
               {part}
               {part === 'Wang C' && wangCorresponding && (
                 <EnvelopeIcon
