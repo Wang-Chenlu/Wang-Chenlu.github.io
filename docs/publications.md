@@ -1,6 +1,6 @@
 # Publications Content
 
-`content/publications.bib` is the publication data source for the PRISM migration. The Publications page reads this file directly, and the homepage Selected Publications section uses entries where `selected = {true}`.
+`content/publications.bib` is the publication data source for Chenlu Wang's website. The Publications page reads this file directly, and the homepage Selected Publications section uses entries where `selected = {true}`.
 
 Keep placeholder entries out of `content/publications.bib` before publishing. Because BibTeX parsers can still detect commented `@article` blocks in some cases, store examples in this document instead of the active `.bib` file.
 
@@ -12,8 +12,8 @@ Standard BibTeX fields:
 
 - `title`: paper title. Wrap terms that must keep capitalization in braces, for example `{DFT}`, `{MD}`, `{CO2}`, `{Li+}`.
 - `author`: BibTeX author list. `Wang, Chenlu` or `Chenlu Wang` will be highlighted as the site owner. Add `#` after a co-first author and `*` after a corresponding author, for example `author = {Wang, Chenlu# and He, Hongyan*}`.
-- `cofirst`: optional author-role field. List co-first authors with BibTeX `and` separators, for example `cofirst = {Di, Andi and Wang, Chenlu}`. PRISM displays a `#` marker after matching authors.
-- `corresponding`: optional author-role field. List corresponding authors with BibTeX `and` separators, for example `corresponding = {He, Hongyan and Zhang, Miao}`. PRISM displays a small envelope icon after matching authors.
+- `cofirst`: optional author-role field. List co-first authors with BibTeX `and` separators, for example `cofirst = {Di, Andi and Wang, Chenlu}`. The site displays a `#` marker after matching authors.
+- `corresponding`: optional author-role field. List corresponding authors with BibTeX `and` separators, for example `corresponding = {He, Hongyan and Zhang, Miao}`. The site displays a small envelope icon after matching authors.
 - `journal`: journal venue for `@article`.
 - `booktitle`: conference/proceedings venue for `@inproceedings`.
 - `year`, `month`, `volume`, `number`, `pages`: displayed in the venue line where available.
@@ -34,7 +34,7 @@ Display and link fields:
 - `video`: rendered as a Video button.
 - `arxiv`: rendered as an arXiv button. `arxivid` and `eprint` are also accepted.
 
-If a `preview` image does not exist in `public/papers/`, PRISM skips the image and uses the no-image layout.
+If a `preview` image does not exist in `public/papers/`, the site skips the image and uses the no-image layout.
 
 ## Journal Article Template
 
@@ -91,8 +91,8 @@ If a `preview` image does not exist in `public/papers/`, PRISM skips the image a
 author = {First Author# and Wang, Chenlu# and Corresponding Author*}
 ```
 
-- `#`: co-first author. PRISM displays a `#` marker after the author name.
-- `*`: corresponding author. PRISM displays a small envelope icon after the author name.
+- `#`: co-first author. The site displays a `#` marker after the author name.
+- `*`: corresponding author. The site displays a small envelope icon after the author name.
 - Use both markers if needed, for example `Wang, Chenlu#*`.
 
 You can also keep the `author` field clean and add role fields:

@@ -1,4 +1,4 @@
-name: Deploy PRISM to GitHub Pages
+name: Deploy Chenlu Wang website to GitHub Pages
 
 on:
   push:
