@@ -92,7 +92,7 @@ function buildClientCacheCleanupScript(): string {
   return `
     try {
       const cacheVersionKey = 'chenlu-site-cache-version';
-      const cacheVersion = '2026-06-08-prism-cleanup';
+      const cacheVersion = '2026-06-08-cache-reset';
 
       if (localStorage.getItem(cacheVersionKey) !== cacheVersion) {
         if ('serviceWorker' in navigator) {
