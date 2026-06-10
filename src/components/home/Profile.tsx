@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { ComponentType, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
@@ -8,12 +8,12 @@ import {
     AcademicCapIcon,
     HeartIcon,
     MapPinIcon,
-    DocumentTextIcon
 } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon } from '@heroicons/react/24/solid';
 import { Github, Linkedin } from 'lucide-react';
 import type { SiteConfig } from '@/lib/config';
 import { useMessages } from '@/lib/i18n/useMessages';
+import { useLocaleStore } from '@/lib/stores/localeStore';
 
 // Custom ORCID icon component
 const OrcidIcon = ({ className }: { className?: string }) => (
@@ -34,9 +34,25 @@ interface ProfileProps {
     researchInterests?: string[];
 }
 
+type IconComponent = ComponentType<{ className?: string }>;
+
+interface SocialLink {
+    name: string;
+    href?: string;
+    icon: IconComponent;
+    tooltip: string;
+    isLocation?: boolean;
+    isDisabled?: boolean;
+}
+
 export default function Profile({ author, social, features, researchInterests }: ProfileProps) {
     const messages = useMessages();
-    const cvUrl = typeof social.cv === 'string' ? social.cv : undefined;
+    const locale = useLocaleStore((state) => state.locale);
+    const isZh = locale.toLowerCase().startsWith('zh');
+    const emailTooltip = social.email || messages.profile.email;
+    const locationTooltip = isZh ? '江苏，苏州' : 'Jiangsu, China';
+    const linkedinUnavailableTooltip = isZh ? '暂未开通' : 'Not available yet';
+    const tooltipClassName = 'pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-md border border-neutral-200/80 bg-white/90 px-2.5 py-1 text-center text-xs font-normal leading-none text-neutral-800 opacity-0 shadow-[0_8px_22px_rgba(15,23,42,0.16)] backdrop-blur-md transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 dark:border-white/15 dark:bg-neutral-950/90 dark:text-white dark:shadow-[0_8px_28px_rgba(0,0,0,0.5)]';
 
     const [hasLiked, setHasLiked] = useState(false);
     const [showThanks, setShowThanks] = useState(false);
@@ -65,44 +81,45 @@ export default function Profile({ author, social, features, researchInterests }:
         }
     };
 
-    const socialLinks = [
+    const socialLinks: SocialLink[] = [
         ...(social.email ? [{
             name: messages.profile.email,
             href: `mailto:${social.email}`,
             icon: EnvelopeIcon,
-            isEmail: true,
+            tooltip: emailTooltip,
         }] : []),
         ...(social.location || social.location_details ? [{
             name: messages.profile.location,
             href: social.location_url || 'https://www.google.com/maps/search/?api=1&query=Suzhou%2C%20China',
             icon: MapPinIcon,
+            tooltip: locationTooltip,
             isLocation: true,
         }] : []),
         ...(social.google_scholar ? [{
             name: 'Google Scholar',
             href: social.google_scholar,
             icon: AcademicCapIcon,
+            tooltip: 'Google Scholar',
         }] : []),
         ...(social.orcid ? [{
             name: 'ORCID',
             href: social.orcid,
             icon: OrcidIcon,
+            tooltip: 'ORCID',
         }] : []),
         ...(social.github ? [{
             name: 'GitHub',
             href: social.github,
             icon: Github,
+            tooltip: 'GitHub',
         }] : []),
-        ...(social.linkedin ? [{
+        {
             name: 'LinkedIn',
             href: social.linkedin,
             icon: Linkedin,
-        }] : []),
-        ...(cvUrl ? [{
-            name: 'CV',
-            href: cvUrl,
-            icon: DocumentTextIcon,
-        }] : []),
+            tooltip: social.linkedin ? 'LinkedIn' : linkedinUnavailableTooltip,
+            isDisabled: !social.linkedin,
+        },
     ];
 
     return (
@@ -141,32 +158,42 @@ export default function Profile({ author, social, features, researchInterests }:
             <div className="w-64 mx-auto flex flex-wrap items-center justify-between gap-y-2 mb-6 relative">
                 {socialLinks.map((link) => {
                     const IconComponent = link.icon;
-                    if (link.isEmail || link.isLocation) {
-                        const opensInNewTab = Boolean(link.isLocation);
+                    const commonClassName = `group relative p-2 sm:p-2 text-neutral-600 dark:text-neutral-400 transition-colors duration-200 ${link.isDisabled
+                        ? 'cursor-help hover:text-neutral-700 dark:hover:text-neutral-300'
+                        : 'hover:text-accent'
+                        }`;
 
+                    if (link.isDisabled) {
                         return (
-                            <a
+                            <button
                                 key={link.name}
-                                href={link.href}
-                                target={opensInNewTab ? '_blank' : undefined}
-                                rel={opensInNewTab ? 'noopener noreferrer' : undefined}
-                                className="p-2 sm:p-2 text-neutral-600 dark:text-neutral-400 hover:text-accent transition-colors duration-200"
-                                aria-label={link.name}
+                                type="button"
+                                className={commonClassName}
+                                aria-label={`${link.name}: ${link.tooltip}`}
+                                aria-disabled="true"
                             >
                                 <IconComponent className="h-5 w-5" />
-                            </a>
+                                <span className={tooltipClassName} role="tooltip">
+                                    {link.tooltip}
+                                </span>
+                            </button>
                         );
                     }
+
+                    const opensInNewTab = Boolean(link.isLocation || (!link.href?.startsWith('mailto:')));
                     return (
                         <a
                             key={link.name}
                             href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-2 sm:p-2 text-neutral-600 dark:text-neutral-400 hover:text-accent transition-colors duration-200"
-                            aria-label={link.name}
+                            target={opensInNewTab ? '_blank' : undefined}
+                            rel={opensInNewTab ? 'noopener noreferrer' : undefined}
+                            className={commonClassName}
+                            aria-label={`${link.name}: ${link.tooltip}`}
                         >
                             <IconComponent className="h-5 w-5" />
+                            <span className={tooltipClassName} role="tooltip">
+                                {link.tooltip}
+                            </span>
                         </a>
                     );
                 })}

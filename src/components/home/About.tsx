@@ -12,6 +12,7 @@ interface AboutProps {
 export default function About({ content, title }: AboutProps) {
     const messages = useMessages();
     const resolvedTitle = title || messages.home.about;
+    const emailTooltipClassName = 'pointer-events-none absolute bottom-full left-1/2 z-20 mb-1 -translate-x-1/2 whitespace-nowrap rounded-md border border-neutral-200/80 bg-white/90 px-2.5 py-1 text-center text-xs font-normal leading-none text-neutral-800 opacity-0 shadow-[0_8px_22px_rgba(15,23,42,0.16)] backdrop-blur-md transition-opacity duration-150 group-hover:opacity-100 group-focus-within:opacity-100 dark:border-white/15 dark:bg-neutral-950/90 dark:text-white dark:shadow-[0_8px_28px_rgba(0,0,0,0.5)]';
 
     return (
         <motion.section
@@ -30,14 +31,36 @@ export default function About({ content, title }: AboutProps) {
                         ul: ({ children }) => <ul className="list-disc list-inside mb-4 space-y-1 ml-4">{children}</ul>,
                         ol: ({ children }) => <ol className="list-decimal list-inside mb-4 space-y-1 ml-4">{children}</ol>,
                         li: ({ children }) => <li className="mb-1">{children}</li>,
-                        a: ({ ...props }) => (
-                            <a
-                                {...props}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-accent font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
-                            />
-                        ),
+                        a: ({ href, ...props }) => {
+                            const isEmailLink = typeof href === 'string' && href.startsWith('mailto:');
+                            const emailAddress = isEmailLink ? decodeURIComponent(href.replace(/^mailto:/, '')) : undefined;
+
+                            if (emailAddress) {
+                                return (
+                                    <span className="group relative inline-flex">
+                                        <a
+                                            {...props}
+                                            href={href}
+                                            aria-label={`Email: ${emailAddress}`}
+                                            className="text-accent font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
+                                        />
+                                        <span className={emailTooltipClassName} role="tooltip">
+                                            {emailAddress}
+                                        </span>
+                                    </span>
+                                );
+                            }
+
+                            return (
+                                <a
+                                    {...props}
+                                    href={href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-accent font-medium transition-all duration-200 rounded hover:bg-accent/10 hover:shadow-sm"
+                                />
+                            );
+                        },
                         blockquote: ({ children }) => (
                             <blockquote className="border-l-4 border-accent/50 pl-4 italic my-4 text-neutral-600 dark:text-neutral-500">
                                 {children}
