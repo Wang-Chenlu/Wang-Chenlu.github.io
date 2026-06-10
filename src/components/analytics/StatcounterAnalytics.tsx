@@ -17,7 +17,7 @@ function getStatcounterConfig() {
   return { projectId, securityCode };
 }
 
-export default function StatcounterAnalytics() {
+export function StatcounterScripts() {
   const config = getStatcounterConfig();
 
   if (!config) {
@@ -42,8 +42,22 @@ export default function StatcounterAnalytics() {
       <script
         type="text/javascript"
         src="https://www.statcounter.com/counter/counter.js"
-        async
+        defer
       />
+    </>
+  );
+}
+
+export function StatcounterNoscript() {
+  const config = getStatcounterConfig();
+
+  if (!config) {
+    return null;
+  }
+
+  const { projectId, securityCode } = config;
+
+  return (
       <noscript>
         <div className="sr-only">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -54,6 +68,14 @@ export default function StatcounterAnalytics() {
           />
         </div>
       </noscript>
+  );
+}
+
+export default function StatcounterAnalytics() {
+  return (
+    <>
+      <StatcounterScripts />
+      <StatcounterNoscript />
     </>
   );
 }
