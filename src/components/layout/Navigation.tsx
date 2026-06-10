@@ -44,7 +44,6 @@ export default function Navigation({
   } | null>(null);
   const resolvedLocale = i18n.enabled ? locale : i18n.defaultLocale;
   const isChineseLocale = resolvedLocale.startsWith('zh');
-  const brandText = isChineseLocale ? '浪刻流光，长情未央。' : 'Waves Carve Light';
 
   const effectiveItems = useMemo(() => {
     return itemsByLocale?.[resolvedLocale] || itemsByLocale?.[i18n.defaultLocale] || items;
@@ -178,11 +177,13 @@ export default function Navigation({
                   <Link
                     href="/"
                     className={cn(
-                      "block whitespace-nowrap font-serif font-semibold text-primary transition-colors duration-200 hover:text-accent lg:w-64 lg:text-center",
-                      isChineseLocale ? "text-sm lg:text-[0.95rem]" : "text-base lg:text-lg"
+                      "block text-primary transition-colors duration-200 hover:text-accent lg:w-64 lg:text-center",
+                      isChineseLocale
+                        ? "brand-zh-poem"
+                        : "brand-poetic-mark"
                     )}
                   >
-                    {brandText}
+                    {isChineseLocale ? <ChineseBrandMark /> : <EnglishBrandMark />}
                   </Link>
                 </motion.div>
 
@@ -321,5 +322,29 @@ export default function Navigation({
         </>
       )}
     </Disclosure>
+  );
+}
+
+function EnglishBrandMark() {
+  return (
+    <>
+      <span className="brand-poetic-mark__en">
+        <span className="logo-en">
+          <span className="logo-en__initial">W</span>aves{' '}
+          <span className="logo-en__initial">C</span>arve{' '}
+          <span className="logo-en__initial">L</span>ight
+        </span>
+      </span>
+      <span className="logo-zh">浪刻流光，长情未央</span>
+    </>
+  );
+}
+
+function ChineseBrandMark() {
+  return (
+    <>
+      <span>望海潮生处，晨光入远林。</span>
+      <span>露凝千叶白，层浪刻流金。</span>
+    </>
   );
 }

@@ -9,12 +9,15 @@ import { getConfig } from '@/lib/config';
 import { getRuntimeI18nConfig } from '@/lib/i18n/config';
 import type { SiteConfig } from '@/lib/config';
 
+const OFFICIAL_SITE_URL = 'https://wang-chenlu.github.io';
+
 export async function generateMetadata(): Promise<Metadata> {
   const config = getConfig();
   const runtimeI18n = getRuntimeI18nConfig(config.i18n);
   const openGraphLocale = runtimeI18n.defaultLocale === 'zh' ? 'zh_CN' : 'en_US';
 
   return {
+    metadataBase: new URL(OFFICIAL_SITE_URL),
     title: {
       default: config.site.title,
       template: `%s | ${config.site.title}`,
@@ -24,8 +27,15 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [{ name: config.author.name }],
     creator: config.author.name,
     publisher: config.author.name,
+    alternates: {
+      canonical: '/',
+    },
     icons: {
       icon: config.site.favicon,
+    },
+    robots: {
+      index: true,
+      follow: true,
     },
     openGraph: {
       type: 'website',
@@ -33,6 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: config.site.title,
       description: config.site.description,
       siteName: `${config.author.name}'s Academic Website`,
+      url: '/',
     },
   };
 }

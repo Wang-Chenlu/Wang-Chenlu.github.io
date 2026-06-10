@@ -55,6 +55,7 @@ export interface Publication {
   group?: string;
   role?: PublicationRole;
   preview?: string;
+  toc?: string;
   figures?: string[];
   summary?: string;
   researchArea: ResearchArea;

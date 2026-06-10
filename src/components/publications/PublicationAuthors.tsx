@@ -16,7 +16,7 @@ export default function PublicationAuthors({ authors, className }: PublicationAu
           </span>
           {author.isCoAuthor && (
             <sup
-              className={`ml-0.5 text-[0.72em] font-semibold ${author.isHighlighted ? 'text-[#9a6a24] dark:text-[#e4b976]' : 'text-neutral-600 dark:text-neutral-400'}`}
+              className={`ml-0.5 text-[0.72em] font-semibold ${author.isHighlighted ? 'text-[#9a6a24] dark:text-[#e4b976]' : 'text-neutral-600 dark:text-slate-300'}`}
               title="Co-first author"
               aria-label="Co-first author"
             >
@@ -25,7 +25,7 @@ export default function PublicationAuthors({ authors, className }: PublicationAu
           )}
           {author.isCorresponding && (
             <EnvelopeIcon
-              className={`ml-1 inline-block h-3.5 w-3.5 align-[-0.15em] ${author.isHighlighted ? 'text-[#9a6a24] dark:text-[#e4b976]' : 'text-neutral-600 dark:text-neutral-400'}`}
+              className={`ml-1 inline-block h-3.5 w-3.5 align-[-0.15em] ${author.isHighlighted ? 'text-[#9a6a24] dark:text-[#e4b976]' : 'text-neutral-600 dark:text-slate-300'}`}
               aria-label="Corresponding author"
               role="img"
             />

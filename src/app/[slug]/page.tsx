@@ -13,6 +13,8 @@ import {
 import { Metadata } from 'next';
 import { getRuntimeI18nConfig } from '@/lib/i18n/config';
 
+const OFFICIAL_SITE_URL = 'https://wang-chenlu.github.io';
+
 function loadDynamicPageData(slug: string, locale?: string): DynamicPageLocaleData | null {
   const pageConfig = getPageConfig(slug, locale) as BasePageConfig | null;
 
@@ -68,8 +70,18 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
+    metadataBase: new URL(OFFICIAL_SITE_URL),
     title: pageConfig.title,
     description: pageConfig.description,
+    alternates: {
+      canonical: `/${slug}/`,
+    },
+    openGraph: {
+      type: 'website',
+      title: pageConfig.title,
+      description: pageConfig.description,
+      url: `/${slug}/`,
+    },
   };
 }
 

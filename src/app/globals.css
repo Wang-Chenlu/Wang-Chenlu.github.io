@@ -11,6 +11,8 @@
   --font-body-en: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Source Sans 3", sans-serif;
   --font-heading-zh: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
   --font-body-zh: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-brand-en: "Cormorant Garamond", "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-brand-zh: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
   --font-heading: var(--font-heading-en);
   --font-body: var(--font-body-en);
 
@@ -235,6 +237,75 @@ body {
 .font-en-heading {
   font-family: var(--font-heading-en);
   letter-spacing: -0.01em;
+}
+
+.brand-poetic-mark {
+  white-space: normal;
+}
+
+.brand-zh-poem {
+  font-family: var(--font-brand-zh);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.55;
+  white-space: normal;
+}
+
+.brand-zh-poem span {
+  display: block;
+}
+
+.brand-poetic-mark__en {
+  display: block;
+  line-height: 0.94;
+}
+
+.logo-en {
+  display: block;
+  font-family: var(--font-brand-en);
+  font-size: 1.08rem;
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 0.94;
+}
+
+.logo-en__initial {
+  display: inline-block;
+  font-size: 1.36em;
+  font-weight: 900;
+  line-height: 0.82;
+  text-shadow: 0.012em 0 0 currentColor;
+}
+
+.logo-zh {
+  display: block;
+  margin-top: 0.08rem;
+  color: var(--neutral-500);
+  font-family: var(--font-brand-zh);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+.dark .logo-zh {
+  color: var(--neutral-600);
+}
+
+@media (min-width: 1024px) {
+  .brand-zh-poem {
+    font-size: 0.94rem;
+  }
+
+  .logo-en {
+    font-size: 1.15rem;
+  }
+
+  .logo-zh {
+    font-size: 0.72rem;
+  }
 }
 
 /* Typography utilities */

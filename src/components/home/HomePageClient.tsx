@@ -76,7 +76,7 @@ export default function HomePageClient({ dataByLocale, defaultLocale }: HomePage
                 switch (section.type) {
                   case 'markdown':
                     return (
-                      <div key={section.id} className="lg:min-h-[28rem]">
+                      <div key={section.id}>
                         <About
                           content={section.content || ''}
                           title={section.title}

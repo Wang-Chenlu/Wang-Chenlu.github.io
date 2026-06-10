@@ -48,7 +48,7 @@ export default function LanguageToggle({ i18n }: LanguageToggleProps) {
           'border border-neutral-200 bg-background hover:bg-neutral-50',
           'dark:border-[rgba(148,163,184,0.24)] dark:bg-neutral-800 dark:hover:bg-neutral-700',
           'transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50',
-          'text-neutral-600 hover:text-primary dark:text-neutral-400 dark:hover:text-white'
+          'text-neutral-600 hover:text-primary dark:text-slate-200 dark:hover:text-slate-50'
         )}
         title={currentLabel}
       >
@@ -82,7 +82,7 @@ export default function LanguageToggle({ i18n }: LanguageToggleProps) {
                   'transition-colors duration-200',
                   currentLocale === localeOption
                     ? 'text-accent bg-accent/10'
-                    : 'text-neutral-700 dark:text-neutral-300'
+                    : 'text-neutral-700 dark:text-slate-200'
                 )}
               >
                 <span>{i18n.labels[localeOption] || localeOption}</span>

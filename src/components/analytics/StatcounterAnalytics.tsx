@@ -1,10 +1,7 @@
-const DEFAULT_STATCOUNTER_PROJECT_ID = '13286420';
-const DEFAULT_STATCOUNTER_SECURITY_CODE = '0aafed4a';
-
 function getStatcounterConfig() {
   const enabled = process.env.NEXT_PUBLIC_STATCOUNTER_ENABLED;
-  const projectId = process.env.NEXT_PUBLIC_STATCOUNTER_PROJECT_ID?.trim() || DEFAULT_STATCOUNTER_PROJECT_ID;
-  const securityCode = process.env.NEXT_PUBLIC_STATCOUNTER_SECURITY_CODE?.trim() || DEFAULT_STATCOUNTER_SECURITY_CODE;
+  const projectId = process.env.NEXT_PUBLIC_STATCOUNTER_PROJECT_ID?.trim();
+  const securityCode = process.env.NEXT_PUBLIC_STATCOUNTER_SECURITY_CODE?.trim();
 
   if (enabled === 'false' || !projectId || !securityCode) {
     return null;

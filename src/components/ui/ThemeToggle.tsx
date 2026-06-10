@@ -64,7 +64,7 @@ export function ThemeToggle() {
           'border border-neutral-200 bg-background hover:bg-neutral-50',
           'dark:border-[rgba(148,163,184,0.24)] dark:bg-neutral-800 dark:hover:bg-neutral-700',
           'transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50',
-          'text-neutral-600 hover:text-primary dark:text-neutral-400 dark:hover:text-white'
+          'text-neutral-600 hover:text-primary dark:text-slate-200 dark:hover:text-slate-50'
         )}
         title={`${messages.theme.currentTheme}: ${currentTheme.label}. ${messages.theme.cycleTheme}.`}
       >
@@ -119,7 +119,7 @@ export function ThemeToggleDropdown() {
           'border border-neutral-200 bg-background hover:bg-neutral-50',
           'dark:border-[rgba(148,163,184,0.24)] dark:bg-neutral-800 dark:hover:bg-neutral-700',
           'transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50',
-          'text-neutral-600 hover:text-primary dark:text-neutral-400 dark:hover:text-white'
+          'text-neutral-600 hover:text-primary dark:text-slate-200 dark:hover:text-slate-50'
         )}
         title={`${messages.theme.currentTheme}: ${currentTheme.label}`}
       >
@@ -158,7 +158,7 @@ export function ThemeToggleDropdown() {
                   'transition-colors duration-200',
                   theme === themeOption.value
                     ? 'text-accent bg-accent/10'
-                    : 'text-neutral-700 dark:text-neutral-300'
+                    : 'text-neutral-700 dark:text-slate-200'
                 )}
               >
                 <span className="mr-2">{themeOption.icon}</span>

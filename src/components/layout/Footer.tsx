@@ -12,7 +12,9 @@ interface FooterProps {
 export default function Footer({ lastUpdated, lastUpdatedByLocale, defaultLocale = 'en' }: FooterProps) {
   const locale = useLocaleStore((state) => state.locale);
   const messages = useMessages();
-  const displayName = locale.startsWith('zh') ? '王琛璐' : 'Chenlu Wang';
+  const copyrightText = locale.startsWith('zh')
+    ? '© 王琛璐。个人内容与图片保留所有权利。基于 PRISM 构建。'
+    : '© Chenlu Wang. Personal content and images all rights reserved. Built on PRISM.';
 
   const resolvedLastUpdated =
     lastUpdatedByLocale?.[locale] ||
@@ -27,7 +29,7 @@ export default function Footer({ lastUpdated, lastUpdatedByLocale, defaultLocale
           <p className="text-xs text-neutral-500">
             {messages.footer.lastUpdated}: {resolvedLastUpdated}
           </p>
-          <p className="text-xs text-neutral-500">{displayName}</p>
+          <p className="text-center text-xs text-neutral-500 sm:text-right">{copyrightText}</p>
         </div>
       </div>
     </footer>

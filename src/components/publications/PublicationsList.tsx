@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect, type ReactNode } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
@@ -10,8 +10,9 @@ import {
     CalendarIcon,
     BookOpenIcon,
     ClipboardDocumentIcon,
+    ArrowTopRightOnSquareIcon,
+    CodeBracketIcon,
     DocumentTextIcon,
-    PhotoIcon,
     SparklesIcon,
     UserGroupIcon,
     ChevronLeftIcon,
@@ -50,6 +51,21 @@ const DIRECTION_NOTICE_TEXT_CLASSES: Record<string, string> = {
     'interfaces-nanoconfinement': 'text-[#7c3aed] dark:text-violet-400',
 };
 
+const DIRECTION_HIGHLIGHT_ACCENTS: Record<string, { text: string; dot: string }> = {
+    'electrolytes-energy-storage': {
+        text: 'text-[#d97706] dark:text-amber-400',
+        dot: 'bg-[#d97706] dark:bg-amber-400',
+    },
+    'molecular-ionic-liquids': {
+        text: 'text-[#16a34a] dark:text-green-400',
+        dot: 'bg-[#16a34a] dark:bg-green-400',
+    },
+    'interfaces-nanoconfinement': {
+        text: 'text-[#7c3aed] dark:text-violet-400',
+        dot: 'bg-[#7c3aed] dark:bg-violet-400',
+    },
+};
+
 const ZH_PUBLICATION_TYPE_LABELS: Record<string, string> = {
     journal: '期刊论文',
     preprint: '预印本',
@@ -57,6 +73,63 @@ const ZH_PUBLICATION_TYPE_LABELS: Record<string, string> = {
     book: '图书',
     chapter: '章节',
     thesis: '学位论文',
+};
+
+interface PublicationHighlight {
+    highlights: string[];
+    codeHref?: string;
+}
+
+const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
+    chenSupramolecularCrystalsBased2024: {
+        highlights: [
+            'Develops Zn-based supramolecular crystals, Zn(TFSI)₂SN₃, with ordered three-dimensional tunnels for Zn²⁺ conduction.',
+            'Achieves high ionic conductivity from 25 to -35 °C and a Zn²⁺ transference number of 0.97.',
+            'Enables dendrite-free Zn plating/stripping and durable solid-state Zn batteries over 70,000 cycles.',
+        ],
+    },
+    hanDiluteElectrolyteVehicular2026: {
+        highlights: [
+            'Proposes a dilute electrolyte with vehicular aggregates to combine AGG-dominated Li⁺ solvation with 4.9 mS cm⁻¹ ionic conductivity.',
+            'Uses sterically hindered PSF solvent to form robust LiF/Li₂O-rich interphases and ≈99.5% Li-metal Coulombic efficiency.',
+            'Enables 4.6 V lithium-metal batteries with ultra-high-Ni cathodes, strong rate capability, and 87% capacity retention after 150 cycles.',
+        ],
+    },
+    diMXenebasedSolventresponsiveActuators2025: {
+        highlights: [
+            'Constructs MXene-based bilayer actuators with polymer-intercalated gradient active layers for solvent-vapor response.',
+            'Combines scattering, DFT, and molecular dynamics to connect gradient intercalation with counterintuitive bending behavior.',
+            'Demonstrates fast, remotely light-controllable actuation for sensing, smart switching, and adaptive material applications.',
+        ],
+    },
+    liFluorineDomainsInduced2024: {
+        highlights: [
+            'Reveals fluorine-domain-driven ultrahigh N₂ solubility in fluorinated ionic liquids through molecular simulations.',
+            '[Emim]FAP reaches 4.844 × 10⁻³ N₂ solubility, about 118 times higher than traditional [Emim]NO₃.',
+            'Introduces fluorine densification energy to connect C–F bond density, free volume, and N₂-anion dissociation.',
+        ],
+    },
+    pengMolecularlevelInsightCO22024: {
+        highlights: [
+            'Reveals how a triazole ionic-liquid interfacial microhabitat regulates CO₂ electroreduction to formate.',
+            'Links [124Triz]⁻-CO₂ dipolar interactions and persistent [124Triz]⁻-H₂O hydrogen bonding to interfacial proton organization.',
+            'Shows [124Triz]⁻ lowers the *HCOO formation free energy to −0.10 eV, compared with 0.43 eV for [NTf₂]⁻.',
+        ],
+    },
+    yangWaterinducedStrongIsotropic2024: {
+        highlights: [
+            'Uses nanoconfined water to align graphene and Ti₃C₂Tₓ MXene nanoplatelets into free-standing isotropic sheets at room temperature.',
+            'Combines covalent and π–π interplatelet bridging to reach 1.87 GPa tensile strength and 98.7 GPa modulus.',
+            'Achieves 1423 S cm⁻¹ electrical conductivity and 828 C cm⁻³ volumetric specific capacity for flexible energy-storage electrodes.',
+        ],
+    },
+    wangSystematicDrudebasedParameterization2026: {
+        highlights: [
+            'Establishes a transferable Drude-oscillator parameterization workflow and OPLS&Pol for battery electrolyte simulations.',
+            'Captures many-body polarization to reproduce complex ion solvation motifs across neat and multicomponent electrolytes.',
+            'Achieves R²global = 0.94 and high throughput while revealing solvation reorganization, coordination competition, and ion aggregation.',
+        ],
+    },
 };
 
 type RoleFilter = PublicationRole | 'all';
@@ -77,7 +150,6 @@ export default function PublicationsList({
     const [showFilters, setShowFilters] = useState(false);
     const [expandedBibtexId, setExpandedBibtexId] = useState<string | null>(null);
     const [expandedAbstractIds, setExpandedAbstractIds] = useState<Set<string>>(new Set());
-    const [expandedFigureIds, setExpandedFigureIds] = useState<Set<string>>(new Set());
     const [figureIndexes, setFigureIndexes] = useState<Record<string, number>>({});
     const activeDirection = useMemo(
         () => getResearchDirectionById(directionFilterId),
@@ -142,21 +214,6 @@ export default function PublicationsList({
             }
             return next;
         });
-    };
-
-    const toggleFigure = (publicationId: string) => {
-        setExpandedFigureIds((current) => {
-            const next = new Set(current);
-            if (next.has(publicationId)) {
-                next.delete(publicationId);
-            } else {
-                next.add(publicationId);
-            }
-            return next;
-        });
-        setFigureIndexes((current) => (
-            current[publicationId] === undefined ? { ...current, [publicationId]: 0 } : current
-        ));
     };
 
     const shiftFigure = (publicationId: string, figureCount: number, direction: -1 | 1) => {
@@ -329,8 +386,10 @@ export default function PublicationsList({
                         const direction = getResearchDirectionForPublication(pub.id);
                         const DirectionIcon = direction?.icon;
                         const figures = getPublicationFigures(pub);
-                        const figureIndex = figures.length > 0
-                            ? Math.min(figureIndexes[pub.id] || 0, figures.length - 1)
+                        const highlight = PUBLICATION_HIGHLIGHTS[pub.id];
+                        const mediaFigures = getPublicationMediaFigures(pub.toc, figures);
+                        const figureIndex = mediaFigures.length > 0
+                            ? Math.min(figureIndexes[pub.id] || 0, mediaFigures.length - 1)
                             : 0;
 
                         return (
@@ -361,28 +420,38 @@ export default function PublicationsList({
                             </div>
                             <PublicationAuthors
                                 authors={pub.authors}
-                                className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-neutral-400 mb-2`}
+                                className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-slate-300 mb-2`}
                             />
-                            <p className="text-sm text-neutral-800 dark:text-neutral-600 mb-3">
+                            <p className="text-sm text-neutral-800 dark:text-slate-200 mb-3">
                                 <PublicationVenue pub={pub} />
                             </p>
 
                             {pub.description && (
-                                <p className="text-sm text-neutral-600 dark:text-neutral-500 mb-4 line-clamp-3">
+                                <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3">
                                     {pub.description}
                                 </p>
                             )}
 
+                            {highlight && (
+                                <PublicationHighlightPanel
+                                    highlight={highlight}
+                                    publication={pub}
+                                    figures={mediaFigures}
+                                    currentIndex={figureIndex}
+                                    onPrevious={() => shiftFigure(pub.id, mediaFigures.length, -1)}
+                                    onNext={() => shiftFigure(pub.id, mediaFigures.length, 1)}
+                                    isChinese={isChinese}
+                                    directionId={direction?.id}
+                                />
+                            )}
+
                             <div className="flex flex-wrap gap-2">
                                 {pub.doi && (
-                                    <a
+                                    <PublicationLink
                                         href={getDoiHref(pub.doi)}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white transition-colors"
-                                    >
-                                        DOI
-                                    </a>
+                                        label={isChinese ? '查阅论文' : 'View Paper'}
+                                        icon={<ArrowTopRightOnSquareIcon className="h-3 w-3" />}
+                                    />
                                 )}
                                 {pub.html && (
                                     <PublicationLink href={pub.html} label="HTML" />
@@ -393,15 +462,11 @@ export default function PublicationsList({
                                 {pub.pdfUrl && (
                                     <PublicationLink href={pub.pdfUrl} label="PDF" />
                                 )}
-                                {pub.code && (
-                                    <a
-                                        href={pub.code}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white transition-colors"
-                                    >
-                                        {messages.publications.code}
-                                    </a>
+                                {(pub.code || highlight) && (
+                                    <PublicationCodeDataButton
+                                        href={pub.code || highlight?.codeHref}
+                                        isChinese={isChinese}
+                                    />
                                 )}
                                 {pub.slides && (
                                     <PublicationLink href={pub.slides} label="Slides" />
@@ -419,25 +484,13 @@ export default function PublicationsList({
                                             "inline-flex items-center px-3 py-1 rounded-md text-xs font-medium transition-colors",
                                             expandedAbstractIds.has(pub.id)
                                                 ? "bg-accent text-white"
-                                                : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white"
+                                                : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-slate-200 hover:bg-accent hover:text-white"
                                         )}
                                     >
                                         <DocumentTextIcon className="h-3 w-3 mr-1.5" />
-                                        {expandedAbstractIds.has(pub.id) ? 'Hide Abstract' : 'Show Abstract'}
-                                    </button>
-                                )}
-                                {figures.length > 0 && (
-                                    <button
-                                        onClick={() => toggleFigure(pub.id)}
-                                        className={cn(
-                                            "inline-flex items-center px-3 py-1 rounded-md text-xs font-medium transition-colors",
-                                            expandedFigureIds.has(pub.id)
-                                                ? "bg-accent text-white"
-                                                : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white"
-                                        )}
-                                    >
-                                        <PhotoIcon className="h-3 w-3 mr-1.5" />
-                                        {expandedFigureIds.has(pub.id) ? 'Hide Figures' : 'Show Figures'}
+                                        {expandedAbstractIds.has(pub.id)
+                                            ? (isChinese ? '收起摘要' : 'Hide Abstract')
+                                            : (isChinese ? '显示摘要' : 'Show Abstract')}
                                     </button>
                                 )}
                                 {pub.bibtex && (
@@ -447,11 +500,13 @@ export default function PublicationsList({
                                             "inline-flex items-center px-3 py-1 rounded-md text-xs font-medium transition-colors",
                                             expandedBibtexId === pub.id
                                                 ? "bg-accent text-white"
-                                                : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white"
+                                                : "bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-slate-200 hover:bg-accent hover:text-white"
                                         )}
                                     >
                                         <BookOpenIcon className="h-3 w-3 mr-1.5" />
-                                        {messages.publications.bibtex}
+                                        {expandedBibtexId === pub.id
+                                            ? (isChinese ? '收起引用格式' : `Hide ${messages.publications.bibtex}`)
+                                            : (isChinese ? '显示引用格式' : `Show ${messages.publications.bibtex}`)}
                                     </button>
                                 )}
                             </div>
@@ -465,8 +520,8 @@ export default function PublicationsList({
                                         exit={{ opacity: 0, height: 0 }}
                                         className="overflow-hidden mt-4"
                                     >
-                                        <p className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-sm leading-relaxed text-neutral-600 dark:border-neutral-700 dark:bg-neutral-800/60 dark:text-neutral-400">
-                                            {pub.abstract}
+                                        <p className="rounded-lg border border-neutral-200 bg-neutral-50 p-4 text-sm leading-relaxed text-neutral-600 dark:border-neutral-700 dark:bg-neutral-800/60 dark:text-slate-300">
+                                            <ScientificText text={pub.abstract} />
                                         </p>
                                     </motion.div>
                                 ) : null}
@@ -479,7 +534,7 @@ export default function PublicationsList({
                                         className="overflow-hidden mt-4"
                                     >
                                         <div className="relative bg-neutral-50 dark:bg-neutral-800 rounded-lg p-4 border border-neutral-200 dark:border-neutral-700">
-                                            <pre className="text-xs text-neutral-600 dark:text-neutral-500 overflow-x-auto whitespace-pre-wrap font-mono">
+                                            <pre className="text-xs text-neutral-600 dark:text-slate-200 overflow-x-auto whitespace-pre-wrap font-mono">
                                                 {pub.bibtex}
                                             </pre>
                                             <button
@@ -495,23 +550,6 @@ export default function PublicationsList({
                                         </div>
                                     </motion.div>
                                 ) : null}
-                                {expandedFigureIds.has(pub.id) && figures.length > 0 ? (
-                                    <motion.div
-                                        key="figure"
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: 'auto' }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        className="overflow-hidden mt-5"
-                                    >
-                                        <PublicationFigureCarousel
-                                            publication={pub}
-                                            figures={figures}
-                                            currentIndex={figureIndex}
-                                            onPrevious={() => shiftFigure(pub.id, figures.length, -1)}
-                                            onNext={() => shiftFigure(pub.id, figures.length, 1)}
-                                        />
-                                    </motion.div>
-                                ) : null}
                             </AnimatePresence>
                         </motion.div>
                         );
@@ -519,6 +557,65 @@ export default function PublicationsList({
                 )}
             </div>
         </motion.div>
+    );
+}
+
+function PublicationHighlightPanel({
+    highlight,
+    publication,
+    figures,
+    currentIndex,
+    onPrevious,
+    onNext,
+    isChinese,
+    directionId,
+}: {
+    highlight: PublicationHighlight;
+    publication: Publication;
+    figures: string[];
+    currentIndex: number;
+    onPrevious: () => void;
+    onNext: () => void;
+    isChinese: boolean;
+    directionId?: string;
+}) {
+    const accent = directionId ? DIRECTION_HIGHLIGHT_ACCENTS[directionId] : undefined;
+    const accentText = accent?.text || 'text-[#d97706] dark:text-amber-400';
+    const accentDot = accent?.dot || 'bg-[#d97706] dark:bg-amber-400';
+
+    return (
+        <section
+            aria-label="Publication highlights and figures"
+            className="mb-4 grid gap-5 lg:grid-cols-[minmax(0,0.82fr)_minmax(360px,1.18fr)] lg:items-start"
+        >
+            <div className="min-w-0 py-1">
+                <div className={cn(
+                    "font-semibold",
+                    accentText,
+                    isChinese ? "text-sm tracking-[0.04em]" : "text-xs uppercase tracking-[0.14em]"
+                )}>
+                    {isChinese ? '研究亮点' : 'Highlights'}
+                </div>
+                <ul className="mt-3 space-y-2 text-sm leading-6 text-slate-700 dark:text-slate-300">
+                    {highlight.highlights.map((item) => (
+                        <li key={item} className="flex gap-2">
+                            <span className={cn("mt-2 h-1.5 w-1.5 shrink-0 rounded-full", accentDot)} aria-hidden="true" />
+                            <span><ScientificText text={item} /></span>
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            {figures.length > 0 ? (
+                <PublicationFigureCarousel
+                    publication={publication}
+                    figures={figures}
+                    currentIndex={currentIndex}
+                    onPrevious={onPrevious}
+                    onNext={onNext}
+                    isChinese={isChinese}
+                />
+            ) : null}
+        </section>
     );
 }
 
@@ -673,12 +770,14 @@ function PublicationFigureCarousel({
     currentIndex,
     onPrevious,
     onNext,
+    isChinese,
 }: {
     publication: Publication;
     figures: string[];
     currentIndex: number;
     onPrevious: () => void;
     onNext: () => void;
+    isChinese: boolean;
 }) {
     const figure = figures[currentIndex];
     const hasMultipleFigures = figures.length > 1;
@@ -725,35 +824,28 @@ function PublicationFigureCarousel({
             tabIndex={0}
         >
             <div className="relative overflow-hidden rounded-md bg-neutral-50 dark:bg-neutral-900">
-                <a
-                    href={figure}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block"
-                >
-                    <FigurePreview
-                        figure={figure}
-                        alt={`${publication.title} figure ${currentIndex + 1}`}
-                    />
-                </a>
+                <FigurePreview
+                    figure={figure}
+                    alt={isTocFigure(figure) ? `${publication.title} TOC graphic` : `${publication.title} figure ${currentIndex + 1}`}
+                />
 
                 {hasMultipleFigures && (
                     <>
                         <button
                             type="button"
                             onClick={onPrevious}
-                            className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-neutral-200 bg-white/90 text-neutral-700 shadow-sm transition-colors hover:border-accent hover:text-accent dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-neutral-300"
-                            title="Previous figure"
-                            aria-label="Previous figure"
+                            className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-neutral-200 bg-white/90 text-neutral-700 shadow-sm transition-colors hover:border-accent hover:text-accent dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-slate-200"
+                            title={isChinese ? '上一张图' : 'Previous figure'}
+                            aria-label={isChinese ? '上一张图' : 'Previous figure'}
                         >
                             <ChevronLeftIcon className="h-5 w-5" />
                         </button>
                         <button
                             type="button"
                             onClick={onNext}
-                            className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-neutral-200 bg-white/90 text-neutral-700 shadow-sm transition-colors hover:border-accent hover:text-accent dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-neutral-300"
-                            title="Next figure"
-                            aria-label="Next figure"
+                            className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-neutral-200 bg-white/90 text-neutral-700 shadow-sm transition-colors hover:border-accent hover:text-accent dark:border-neutral-700 dark:bg-neutral-900/90 dark:text-slate-200"
+                            title={isChinese ? '下一张图' : 'Next figure'}
+                            aria-label={isChinese ? '下一张图' : 'Next figure'}
                         >
                             <ChevronRightIcon className="h-5 w-5" />
                         </button>
@@ -761,7 +853,7 @@ function PublicationFigureCarousel({
                 )}
             </div>
 
-            <div className="mt-3 flex items-center justify-center text-xs font-semibold text-neutral-500 dark:text-neutral-400">
+            <div className="mt-3 flex items-center justify-center text-xs font-semibold text-neutral-500 dark:text-slate-200">
                 {currentIndex + 1}/{figures.length}
             </div>
         </div>
@@ -800,8 +892,27 @@ function getPublicationFigures(publication: Publication): string[] {
     return publication.preview ? [publication.preview] : [];
 }
 
+function getPublicationMediaFigures(toc: string | undefined, figures: string[]): string[] {
+    if (!toc) {
+        return figures;
+    }
+
+    const normalizedToc = normalizePublicAssetPath(toc);
+    const nonTocFigures = figures.filter((figure) => normalizePublicAssetPath(figure) !== normalizedToc);
+
+    return [toc, ...nonTocFigures];
+}
+
+function normalizePublicAssetPath(pathValue: string): string {
+    return pathValue.split(/[?#]/)[0]?.toLowerCase() || pathValue.toLowerCase();
+}
+
 function isPdfFigure(figure: string): boolean {
     return /\.pdf(?:$|[?#])/i.test(figure);
+}
+
+function isTocFigure(figure: string): boolean {
+    return /(?:^|\/)toc\.(png|jpe?g|webp|gif|svg|pdf)(?:$|[?#])/i.test(figure);
 }
 
 function PublicationVenue({ pub }: { pub: Publication }) {
@@ -839,15 +950,69 @@ function getArxivHref(arxivId: string): string {
     return /^https?:\/\//i.test(cleanArxivId) ? cleanArxivId : `https://arxiv.org/abs/${cleanArxivId}`;
 }
 
-function PublicationLink({ href, label }: { href: string; label: string }) {
+function PublicationLink({ href, label, icon }: { href: string; label: string; icon?: ReactNode }) {
     return (
         <a
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 hover:bg-accent hover:text-white transition-colors"
+            className="inline-flex items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-slate-200 hover:bg-accent hover:text-white transition-colors"
         >
+            {icon ? (
+                <span className="mr-1.5 inline-flex h-3 w-3 shrink-0 items-center justify-center" aria-hidden="true">
+                    {icon}
+                </span>
+            ) : null}
             {label}
         </a>
+    );
+}
+
+function PublicationCodeDataButton({ href, isChinese }: { href?: string; isChinese: boolean }) {
+    const label = isChinese ? '查阅代码与数据' : 'View Code & Data';
+
+    if (href) {
+        return (
+            <PublicationLink
+                href={href}
+                label={label}
+                icon={<CodeBracketIcon className="h-3 w-3" />}
+            />
+        );
+    }
+
+    return (
+        <button
+            type="button"
+            disabled
+            aria-disabled="true"
+            className="inline-flex cursor-not-allowed items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 text-neutral-700 dark:bg-neutral-800 dark:text-slate-200"
+        >
+            <CodeBracketIcon className="mr-1.5 h-3 w-3" aria-hidden="true" />
+            {label}
+        </button>
+    );
+}
+
+function ScientificText({ text }: { text: string }) {
+    const parts = text.split(/(R²global)/g);
+
+    return (
+        <>
+            {parts.map((part, index) => (
+                part === 'R²global'
+                    ? <R2Global key={`${part}-${index}`} />
+                    : part
+            ))}
+        </>
+    );
+}
+
+function R2Global() {
+    return (
+        <span className="whitespace-nowrap">
+            R<sup className="align-super text-[0.72em] leading-none">2</sup>
+            <sub className="align-sub text-[0.72em] leading-none">global</sub>
+        </span>
     );
 }

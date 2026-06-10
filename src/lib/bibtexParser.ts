@@ -69,6 +69,7 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
     const publicationId = entry.citationKey || tags.id || `pub-${Date.now()}-${index}`;
     const selected = parseBoolean(tags.selected);
     const preview = resolvePublicPreview(tags.preview);
+    const toc = resolvePublicationToc(publicationId);
     const figures = resolvePublicationFigures(publicationId, preview);
     const title = parseBibTeXInline(tags.title || 'Untitled');
 
@@ -106,6 +107,7 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       group: cleanBibTeXString(tags.group),
       role: parsePublicationRole(tags.role),
       preview,
+      toc,
       figures,
 
       // Store original BibTeX (excluding custom fields)
@@ -207,11 +209,26 @@ function resolvePublicationFigures(publicationId: string, preview?: string): str
   }
 
   const figurePaths = fs.readdirSync(figuresDir)
-    .filter((filename) => /\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename))
+    .filter((filename) => /\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename) && !/^toc\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename))
     .sort(compareFigureFilenames)
     .map((filename) => toPublicUrl(path.posix.join('images', 'publications', publicationId, filename)));
 
   return figurePaths.length > 0 ? figurePaths : (preview ? [preview] : undefined);
+}
+
+function resolvePublicationToc(publicationId: string): string | undefined {
+  const figuresDir = path.join(process.cwd(), 'public', 'images', 'publications', publicationId);
+
+  if (!fs.existsSync(figuresDir) || !fs.statSync(figuresDir).isDirectory()) {
+    return undefined;
+  }
+
+  const tocFilename = fs.readdirSync(figuresDir)
+    .find((filename) => /^toc\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename));
+
+  return tocFilename
+    ? toPublicUrl(path.posix.join('images', 'publications', publicationId, tocFilename))
+    : undefined;
 }
 
 function compareFigureFilenames(left: string, right: string): number {
