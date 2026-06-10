@@ -33,6 +33,21 @@ npm run build
 - Publication figures are stored under `public/images/publications/`.
 - Source components and styling live in `src/`.
 
+## Analytics
+
+The site loads Statcounter analytics for visitor activity and IP-level logs.
+
+The default Statcounter project is configured in `src/components/analytics/StatcounterAnalytics.tsx`. To override it locally, copy `.env.example` to `.env.local` and fill in:
+
+```bash
+NEXT_PUBLIC_STATCOUNTER_PROJECT_ID=your_project_id
+NEXT_PUBLIC_STATCOUNTER_SECURITY_CODE=your_security_code
+```
+
+For GitHub Pages deployment, add repository secrets named `STATCOUNTER_PROJECT_ID` and `STATCOUNTER_SECURITY_CODE`. The deploy workflow injects them during `npm run build`.
+
+Repository secrets are optional because the default Statcounter project is already configured in source. After deployment, verify the live site by opening `https://wang-chenlu.github.io/`, checking the browser Network tab for `counter.js`, and confirming the visit appears in Statcounter's Visitor Activity view.
+
 ## Deployment
 
 GitHub Pages serves the static files at the repository root. After rebuilding, copy the generated `out/` contents to the repository root before committing and pushing.

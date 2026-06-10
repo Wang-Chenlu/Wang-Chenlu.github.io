@@ -1,5 +1,5 @@
 type = "card"
-title = "教学"
-description = "教学内容将稍后添加。"
-empty = "教学内容将稍后添加。"
+title = "教学与报告"
+description = "教学、报告与展示内容将稍后添加。"
+empty = "教学、报告与展示内容将稍后添加。"
 items = []

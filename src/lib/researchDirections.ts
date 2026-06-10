@@ -22,6 +22,7 @@ export interface ResearchDirectionPaper {
   year: string;
   wangCorresponding: boolean;
   wangCoFirst: boolean;
+  coFirstAuthors?: string[];
 }
 
 export interface ResearchDirection {
@@ -29,7 +30,7 @@ export interface ResearchDirection {
   title: string;
   titleLines: string[];
   description: string;
-  publicationCount: string;
+  publicationCount: number;
   keywords: string[];
   papers: ResearchDirectionPaper[];
   icon: ResearchDirectionIcon;
@@ -51,7 +52,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     title: 'Electrolytes & Energy Storage',
     titleLines: ['Electrolytes &', 'Energy Storage'],
     description: '',
-    publicationCount: '7 publications',
+    publicationCount: 7,
     keywords: [
       'Ion transport',
       'Solvation structures',
@@ -60,14 +61,14 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     papers: [
       {
         authors: 'Wang C, Wu Q.',
-        venue: 'npj Computational Materials',
+        venue: 'npj Comput. Mater.',
         year: '2026',
         wangCorresponding: false,
         wangCoFirst: false,
       },
       {
         authors: 'Han X, Wang C, et al.',
-        venue: 'Advanced Materials',
+        venue: 'Adv. Mater.',
         year: '2026',
         wangCorresponding: true,
         wangCoFirst: false,
@@ -83,7 +84,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     icon: BoltIcon,
     accent: {
       line: 'bg-amber-500/70',
-      border: 'border-l-amber-500/60',
+      border: 'border-l-amber-500/60 dark:border-l-amber-400/75',
       icon: 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300',
       chip: 'border-amber-200/80 bg-amber-50/70 text-amber-800 dark:border-amber-500/25 dark:bg-amber-500/10 dark:text-amber-300',
       hover: 'hover:border-amber-300/80 dark:hover:border-amber-500/45',
@@ -105,7 +106,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     title: 'Molecular & Ionic Liquids',
     titleLines: ['Molecular &', 'Ionic Liquids'],
     description: '',
-    publicationCount: '10 publications',
+    publicationCount: 10,
     keywords: [
       'Liquid structures',
       'Molecular interactions',
@@ -114,21 +115,21 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     papers: [
       {
         authors: 'Wang C, Wang Y, Gan Z, et al.',
-        venue: 'Chemical Science',
+        venue: 'Chem. Sci.',
         year: '2021',
         wangCorresponding: false,
         wangCoFirst: false,
       },
       {
         authors: 'Li K, Wang Y, Wang C, et al.',
-        venue: 'Journal of the American Chemical Society',
+        venue: 'J. Am. Chem. Soc.',
         year: '2024',
         wangCorresponding: false,
         wangCoFirst: false,
       },
       {
-        authors: 'Li B, Wang C, Zhang Y, Wang Y',
-        venue: 'Green Energy & Environment',
+        authors: 'Li B, Wang C, Zhang Y, Wang Y.',
+        venue: 'Green Energy Environ.',
         year: '2021',
         wangCorresponding: false,
         wangCoFirst: false,
@@ -137,7 +138,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     icon: BeakerIcon,
     accent: {
       line: 'bg-green-600/65',
-      border: 'border-l-green-700/55',
+      border: 'border-l-green-700/55 dark:border-l-green-400/70',
       icon: 'border-green-200 bg-green-50 text-green-800 dark:border-green-600/30 dark:bg-green-600/10 dark:text-green-300',
       chip: 'border-green-200/80 bg-green-50/70 text-green-900 dark:border-green-600/25 dark:bg-green-600/10 dark:text-green-300',
       hover: 'hover:border-green-300/75 dark:hover:border-green-600/45',
@@ -162,7 +163,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     title: 'Interfaces & Nanoconfinement',
     titleLines: ['Interfaces &', 'Nanoconfinement'],
     description: '',
-    publicationCount: '13 publications',
+    publicationCount: 13,
     keywords: [
       'Wetting behavior',
       'Membrane separation',
@@ -171,21 +172,21 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     papers: [
       {
         authors: 'Di A, Wang C, et al.',
-        venue: 'Chemical Science',
+        venue: 'Chem. Sci.',
         year: '2025',
         wangCorresponding: false,
         wangCoFirst: true,
       },
       {
         authors: 'Wang C, Liu G, Cao R, et al.',
-        venue: 'Chemical Engineering Science',
+        venue: 'Chem. Eng. Sci.',
         year: '2023',
         wangCorresponding: false,
         wangCoFirst: false,
       },
       {
         authors: 'Wang C, Wang Y, Liu J, et al.',
-        venue: 'Chemical Engineering Journal',
+        venue: 'Chem. Eng. J.',
         year: '2022',
         wangCorresponding: false,
         wangCoFirst: false,
@@ -194,7 +195,7 @@ export const RESEARCH_DIRECTIONS: ResearchDirection[] = [
     icon: CubeTransparentIcon,
     accent: {
       line: 'bg-violet-500/65',
-      border: 'border-l-violet-500/60',
+      border: 'border-l-violet-500/60 dark:border-l-violet-400/75',
       icon: 'border-violet-200 bg-violet-50 text-violet-700 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-300',
       chip: 'border-violet-200/80 bg-violet-50/70 text-violet-800 dark:border-violet-500/25 dark:bg-violet-500/10 dark:text-violet-300',
       hover: 'hover:border-violet-300/75 dark:hover:border-violet-500/45',
@@ -227,4 +228,12 @@ const PUBLICATION_DIRECTION_BY_ID = new Map(
 
 export function getResearchDirectionForPublication(publicationId: string): ResearchDirection | undefined {
   return PUBLICATION_DIRECTION_BY_ID.get(publicationId);
+}
+
+export function getResearchDirectionById(directionId: string | null | undefined): ResearchDirection | undefined {
+  if (!directionId) {
+    return undefined;
+  }
+
+  return RESEARCH_DIRECTIONS.find((direction) => direction.id === directionId);
 }

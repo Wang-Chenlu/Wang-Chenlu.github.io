@@ -12,6 +12,7 @@ interface FooterProps {
 export default function Footer({ lastUpdated, lastUpdatedByLocale, defaultLocale = 'en' }: FooterProps) {
   const locale = useLocaleStore((state) => state.locale);
   const messages = useMessages();
+  const displayName = locale.startsWith('zh') ? '王琛璐' : 'Chenlu Wang';
 
   const resolvedLastUpdated =
     lastUpdatedByLocale?.[locale] ||
@@ -26,7 +27,7 @@ export default function Footer({ lastUpdated, lastUpdatedByLocale, defaultLocale
           <p className="text-xs text-neutral-500">
             {messages.footer.lastUpdated}: {resolvedLastUpdated}
           </p>
-          <p className="text-xs text-neutral-500">Chenlu Wang</p>
+          <p className="text-xs text-neutral-500">{displayName}</p>
         </div>
       </div>
     </footer>

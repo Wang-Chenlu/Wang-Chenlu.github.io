@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useRef } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import {
@@ -20,7 +21,8 @@ import { Publication, PublicationRole } from '@/types/publication';
 import { PublicationPageConfig } from '@/types/page';
 import { cn } from '@/lib/utils';
 import { useMessages } from '@/lib/i18n/useMessages';
-import { getResearchDirectionForPublication } from '@/lib/researchDirections';
+import { getResearchDirectionById, getResearchDirectionForPublication } from '@/lib/researchDirections';
+import { useLocaleStore } from '@/lib/stores/localeStore';
 import FormattedBibTeXText from './FormattedBibTeXText';
 import PublicationAuthors from './PublicationAuthors';
 
@@ -28,15 +30,46 @@ interface PublicationsListProps {
     config: PublicationPageConfig;
     publications: Publication[];
     embedded?: boolean;
+    directionFilterId?: string | null;
 }
 
 const PUBLICATIONS_SUMMARY_TEXT =
     'A complete list of my publications, including 8 papers as first, co-first, or corresponding author, 20 collaborative papers, 1 review article, and 1 preprint.';
+const ZH_PUBLICATIONS_SUMMARY_TEXT =
+    '完整论文列表，包括8篇第一作者、共同一作或通讯作者论文、20篇合作论文、1篇综述论文和1篇预印本。';
+
+const ZH_DIRECTION_TITLES: Record<string, string> = {
+    'electrolytes-energy-storage': '电解质与储能',
+    'molecular-ionic-liquids': '水与离子液体',
+    'interfaces-nanoconfinement': '界面与纳米限域',
+};
+
+const DIRECTION_NOTICE_TEXT_CLASSES: Record<string, string> = {
+    'electrolytes-energy-storage': 'text-[#d97706] dark:text-amber-400',
+    'molecular-ionic-liquids': 'text-[#16a34a] dark:text-green-400',
+    'interfaces-nanoconfinement': 'text-[#7c3aed] dark:text-violet-400',
+};
+
+const ZH_PUBLICATION_TYPE_LABELS: Record<string, string> = {
+    journal: '期刊论文',
+    preprint: '预印本',
+    conference: '会议论文',
+    book: '图书',
+    chapter: '章节',
+    thesis: '学位论文',
+};
 
 type RoleFilter = PublicationRole | 'all';
 
-export default function PublicationsList({ config, publications, embedded = false }: PublicationsListProps) {
+export default function PublicationsList({
+    config,
+    publications,
+    embedded = false,
+    directionFilterId,
+}: PublicationsListProps) {
     const messages = useMessages();
+    const locale = useLocaleStore((state) => state.locale);
+    const isChinese = locale.startsWith('zh');
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedYear, setSelectedYear] = useState<number | 'all'>('all');
     const [selectedType, setSelectedType] = useState<string | 'all'>('all');
@@ -46,22 +79,41 @@ export default function PublicationsList({ config, publications, embedded = fals
     const [expandedAbstractIds, setExpandedAbstractIds] = useState<Set<string>>(new Set());
     const [expandedFigureIds, setExpandedFigureIds] = useState<Set<string>>(new Set());
     const [figureIndexes, setFigureIndexes] = useState<Record<string, number>>({});
-    const hasPublications = publications.length > 0;
+    const activeDirection = useMemo(
+        () => getResearchDirectionById(directionFilterId),
+        [directionFilterId]
+    );
+    const directionFilteredPublications = useMemo(() => {
+        if (!activeDirection) {
+            return publications;
+        }
+
+        const publicationIds = new Set(activeDirection.publicationIds);
+        return publications.filter((publication) => publicationIds.has(publication.id));
+    }, [activeDirection, publications]);
+    const hasPublications = directionFilteredPublications.length > 0;
+
+    useEffect(() => {
+        setSearchQuery('');
+        setSelectedYear('all');
+        setSelectedType('all');
+        setSelectedRole('all');
+    }, [activeDirection?.id]);
 
     // Extract unique years and types for filters
     const years = useMemo(() => {
-        const uniqueYears = Array.from(new Set(publications.map(p => p.year)));
+        const uniqueYears = Array.from(new Set(directionFilteredPublications.map(p => p.year)));
         return uniqueYears.sort((a, b) => b - a);
-    }, [publications]);
+    }, [directionFilteredPublications]);
 
     const types = useMemo(() => {
-        const uniqueTypes = Array.from(new Set(publications.map(p => p.type)));
+        const uniqueTypes = Array.from(new Set(directionFilteredPublications.map(p => p.type)));
         return uniqueTypes.sort();
-    }, [publications]);
+    }, [directionFilteredPublications]);
 
     // Filter publications
     const filteredPublications = useMemo(() => {
-        return publications.filter(pub => {
+        return directionFilteredPublications.filter(pub => {
             const matchesSearch =
                 pub.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                 pub.authors.some(author => author.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
@@ -74,7 +126,7 @@ export default function PublicationsList({ config, publications, embedded = fals
 
             return matchesSearch && matchesYear && matchesType && matchesRole;
         });
-    }, [publications, searchQuery, selectedYear, selectedType, selectedRole]);
+    }, [directionFilteredPublications, searchQuery, selectedYear, selectedType, selectedRole]);
 
     const toggleRoleFilter = (role: PublicationRole) => {
         setSelectedRole((currentRole) => currentRole === role ? 'all' : role);
@@ -129,10 +181,19 @@ export default function PublicationsList({ config, publications, embedded = fals
                 <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
                 {config.description && (
                     <div className={`${embedded ? "text-base" : "text-lg"} leading-relaxed text-neutral-600 dark:text-neutral-500 max-w-3xl`}>
-                        {config.description === PUBLICATIONS_SUMMARY_TEXT ? (
+                        {activeDirection ? (
+                            <DirectionFilterNotice
+                                directionId={activeDirection.id}
+                                title={activeDirection.title}
+                                count={directionFilteredPublications.length}
+                                accentClassName={activeDirection.accent.link}
+                                isChinese={isChinese}
+                            />
+                        ) : (config.description === PUBLICATIONS_SUMMARY_TEXT || config.description === ZH_PUBLICATIONS_SUMMARY_TEXT) ? (
                             <PublicationsSummary
                                 selectedRole={selectedRole}
                                 onRoleClick={toggleRoleFilter}
+                                isChinese={isChinese}
                             />
                         ) : (
                             config.description
@@ -238,10 +299,10 @@ export default function PublicationsList({ config, publications, embedded = fals
                                                     "px-3 py-1 text-xs rounded-full capitalize transition-colors",
                                                     selectedType === type
                                                         ? "bg-accent text-white"
-                                                        : "bg-white dark:bg-neutral-800 text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700"
+                                                    : "bg-white dark:bg-neutral-800 text-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-700"
                                                 )}
                                             >
-                                                {type.replace('-', ' ')}
+                                                {formatPublicationTypeLabel(type, isChinese)}
                                             </button>
                                         ))}
                                     </div>
@@ -279,10 +340,10 @@ export default function PublicationsList({ config, publications, embedded = fals
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: 0.1 * index }}
                             className={cn(
-                                "relative overflow-hidden rounded-xl border bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.055)] transition-all duration-200 dark:bg-neutral-900 dark:shadow-none",
+                                "font-en-body relative overflow-hidden rounded-xl border bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.055)] transition-all duration-200 dark:bg-neutral-900 dark:shadow-[0_14px_34px_rgba(2,6,23,0.32)] dark:ring-1 dark:ring-slate-700/50",
                                 direction
-                                    ? `border-neutral-200 border-l-4 dark:border-neutral-800 ${direction.accent.border} ${direction.accent.hover} ${direction.accent.glow}`
-                                    : "border-neutral-200 hover:shadow-[0_16px_36px_rgba(15,23,42,0.08)] dark:border-neutral-800"
+                                    ? `border-neutral-200 border-l-4 dark:border-slate-600/70 ${direction.accent.border} ${direction.accent.hover} ${direction.accent.glow}`
+                                    : "border-neutral-200 hover:shadow-[0_16px_36px_rgba(15,23,42,0.08)] dark:border-slate-600/70 dark:hover:border-slate-500"
                             )}
                         >
                             <div className="mb-2 flex items-start gap-3">
@@ -461,21 +522,61 @@ export default function PublicationsList({ config, publications, embedded = fals
     );
 }
 
+function DirectionFilterNotice({
+    directionId,
+    title,
+    count,
+    accentClassName,
+    isChinese,
+}: {
+    directionId: string;
+    title: string;
+    count: number;
+    accentClassName: string;
+    isChinese: boolean;
+}) {
+    const localizedTitle = isChinese ? (ZH_DIRECTION_TITLES[directionId] || title) : title;
+    const noticeClassName = DIRECTION_NOTICE_TEXT_CLASSES[directionId] || accentClassName;
+
+    return (
+        <div className="space-y-2">
+            {isChinese ? (
+                <p className={noticeClassName}>
+                    <span className="font-semibold">{localizedTitle}</span>：
+                    <span className="font-semibold">{count}</span> 篇。
+                </p>
+            ) : (
+                <p className={noticeClassName}>
+                    Showing <span className="font-semibold">{count}</span> related publications for{' '}
+                    <span className="font-semibold">{localizedTitle}</span>.
+                </p>
+            )}
+            <Link
+                href="/publications/"
+                className="inline-flex text-sm font-semibold text-accent transition-colors hover:text-accent-dark hover:underline dark:hover:text-accent-light"
+            >
+                {isChinese ? '查阅所有论文' : 'View All Publications'} &rarr;
+            </Link>
+        </div>
+    );
+}
+
 function PublicationsSummary({
     selectedRole,
     onRoleClick,
+    isChinese,
 }: {
     selectedRole: RoleFilter;
     onRoleClick: (role: PublicationRole) => void;
+    isChinese: boolean;
 }) {
     return (
         <div className="space-y-3">
-            <p>A complete list of my publications.</p>
             <div className="grid gap-2 sm:grid-cols-2">
                 <RoleSummaryButton
                     role="lead"
                     count="8"
-                    label="papers as first, co-first, or corresponding author"
+                    label={isChinese ? '篇第一作者、共同一作或通讯作者论文' : 'papers as first, co-first, or corresponding author'}
                     icon={SparklesIcon}
                     selectedRole={selectedRole}
                     onRoleClick={onRoleClick}
@@ -483,7 +584,7 @@ function PublicationsSummary({
                 <RoleSummaryButton
                     role="collaborative"
                     count="20"
-                    label="collaborative papers"
+                    label={isChinese ? '篇合作论文' : 'collaborative papers'}
                     icon={UserGroupIcon}
                     selectedRole={selectedRole}
                     onRoleClick={onRoleClick}
@@ -491,7 +592,7 @@ function PublicationsSummary({
                 <RoleSummaryButton
                     role="review"
                     count="1"
-                    label="review article"
+                    label={isChinese ? '篇综述论文' : 'review article'}
                     icon={BookOpenIcon}
                     selectedRole={selectedRole}
                     onRoleClick={onRoleClick}
@@ -499,7 +600,7 @@ function PublicationsSummary({
                 <RoleSummaryButton
                     role="preprint"
                     count="1"
-                    label="preprint"
+                    label={isChinese ? '篇预印本' : 'preprint'}
                     icon={DocumentTextIcon}
                     selectedRole={selectedRole}
                     onRoleClick={onRoleClick}
@@ -507,6 +608,14 @@ function PublicationsSummary({
             </div>
         </div>
     );
+}
+
+function formatPublicationTypeLabel(type: string, isChinese: boolean): string {
+    if (isChinese) {
+        return ZH_PUBLICATION_TYPE_LABELS[type] || type.replace('-', ' ');
+    }
+
+    return type.replace('-', ' ');
 }
 
 function RoleSummaryButton({
@@ -535,14 +644,16 @@ function RoleSummaryButton({
                 "flex min-h-12 items-center gap-3 rounded-lg border px-3 py-2 text-left text-sm leading-snug transition-colors",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
                 isActive
-                    ? "border-accent/40 bg-accent/10 text-accent"
-                    : "border-neutral-200 bg-neutral-50/70 text-neutral-700 hover:border-accent/40 hover:text-accent dark:border-neutral-800 dark:bg-neutral-900/60 dark:text-neutral-300"
+                    ? "border-accent/40 bg-accent/10 text-accent dark:border-accent/50 dark:bg-accent/15 dark:text-accent-light"
+                    : "border-neutral-200 bg-neutral-50/70 text-neutral-700 hover:border-accent/40 hover:text-accent dark:border-slate-600/70 dark:bg-slate-900/70 dark:text-slate-200 dark:hover:border-accent/50 dark:hover:text-accent-light"
             )}
         >
             <span
                 className={cn(
-                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-md border bg-white dark:bg-neutral-950",
-                    isActive ? "border-accent/30" : "border-neutral-200 dark:border-neutral-800"
+                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-md border bg-white",
+                    isActive
+                        ? "border-accent/30 dark:border-accent/45 dark:bg-accent/10"
+                        : "border-neutral-200 dark:border-slate-600/70 dark:bg-slate-800/80"
                 )}
                 aria-hidden="true"
             >
@@ -695,11 +806,10 @@ function isPdfFigure(figure: string): boolean {
 
 function PublicationVenue({ pub }: { pub: Publication }) {
     const venue = pub.journal || pub.conference;
-    const details = [
-        pub.volume ? `vol. ${pub.volume}` : undefined,
-        pub.issue ? `no. ${pub.issue}` : undefined,
-        pub.pages ? `pp. ${pub.pages}` : undefined,
-    ].filter(Boolean).join(', ');
+    const volumeIssue = pub.volume
+        ? `${formatPublicationDetail(pub.volume)}${pub.issue ? `(${formatPublicationDetail(pub.issue)})` : ''}`
+        : '';
+    const pages = formatPublicationDetail(pub.pages);
 
     if (!venue) {
         return <>{pub.year}</>;
@@ -708,10 +818,15 @@ function PublicationVenue({ pub }: { pub: Publication }) {
     return (
         <>
             <span className="font-semibold italic">{venue}</span>
-            {details ? `, ${details}` : ''}
-            {`, ${pub.year}`}
+            {volumeIssue ? ` ${volumeIssue}` : ''}
+            {pages ? `, ${pages}` : ''}
+            {` (${pub.year}).`}
         </>
     );
+}
+
+function formatPublicationDetail(value?: string): string {
+    return (value || '').replace(/---/g, '\u2014').replace(/--/g, '\u2013').trim();
 }
 
 function getDoiHref(doi: string): string {

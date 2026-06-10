@@ -1,5 +1,3 @@
-import defaultTheme from 'tailwindcss/defaultTheme';
-
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: 'class', // Enable class strategy so `dark:` variants respond to the `.dark` class
@@ -11,10 +9,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: [
-          'Inter',
-          ...defaultTheme.fontFamily.sans,
-        ],
+        sans: 'var(--font-body)',
+        serif: 'var(--font-heading)',
       },
       colors: {
         background: 'var(--background)',

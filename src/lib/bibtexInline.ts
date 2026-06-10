@@ -41,7 +41,9 @@ function normalizeBibTeXInput(value: string): string {
   return value
     .replace(/^["']|["']$/g, '')
     .replace(/``/g, '\u201c')
-    .replace(/''/g, '\u201d');
+    .replace(/''/g, '\u201d')
+    .replace(/---/g, '\u2014')
+    .replace(/--/g, '\u2013');
 }
 
 function pushText(nodes: BibTeXInlineNode[], text: string) {

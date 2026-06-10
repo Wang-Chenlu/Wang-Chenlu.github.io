@@ -6,6 +6,14 @@
 /* Default to light theme colors - no system preference detection */
 :root,
 .light {
+  /* Language-aware font stacks */
+  --font-heading-en: Georgia, "Times New Roman", serif;
+  --font-body-en: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Source Sans 3", sans-serif;
+  --font-heading-zh: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", serif;
+  --font-body-zh: "Noto Sans SC", "Source Han Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-heading: var(--font-heading-en);
+  --font-body: var(--font-body-en);
+
   /* Light theme colors */
   --background: #fefffe;
   --foreground: #0f172a;
@@ -77,8 +85,8 @@
   --color-glass-shadow: var(--glass-shadow);
   
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-heading);
   --font-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
   
   /* Font sizes */
@@ -128,10 +136,43 @@
   --gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
 }
 
-/* Use Source Han Serif for Chinese headings/title text via .font-serif */
+/* Language-specific typography */
+html:lang(en),
+html[data-locale^="en"] {
+  --font-heading: var(--font-heading-en);
+  --font-body: var(--font-body-en);
+}
+
 html:lang(zh),
 html[data-locale^="zh"] {
-  --font-serif: "Source Han Serif SC", "Source Han Serif CN", "Noto Serif CJK SC", "Noto Serif SC", "Songti SC", STSong, SimSun, serif;
+  --font-heading: var(--font-heading-zh);
+  --font-body: var(--font-body-zh);
+}
+
+html:lang(en) .font-serif,
+html[data-locale^="en"] .font-serif {
+  letter-spacing: -0.01em;
+}
+
+html:lang(zh) .font-serif,
+html[data-locale^="zh"] .font-serif {
+  letter-spacing: 0.01em;
+}
+
+html:lang(en) .leading-relaxed,
+html[data-locale^="en"] .leading-relaxed {
+  line-height: 1.72;
+}
+
+html:lang(zh) .leading-relaxed,
+html[data-locale^="zh"] .leading-relaxed {
+  line-height: 1.85;
+}
+
+html:lang(zh) body,
+html[data-locale^="zh"] body {
+  letter-spacing: 0.006em;
+  font-weight: 400;
 }
 
 /* Dark mode styles */
@@ -165,15 +206,35 @@ html[data-locale^="zh"] {
   --neutral-900: #0f172a;
 }
 
+html.dark[data-locale^="zh"] {
+  --foreground: #e5e7eb;
+  --primary: #f1f5f9;
+  --primary-light: #e2e8f0;
+  --neutral-400: #8794a8;
+  --neutral-500: #a8b3c2;
+  --neutral-600: #d1d8e2;
+  --neutral-700: #e5e7eb;
+}
+
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
   line-height: var(--line-height-normal);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.font-en-body {
+  font-family: var(--font-body-en);
+  letter-spacing: 0;
+}
+
+.font-en-heading {
+  font-family: var(--font-heading-en);
+  letter-spacing: -0.01em;
 }
 
 /* Typography utilities */

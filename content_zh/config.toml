@@ -1,19 +1,19 @@
 [site]
-title = "Chenlu Wang"
-description = "Chenlu Wang 的个人主页。"
+title = "王琛璐"
+description = "王琛璐的个人主页。"
 last_updated = "2026年6月"
 
 [author]
-name = "Chenlu Wang"
-title = "博士后研究员"
-institution = "Suzhou Laboratory"
+name = "王琛璐"
+title = "博士后"
+institution = "苏州实验室"
 
 [social]
 email = "wangchenlu20@mails.ucas.ac.cn"
 location = "苏州，江苏，中国"
 location_url = "https://www.google.com/maps/search/?api=1&query=Suzhou%2C%20China"
 location_details = [
-  "Suzhou Laboratory,",
+  "苏州实验室,",
   "苏州，江苏，中国"
 ]
 google_scholar = "https://scholar.google.com/citations?user=gzQCCiEAAAAJ&hl=zh-CN"
@@ -23,7 +23,7 @@ linkedin = ""
 cv = "/cv"
 
 [[navigation]]
-title = "关于我"
+title = "首页"
 type = "page"
 target = "about"
 href = "/"
@@ -41,16 +41,10 @@ target = "awards"
 href = "/awards"
 
 [[navigation]]
-title = "教学"
+title = "教学与报告"
 type = "page"
 target = "teaching"
 href = "/teaching"
-
-[[navigation]]
-title = "报告"
-type = "page"
-target = "talks"
-href = "/talks"
 
 [[navigation]]
 title = "博客"
@@ -59,7 +53,7 @@ target = "blog"
 href = "/blog"
 
 [[navigation]]
-title = "简历"
+title = "学术服务"
 type = "page"
-target = "cv"
-href = "/cv"
+target = "services"
+href = "/services"

@@ -2,6 +2,7 @@
 
 import { create } from 'zustand';
 import { matchLocale } from '@/lib/i18n/config';
+import { applyDefaultThemeForLocale } from '@/lib/stores/themeStore';
 import type { I18nRuntimeConfig } from '@/types/i18n';
 
 const LOCALE_STORAGE_KEY = 'locale-storage';
@@ -97,6 +98,7 @@ export const useLocaleStore = create<LocaleStore>()((set, get) => ({
     }
 
     updateDocumentLocale(initialLocale);
+    applyDefaultThemeForLocale(initialLocale);
   },
 
   setLocale: (locale: string) => {
@@ -112,5 +114,6 @@ export const useLocaleStore = create<LocaleStore>()((set, get) => ({
     }
 
     updateDocumentLocale(nextLocale);
+    applyDefaultThemeForLocale(nextLocale);
   },
 }));

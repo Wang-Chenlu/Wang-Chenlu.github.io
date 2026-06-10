@@ -4,6 +4,7 @@ import Navigation from '@/components/layout/Navigation';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/ui/ThemeProvider';
 import { LocaleProvider } from '@/components/ui/LocaleProvider';
+import StatcounterAnalytics from '@/components/analytics/StatcounterAnalytics';
 import { getConfig } from '@/lib/config';
 import { getRuntimeI18nConfig } from '@/lib/i18n/config';
 import type { SiteConfig } from '@/lib/config';
@@ -159,27 +160,28 @@ export default function RootLayout({
         <link rel="icon" href={config.site.favicon} type="image/svg+xml" />
         <script
           dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                const theme = localStorage.getItem('theme-storage');
-                const parsed = theme ? JSON.parse(theme) : null;
-                const setting = parsed?.state?.theme || 'system';
-                const prefersDark = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const effective = setting === 'dark' ? 'dark' : (setting === 'light' ? 'light' : (prefersDark ? 'dark' : 'light'));
-                var root = document.documentElement;
-                root.classList.add(effective);
-                root.setAttribute('data-theme', effective);
-              } catch (e) {
-                var root = document.documentElement;
-                root.classList.add('light');
-                root.setAttribute('data-theme', 'light');
-              }
-            `,
+            __html: buildLocaleBootstrapScript(runtimeI18n),
           }}
         />
         <script
           dangerouslySetInnerHTML={{
-            __html: buildLocaleBootstrapScript(runtimeI18n),
+            __html: `
+              try {
+                localStorage.removeItem('theme-storage');
+                localStorage.removeItem('theme-storage-v2');
+                const root = document.documentElement;
+                const locale = root.getAttribute('data-locale') || root.lang || '${runtimeI18n.defaultLocale}';
+                const effective = locale.toLowerCase().startsWith('zh') ? 'dark' : 'light';
+                root.classList.remove('light', 'dark');
+                root.classList.add(effective);
+                root.setAttribute('data-theme', effective);
+              } catch (e) {
+                var root = document.documentElement;
+                root.classList.remove('light', 'dark');
+                root.classList.add('light');
+                root.setAttribute('data-theme', 'light');
+              }
+            `,
           }}
         />
         <script
@@ -207,6 +209,7 @@ export default function RootLayout({
               lastUpdatedByLocale={lastUpdatedByLocale}
               defaultLocale={runtimeI18n.defaultLocale}
             />
+            <StatcounterAnalytics />
           </LocaleProvider>
         </ThemeProvider>
       </body>

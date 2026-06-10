@@ -3,11 +3,11 @@ title = "关于我"
 
 [profile]
 research_interests = [
-  "Molecular Simulations",
-  "Polarizable Force Fields",
-  "Electrolytes",
-  "Ionic Liquids",
-  "Nanoconfined Transport"
+  "分子模拟",
+  "可极化力场",
+  "电池电解质",
+  "离子液体",
+  "纳米限域输运"
 ]
 
 [[sections]]
@@ -19,6 +19,6 @@ title = "关于我"
 [[sections]]
 id = "featured_publications"
 type = "publications"
-title = "精选论文"
+title = "研究方向"
 filter = "selected"
 limit = 5

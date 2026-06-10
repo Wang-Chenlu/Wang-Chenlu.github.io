@@ -43,7 +43,7 @@ zh = "中文"
 en = "English"
 
 [[navigation]]
-title = "About"
+title = "Home"
 type = "page"
 target = "about"
 href = "/"
@@ -61,16 +61,10 @@ target = "awards"
 href = "/awards"
 
 [[navigation]]
-title = "Teaching"
+title = "Teaching & Talks"
 type = "page"
 target = "teaching"
 href = "/teaching"
-
-[[navigation]]
-title = "Talks"
-type = "page"
-target = "talks"
-href = "/talks"
 
 [[navigation]]
 title = "Blog & Vlogs"
@@ -79,7 +73,7 @@ target = "blog"
 href = "/blog"
 
 [[navigation]]
-title = "CV"
+title = "Services"
 type = "page"
-target = "cv"
-href = "/cv"
+target = "services"
+href = "/services"

@@ -125,7 +125,7 @@ export default function Profile({ author, social, features, researchInterests }:
             </div>
 
             {/* Name and Title */}
-            <div className="text-center mb-6">
+            <div className="w-64 mx-auto text-center mb-6">
                 <h1 className="text-3xl font-serif font-bold text-primary mb-2">
                     {author.name}
                 </h1>
@@ -138,7 +138,7 @@ export default function Profile({ author, social, features, researchInterests }:
             </div>
 
             {/* Contact Links */}
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-6 relative px-2">
+            <div className="w-64 mx-auto flex flex-wrap items-center justify-between gap-y-2 mb-6 relative">
                 {socialLinks.map((link) => {
                     const IconComponent = link.icon;
                     if (link.isEmail || link.isLocation) {
@@ -174,9 +174,9 @@ export default function Profile({ author, social, features, researchInterests }:
 
             {/* Research Interests */}
             {researchInterests && researchInterests.length > 0 && (
-                <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 mb-6 hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
+                <div className="bg-neutral-100 dark:bg-neutral-800 rounded-lg p-4 mb-6 text-center hover:shadow-lg transition-all duration-200 hover:scale-[1.02]">
                     <h3 className="font-semibold text-primary mb-3">{messages.profile.researchInterests}</h3>
-                    <div className="space-y-2 text-sm text-neutral-700 dark:text-neutral-500">
+                    <div className="space-y-2 text-[0.86rem] leading-relaxed text-neutral-700 dark:text-neutral-500">
                         {researchInterests.map((interest, index) => (
                             <div key={index}>{interest}</div>
                         ))}
@@ -186,7 +186,7 @@ export default function Profile({ author, social, features, researchInterests }:
 
             {/* Like Button */}
             {features.enable_likes && (
-                <div className="flex justify-center">
+                <div className="w-64 mx-auto flex justify-center">
                     <div className="relative">
                         <motion.button
                             onClick={handleLike}

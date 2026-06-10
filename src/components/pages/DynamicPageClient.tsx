@@ -1,5 +1,7 @@
 'use client';
 
+import { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import PublicationsList from '@/components/publications/PublicationsList';
 import TextPage from '@/components/pages/TextPage';
 import CardPage from '@/components/pages/CardPage';
@@ -33,7 +35,12 @@ export default function DynamicPageClient({ dataByLocale, defaultLocale }: Dynam
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {pageData.type === 'publication' && (
-        <PublicationsList config={pageData.config} publications={pageData.publications} />
+        <Suspense fallback={<PublicationsList config={pageData.config} publications={pageData.publications} />}>
+          <PublicationPageWithQuery
+            config={pageData.config}
+            publications={pageData.publications}
+          />
+        </Suspense>
       )}
       {pageData.type === 'text' && (
         <TextPage config={pageData.config} content={pageData.content} />
@@ -42,5 +49,23 @@ export default function DynamicPageClient({ dataByLocale, defaultLocale }: Dynam
         <CardPage config={pageData.config} />
       )}
     </div>
+  );
+}
+
+function PublicationPageWithQuery({
+  config,
+  publications,
+}: {
+  config: PublicationPageConfig;
+  publications: Publication[];
+}) {
+  const searchParams = useSearchParams();
+
+  return (
+    <PublicationsList
+      config={config}
+      publications={publications}
+      directionFilterId={searchParams.get('direction')}
+    />
   );
 }

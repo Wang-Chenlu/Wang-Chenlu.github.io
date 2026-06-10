@@ -1,4 +1,4 @@
 type = "publication"
 title = "论文"
-description = "论文数据维护在 content/publications.bib。"
+description = "完整论文列表，包括8篇第一作者、共同一作或通讯作者论文、20篇合作论文、1篇综述论文和1篇预印本。"
 source = "publications.bib"

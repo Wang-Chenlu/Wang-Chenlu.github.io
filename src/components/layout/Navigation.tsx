@@ -25,11 +25,9 @@ interface NavigationProps {
 
 export default function Navigation({
   items,
-  siteTitle,
   enableOnePageMode,
   i18n,
   itemsByLocale,
-  siteTitleByLocale,
 }: NavigationProps) {
   const pathname = usePathname();
   const locale = useLocaleStore((state) => state.locale);
@@ -45,14 +43,12 @@ export default function Navigation({
     height: number;
   } | null>(null);
   const resolvedLocale = i18n.enabled ? locale : i18n.defaultLocale;
+  const isChineseLocale = resolvedLocale.startsWith('zh');
+  const brandText = isChineseLocale ? '浪刻流光，长情未央。' : 'Waves Carve Light';
 
   const effectiveItems = useMemo(() => {
     return itemsByLocale?.[resolvedLocale] || itemsByLocale?.[i18n.defaultLocale] || items;
   }, [i18n.defaultLocale, items, itemsByLocale, resolvedLocale]);
-
-  const effectiveSiteTitle = useMemo(() => {
-    return siteTitleByLocale?.[resolvedLocale] || siteTitleByLocale?.[i18n.defaultLocale] || siteTitle;
-  }, [i18n.defaultLocale, resolvedLocale, siteTitle, siteTitleByLocale]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -166,29 +162,32 @@ export default function Navigation({
             animate={{ y: 0 }}
             transition={{ duration: 0.6 }}
             className={cn(
-              'transition-all duration-300 ease-out',
+              'border-b border-neutral-200/60 transition-all duration-300 ease-out dark:border-neutral-800/80',
               scrolled
-                ? 'bg-background/80 backdrop-blur-xl border-b border-neutral-200/50 shadow-lg'
+                ? 'bg-background/80 backdrop-blur-xl shadow-lg'
                 : 'bg-transparent'
             )}
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="flex justify-between items-center h-16 lg:h-20">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid h-16 grid-cols-[1fr_auto] items-center lg:h-20 lg:grid-cols-3 lg:gap-12">
                 <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex-shrink-0"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="min-w-0 lg:justify-self-center"
                 >
                   <Link
                     href="/"
-                    className="text-xl lg:text-2xl font-serif font-semibold text-primary hover:text-accent transition-colors duration-200"
+                    className={cn(
+                      "block whitespace-nowrap font-serif font-semibold text-primary transition-colors duration-200 hover:text-accent lg:w-64 lg:text-center",
+                      isChineseLocale ? "text-sm lg:text-[0.95rem]" : "text-base lg:text-lg"
+                    )}
                   >
-                    {effectiveSiteTitle}
+                    {brandText}
                   </Link>
                 </motion.div>
 
-                <div className="hidden lg:block">
-                  <div className="ml-10 flex items-center space-x-3">
+                <div className="hidden lg:col-span-2 lg:block lg:justify-self-end lg:-mr-6 xl:-mr-10">
+                  <div className="flex items-center space-x-2.5">
                     <div
                       ref={navContainerRef}
                       className="relative flex items-baseline space-x-1"
@@ -229,7 +228,7 @@ export default function Navigation({
                             onClick={() => enableOnePageMode && setActiveHash(`#${item.target}`)}
                             onMouseEnter={() => setHoveredHref(href)}
                             className={cn(
-                              'relative px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-150',
+                              'relative whitespace-nowrap px-2.5 py-2 text-sm font-medium rounded-lg transition-colors duration-150',
                               isActive
                                 ? 'text-primary'
                                 : hoveredHref === href
@@ -247,7 +246,7 @@ export default function Navigation({
                   </div>
                 </div>
 
-                <div className="lg:hidden flex items-center space-x-2">
+                <div className="flex items-center space-x-2 justify-self-end lg:hidden">
                   <LanguageToggle i18n={i18n} />
                   <ThemeToggle />
                   <Disclosure.Button className="inline-flex items-center justify-center p-2 rounded-md text-neutral-600 hover:text-primary hover:bg-neutral-100 dark:hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-accent transition-colors duration-200">
