@@ -102,6 +102,13 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Demonstrates fast, remotely light-controllable actuation for sensing, smart switching, and adaptive material applications.',
         ],
     },
+    dingElectronDensityLearning2023: {
+        highlights: [
+            'Trains a machine-learning model to predict Z-bond electron density (rho_BCP) in ionic-liquid systems beyond single DFT or MD calculations.',
+            'Connects Z-bond energy with electrochemical potential windows in ILs@TiO2 and charge-carrier mobility in PEDOT-ILs@SiO2.',
+            'Provides an efficient route for relating local Z-bond networks to electrochemical properties in nanoscale ionic-liquid systems.',
+        ],
+    },
     liFluorineDomainsInduced2024: {
         highlights: [
             'Reveals fluorine-domain-driven ultrahigh N₂ solubility in fluorinated ionic liquids through molecular simulations.',
@@ -121,6 +128,13 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Uses nanoconfined water to align graphene and Ti₃C₂Tₓ MXene nanoplatelets into free-standing isotropic sheets at room temperature.',
             'Combines covalent and π–π interplatelet bridging to reach 1.87 GPa tensile strength and 98.7 GPa modulus.',
             'Achieves 1423 S cm⁻¹ electrical conductivity and 828 C cm⁻³ volumetric specific capacity for flexible energy-storage electrodes.',
+        ],
+    },
+    zhangLamellarWaterInduced2024: {
+        highlights: [
+            'Reveals quantized interlayer spacing states in nanochannel walls under sub-1.4 nm water confinement.',
+            'Attributes the discrete stable spacings to monolayer, bilayer, and trilayer lamellar water configurations.',
+            'Connects confined-water counterforce and surface wettability to the design of ion filtration membranes and artificial channels.',
         ],
     },
     wangSystematicDrudebasedParameterization2026: {
@@ -995,16 +1009,88 @@ function PublicationCodeDataButton({ href, isChinese }: { href?: string; isChine
 }
 
 function ScientificText({ text }: { text: string }) {
-    const parts = text.split(/(R²global)/g);
+    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|R²global|TiO2|SiO2|CO2|H2O|N2|CH4)/g);
 
     return (
         <>
-            {parts.map((part, index) => (
-                part === 'R²global'
-                    ? <R2Global key={`${part}-${index}`} />
-                    : part
-            ))}
+            {parts.map((part, index) => {
+                const key = `${part}-${index}`;
+
+                if (part === 'R²global') {
+                    return <R2Global key={key} />;
+                }
+
+                if (part === '$rho$BCP' || part === 'rho_BCP' || part === 'rhoBCP' || part === 'ρ_BCP') {
+                    return <RhoBCP key={key} />;
+                }
+
+                if (part === 'E_Z-bond' || part === 'EZ-bond') {
+                    return <EZBondEnergy key={key} />;
+                }
+
+                if (part === 'TiO2') {
+                    return <ChemicalFormula key={key} base="TiO" subscript="2" />;
+                }
+
+                if (part === 'SiO2') {
+                    return <ChemicalFormula key={key} base="SiO" subscript="2" />;
+                }
+
+                if (part === 'CO2') {
+                    return <ChemicalFormula key={key} base="CO" subscript="2" />;
+                }
+
+                if (part === 'H2O') {
+                    return <ChemicalFormula key={key} base="H" subscript="2" suffix="O" />;
+                }
+
+                if (part === 'N2') {
+                    return <ChemicalFormula key={key} base="N" subscript="2" />;
+                }
+
+                if (part === 'CH4') {
+                    return <ChemicalFormula key={key} base="CH" subscript="4" />;
+                }
+
+                return part;
+            })}
         </>
+    );
+}
+
+function EZBondEnergy() {
+    return (
+        <span className="whitespace-nowrap">
+            <span className="italic">E</span>
+            <sub className="align-sub text-[0.72em] leading-none">Z-bond</sub>
+        </span>
+    );
+}
+
+function RhoBCP() {
+    return (
+        <span className="whitespace-nowrap">
+            <span className="italic">ρ</span>
+            <sub className="align-sub text-[0.72em] leading-none">BCP</sub>
+        </span>
+    );
+}
+
+function ChemicalFormula({
+    base,
+    subscript,
+    suffix = '',
+}: {
+    base: string;
+    subscript: string;
+    suffix?: string;
+}) {
+    return (
+        <span className="whitespace-nowrap">
+            {base}
+            <sub className="align-sub text-[0.72em] leading-none">{subscript}</sub>
+            {suffix}
+        </span>
     );
 }
 
