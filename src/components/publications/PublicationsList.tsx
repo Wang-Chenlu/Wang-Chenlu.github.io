@@ -1017,15 +1017,15 @@ function ScientificText({ text }: { text: string }) {
                 const key = `${part}-${index}`;
 
                 if (part === 'R²global') {
-                    return <ScientificNoWrap key={key}>R²_global</ScientificNoWrap>;
+                    return <R2Global key={key} />;
                 }
 
                 if (part === '$rho$BCP' || part === 'rho_BCP' || part === 'rhoBCP' || part === 'ρ_BCP') {
-                    return <ScientificNoWrap key={key}>ρ_BCP</ScientificNoWrap>;
+                    return <RhoBCP key={key} />;
                 }
 
                 if (part === 'E_Z-bond' || part === 'EZ-bond') {
-                    return <ScientificNoWrap key={key}>E_Z-bond</ScientificNoWrap>;
+                    return <EZBondEnergy key={key} />;
                 }
 
                 if (part === 'TiO2') {
@@ -1058,6 +1058,34 @@ function ScientificText({ text }: { text: string }) {
     );
 }
 
+function EZBondEnergy() {
+    return (
+        <ScientificNoWrap>
+            E<CompactSub>Z</CompactSub>-bond
+        </ScientificNoWrap>
+    );
+}
+
+function RhoBCP() {
+    return (
+        <ScientificNoWrap>
+            ρ<CompactSub>BCP</CompactSub>
+        </ScientificNoWrap>
+    );
+}
+
+function R2Global() {
+    return (
+        <ScientificNoWrap>
+            R²<CompactSub>global</CompactSub>
+        </ScientificNoWrap>
+    );
+}
+
 function ScientificNoWrap({ children }: { children: ReactNode }) {
     return <span className="whitespace-nowrap">{children}</span>;
+}
+
+function CompactSub({ children }: { children: ReactNode }) {
+    return <sub className="align-sub text-[0.72em] leading-none">{children}</sub>;
 }
