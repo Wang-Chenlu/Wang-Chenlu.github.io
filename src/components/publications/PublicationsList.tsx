@@ -1017,39 +1017,39 @@ function ScientificText({ text }: { text: string }) {
                 const key = `${part}-${index}`;
 
                 if (part === 'R²global') {
-                    return <R2Global key={key} />;
+                    return <ScientificNoWrap key={key}>R²_global</ScientificNoWrap>;
                 }
 
                 if (part === '$rho$BCP' || part === 'rho_BCP' || part === 'rhoBCP' || part === 'ρ_BCP') {
-                    return <RhoBCP key={key} />;
+                    return <ScientificNoWrap key={key}>ρ_BCP</ScientificNoWrap>;
                 }
 
                 if (part === 'E_Z-bond' || part === 'EZ-bond') {
-                    return <EZBondEnergy key={key} />;
+                    return <ScientificNoWrap key={key}>E_Z-bond</ScientificNoWrap>;
                 }
 
                 if (part === 'TiO2') {
-                    return <ChemicalFormula key={key} base="TiO" subscript="2" />;
+                    return <ScientificNoWrap key={key}>TiO₂</ScientificNoWrap>;
                 }
 
                 if (part === 'SiO2') {
-                    return <ChemicalFormula key={key} base="SiO" subscript="2" />;
+                    return <ScientificNoWrap key={key}>SiO₂</ScientificNoWrap>;
                 }
 
                 if (part === 'CO2') {
-                    return <ChemicalFormula key={key} base="CO" subscript="2" />;
+                    return <ScientificNoWrap key={key}>CO₂</ScientificNoWrap>;
                 }
 
                 if (part === 'H2O') {
-                    return <ChemicalFormula key={key} base="H" subscript="2" suffix="O" />;
+                    return <ScientificNoWrap key={key}>H₂O</ScientificNoWrap>;
                 }
 
                 if (part === 'N2') {
-                    return <ChemicalFormula key={key} base="N" subscript="2" />;
+                    return <ScientificNoWrap key={key}>N₂</ScientificNoWrap>;
                 }
 
                 if (part === 'CH4') {
-                    return <ChemicalFormula key={key} base="CH" subscript="4" />;
+                    return <ScientificNoWrap key={key}>CH₄</ScientificNoWrap>;
                 }
 
                 return part;
@@ -1058,47 +1058,6 @@ function ScientificText({ text }: { text: string }) {
     );
 }
 
-function EZBondEnergy() {
-    return (
-        <span className="whitespace-nowrap">
-            <span className="italic">E</span>
-            <sub className="align-sub text-[0.72em] leading-none">Z-bond</sub>
-        </span>
-    );
-}
-
-function RhoBCP() {
-    return (
-        <span className="whitespace-nowrap">
-            <span className="italic">ρ</span>
-            <sub className="align-sub text-[0.72em] leading-none">BCP</sub>
-        </span>
-    );
-}
-
-function ChemicalFormula({
-    base,
-    subscript,
-    suffix = '',
-}: {
-    base: string;
-    subscript: string;
-    suffix?: string;
-}) {
-    return (
-        <span className="whitespace-nowrap">
-            {base}
-            <sub className="align-sub text-[0.72em] leading-none">{subscript}</sub>
-            {suffix}
-        </span>
-    );
-}
-
-function R2Global() {
-    return (
-        <span className="whitespace-nowrap">
-            R<sup className="align-super text-[0.72em] leading-none">2</sup>
-            <sub className="align-sub text-[0.72em] leading-none">global</sub>
-        </span>
-    );
+function ScientificNoWrap({ children }: { children: ReactNode }) {
+    return <span className="whitespace-nowrap">{children}</span>;
 }
