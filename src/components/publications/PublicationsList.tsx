@@ -130,6 +130,34 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Attributes the rapid onset to collapse of linear hydrogen bonds within tetrahedral water configurations, clarifying dynamics in "no-man\'s land".',
         ],
     },
+    songUnravelingSynergisticCoupling2022: {
+        highlights: [
+            'Builds an "Ionogel-in-Ceramic" HSE using LATP particles as the ceramic framework and PolyIL-in-Salt ionogel as the ionic bridge.',
+            'Uses molecular dynamics to reveal salt-concentration-dependent co-coordination that creates efficient interparticle Li⁺ pathways.',
+            'Achieves 0.17 mS cm⁻¹ ionic conductivity at 50 °C and over 3500 h cycling in Li/Li symmetric cells.',
+        ],
+    },
+    wangEntropyDrivingHighly2022: {
+        highlights: [
+            'Reveals entropy-driven CO₂/CH₄ separation in nanoconfined ionic liquids inside graphene oxide membranes.',
+            'Shows selectivity increases from 25.01 to 149.20 as the interlayer distance decreases from 3.00 to 1.50 nm.',
+            'Connects confined-IL structural rearrangement, CO₂ adsorption sites, and configurational entropy to high CO₂ selectivity.',
+        ],
+    },
+    wangInsightsIonicLiquids2022: {
+        highlights: [
+            'Reviews ionic-liquid behavior from Z-bonds to quasi-liquids across multiscale simulations and experimental characterization.',
+            'Frames electrostatic-force and hydrogen-bond coupling as the origin of Z-bond networks in ionic liquids.',
+            'Connects quasi-liquid interfacial ordering to applications in CO₂ capture, biomass conversion, and energy-storage materials.',
+        ],
+    },
+    wangTwodimensionalIonicLiquids2022: {
+        highlights: [
+            'Quantifies the thinnest possible IL films as ordered two-dimensional mono-ionic liquid structures.',
+            'Identifies anomalous stepwise melting through localized rotated, out-of-plane flipped, and fully disordered states.',
+            'Demonstrates ultrahigh CO₂ adsorption capability and structural robustness during CO₂ adsorption-desorption cycling.',
+        ],
+    },
     pengMolecularlevelInsightCO22024: {
         highlights: [
             'Reveals how a triazole ionic-liquid interfacial microhabitat regulates CO₂ electroreduction to formate.',
