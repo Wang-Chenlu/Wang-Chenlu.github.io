@@ -130,6 +130,20 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Combines cyclic voltammetry, degradation-product analysis, and isotope-labeling experiments to resolve the C-O cleavage mechanism.',
         ],
     },
+    liuThermodynamicalOriginNonmonotonic2021: {
+        highlights: [
+            'Uses GPU-accelerated microsecond-scale molecular dynamics to track imidazole IL insertion into lipid bilayers.',
+            'Shows only cations insert into the lipid bilayer while free ions and clusters coexist in the surrounding system.',
+            'Explains the nonmonotonic insertion rate through the balance between cation side-chain length and cluster stability.',
+        ],
+    },
+    qinUnderstandingElectricFielddependent2021: {
+        highlights: [
+            'Quantifies how electric fields reshape ionic density and orientation near electrode interfaces.',
+            'Shows imidazole IL anions first accumulate and then are pulled out as the electric field strengthens.',
+            'Links side-chain elongation and sulfonic modification to opposite changes in interfacial polarization.',
+        ],
+    },
     lingRevisitingStructureInteraction2023: {
         highlights: [
             'Builds a deep-learning force field (DPFF) for 10 ionic liquids from ab initio molecular dynamics data.',
@@ -1079,7 +1093,7 @@ function PublicationCodeDataButton({ href, isChinese }: { href?: string; isChine
 }
 
 function ScientificText({ text }: { text: string }) {
-    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|Caryl-O|R²global|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g);
+    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|Caryl-O|nchain|R²global|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g);
 
     return (
         <>
@@ -1100,6 +1114,10 @@ function ScientificText({ text }: { text: string }) {
 
                 if (part === 'Caryl-O') {
                     return <CArylOBond key={key} />;
+                }
+
+                if (part === 'nchain') {
+                    return <NChain key={key} />;
                 }
 
                 if (part === 'TiO2') {
@@ -1168,6 +1186,14 @@ function CArylOBond() {
     return (
         <ScientificNoWrap>
             C<CompactSub>aryl</CompactSub>-O
+        </ScientificNoWrap>
+    );
+}
+
+function NChain() {
+    return (
+        <ScientificNoWrap>
+            n<CompactSub>chain</CompactSub>
         </ScientificNoWrap>
     );
 }
