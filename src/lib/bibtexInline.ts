@@ -40,6 +40,9 @@ export interface ParsedBibTeXInline {
 function normalizeBibTeXInput(value: string): string {
   return value
     .replace(/^["']|["']$/g, '')
+    .replace(/\{\$\^\{?\\circ\}?\$\}/g, '°')
+    .replace(/\$\^\{?\\circ\}?\$/g, '°')
+    .replace(/\\textdegree\b/g, '°')
     .replace(/``/g, '\u201c')
     .replace(/''/g, '\u201d')
     .replace(/---/g, '\u2014')
