@@ -116,6 +116,20 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Introduces fluorine densification energy to connect C–F bond density, free volume, and N₂-anion dissociation.',
         ],
     },
+    liHighCO2Absorption2021: {
+        highlights: [
+            'Uses molecular dynamics to clarify how metal-based ionic liquids enhance CO₂ absorption and diffusion simultaneously.',
+            'Identifies sparse CO₂-MBIL hydrogen-bond networks through radial distribution functions and CO₂-ion interaction energies.',
+            'Links short metal-Cl bond lengths and small anion volumes to higher CO₂ absorption in Bmim[XClₙ]ₘ systems.',
+        ],
+    },
+    liuInsightsElectrochemicalDegradation2021: {
+        highlights: [
+            'Clarifies direct and indirect electrochemical cleavage routes for lignin Caryl-O bonds in a protic IL-H₂O electrolyte.',
+            'Shows O₂ enables indirect oxidation through in situ generated H₂O₂, while N₂ favors direct substrate oxidation on RuO₂-IrO₂/Ti.',
+            'Combines cyclic voltammetry, degradation-product analysis, and isotope-labeling experiments to resolve the C-O cleavage mechanism.',
+        ],
+    },
     lingRevisitingStructureInteraction2023: {
         highlights: [
             'Builds a deep-learning force field (DPFF) for 10 ionic liquids from ab initio molecular dynamics data.',
@@ -1065,7 +1079,7 @@ function PublicationCodeDataButton({ href, isChinese }: { href?: string; isChine
 }
 
 function ScientificText({ text }: { text: string }) {
-    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|R²global|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g);
+    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|Caryl-O|R²global|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g);
 
     return (
         <>
@@ -1082,6 +1096,10 @@ function ScientificText({ text }: { text: string }) {
 
                 if (part === 'E_Z-bond' || part === 'EZ-bond') {
                     return <EZBondEnergy key={key} />;
+                }
+
+                if (part === 'Caryl-O') {
+                    return <CArylOBond key={key} />;
                 }
 
                 if (part === 'TiO2') {
@@ -1142,6 +1160,14 @@ function R2Global() {
     return (
         <ScientificNoWrap>
             R²<CompactSub>global</CompactSub>
+        </ScientificNoWrap>
+    );
+}
+
+function CArylOBond() {
+    return (
+        <ScientificNoWrap>
+            C<CompactSub>aryl</CompactSub>-O
         </ScientificNoWrap>
     );
 }
