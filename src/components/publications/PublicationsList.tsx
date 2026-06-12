@@ -123,6 +123,13 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Extends ns-long MD simulations to bulk IL systems and captures coupled Coulombic and hydrogen-bond interactions.',
         ],
     },
+    liObservationLiquidliquidTransitions2022: {
+        highlights: [
+            'Combines diamond anvil cell technology with 2D-IR spectroscopy to track hydrogen-bond fluctuation dynamics in water at 23 °C.',
+            'Observes abrupt pressure-induced LLT behavior in the hydrogen-bond network under ambient-temperature, high-pressure conditions.',
+            'Attributes the rapid onset to collapse of linear hydrogen bonds within tetrahedral water configurations, clarifying dynamics in "no-man\'s land".',
+        ],
+    },
     pengMolecularlevelInsightCO22024: {
         highlights: [
             'Reveals how a triazole ionic-liquid interfacial microhabitat regulates CO₂ electroreduction to formate.',
