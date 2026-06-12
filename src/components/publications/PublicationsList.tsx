@@ -116,6 +116,13 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Introduces fluorine densification energy to connect C–F bond density, free volume, and N₂-anion dissociation.',
         ],
     },
+    lingRevisitingStructureInteraction2023: {
+        highlights: [
+            'Builds a deep-learning force field (DPFF) for 10 ionic liquids from ab initio molecular dynamics data.',
+            'Validates DPFF against force, energy, bond, angle, potential-energy, and vibrational-spectrum references.',
+            'Extends ns-long MD simulations to bulk IL systems and captures coupled Coulombic and hydrogen-bond interactions.',
+        ],
+    },
     pengMolecularlevelInsightCO22024: {
         highlights: [
             'Reveals how a triazole ionic-liquid interfacial microhabitat regulates CO₂ electroreduction to formate.',
