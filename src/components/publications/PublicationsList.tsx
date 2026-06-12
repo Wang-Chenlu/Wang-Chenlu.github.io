@@ -144,6 +144,20 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Connects confined-water counterforce and surface wettability to the design of ion filtration membranes and artificial channels.',
         ],
     },
+    songStructureRegulationMOF2023: {
+        highlights: [
+            'Regulates Zn₂(benzimidazolate)₄ MOF nanosheet membranes with low-dose amino side groups and CO₂ bridge linkers.',
+            'Combines CO₂ adsorption-assisted molecular sieving with steric hindrance while preserving fast H₂ transport apertures.',
+            'Achieves an H₂/CO₂ mixture separation factor of 1158 and H₂ permeance of 1417 GPU in ultrathin nanosheet membranes.',
+        ],
+    },
+    wangRevealingWettingMechanism2023: {
+        highlights: [
+            'Reveals how Li⁺ doping reshapes IL orientation and weakens IL-substrate interactions on TiO₂-B(100).',
+            'Shows Li⁺ concentration increases the contact angle from 86.97° to 131.18°, driving a hydrophilic-to-hydrophobic transition.',
+            'Identifies the dense adjacent interfacial layer from strong Li⁺ adsorption as the dominant wetting-control mechanism.',
+        ],
+    },
     wangSystematicDrudebasedParameterization2026: {
         highlights: [
             'Establishes a transferable Drude-oscillator parameterization workflow and OPLS&Pol for battery electrolyte simulations.',
@@ -1016,7 +1030,7 @@ function PublicationCodeDataButton({ href, isChinese }: { href?: string; isChine
 }
 
 function ScientificText({ text }: { text: string }) {
-    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|R²global|TiO2|SiO2|CO2|H2O|N2|CH4)/g);
+    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|R²global|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g);
 
     return (
         <>
@@ -1051,12 +1065,20 @@ function ScientificText({ text }: { text: string }) {
                     return <ScientificNoWrap key={key}>H₂O</ScientificNoWrap>;
                 }
 
+                if (part === 'H2') {
+                    return <ScientificNoWrap key={key}>H₂</ScientificNoWrap>;
+                }
+
                 if (part === 'N2') {
                     return <ScientificNoWrap key={key}>N₂</ScientificNoWrap>;
                 }
 
                 if (part === 'CH4') {
                     return <ScientificNoWrap key={key}>CH₄</ScientificNoWrap>;
+                }
+
+                if (part === 'Li+') {
+                    return <ScientificNoWrap key={key}>Li⁺</ScientificNoWrap>;
                 }
 
                 return part;
