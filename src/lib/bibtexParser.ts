@@ -441,7 +441,12 @@ function parseAuthors(authorsStr: string, highlightNames: string[], authorRoles:
 function cleanBibTeXString(str?: string): string {
   if (!str) return '';
 
-  return parseBibTeXInline(str).plainText;
+  return parseBibTeXInline(str)
+    .plainText
+    .replace(/\$\\?varepsilon_s\$/g, 'epsilon_s')
+    .replace(/\$\\?varepsilon_c\$/g, 'epsilon_c')
+    .replace(/\$\\?epsilon_s\$/g, 'epsilon_s')
+    .replace(/\$\\?epsilon_c\$/g, 'epsilon_c');
 }
 
 function detectResearchArea(title: string, keywords: string[]): ResearchArea {

@@ -245,7 +245,7 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
     wangMolecularInsightsAbnormal2020: {
         highlights: [
             'Explains abnormal IL wetting through formation of a dense solidified ionic layer near solid surfaces.',
-            'Shows EmimCl and EmimPF6 deviate from the linear CA-εs relation when εs exceeds εc.',
+            'Shows EmimCl and EmimPF6 deviate from the linear CA-epsilon_s relation when epsilon_s exceeds epsilon_c.',
             'Links retention rate and vibrational displacement to the loss of fluid nature in the solidified ionic layer.',
         ],
     },
@@ -1135,7 +1135,7 @@ function PublicationCodeDataButton({ href, isChinese }: { href?: string; isChine
 }
 
 function ScientificText({ text }: { text: string }) {
-    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|Caryl-O|nchain|R²global|εs|εc|PF6|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g);
+    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|Caryl-O|nchain|R²global|epsilon_s|epsilon_c|PF6|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g);
 
     return (
         <>
@@ -1162,11 +1162,11 @@ function ScientificText({ text }: { text: string }) {
                     return <NChain key={key} />;
                 }
 
-                if (part === 'εs') {
+                if (part === 'epsilon_s') {
                     return <EpsilonSub key={key}>s</EpsilonSub>;
                 }
 
-                if (part === 'εc') {
+                if (part === 'epsilon_c') {
                     return <EpsilonSub key={key}>c</EpsilonSub>;
                 }
 
