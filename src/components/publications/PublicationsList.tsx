@@ -102,6 +102,13 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Demonstrates fast, remotely light-controllable actuation for sensing, smart switching, and adaptive material applications.',
         ],
     },
+    dingBoostingHoleTransport2020: {
+        highlights: [
+            'Uses molecular dynamics and quantum mechanics computations to tune PEDOT hole transport with ionic-liquid ion ratios.',
+            'Identifies 2:1, 3:1, and 4:1 cation-anion ratios as optimal, raising hole mobility to 16.81, 18.03, and 10.14 cm² V⁻¹ s⁻¹.',
+            'Links mobility enhancement to ordered face-to-face π–π stacking and HOMO up-shifting in IL-treated PEDOT.',
+        ],
+    },
     dingElectronDensityLearning2023: {
         highlights: [
             'Trains a machine-learning model to predict Z-bond electron density (rho_BCP) in ionic-liquid systems beyond single DFT or MD calculations.',
