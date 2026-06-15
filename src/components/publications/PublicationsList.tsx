@@ -144,6 +144,13 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Links side-chain elongation and sulfonic modification to opposite changes in interfacial polarization.',
         ],
     },
+    wangAbnormalEnhancedFree2021: {
+        highlights: [
+            'Combines molecular dynamics and theoretical analysis to quantify electroconductivity and ionicity in confined imidazole ILs.',
+            'Shows free-ion fractions increase anomalously at 2 nm graphene nanochannels before returning toward bulk behavior.',
+            'Attributes enhanced ionicity to IL structural reconstruction near graphene walls, guiding IL-based nanoporous electrodes.',
+        ],
+    },
     lingRevisitingStructureInteraction2023: {
         highlights: [
             'Builds a deep-learning force field (DPFF) for 10 ionic liquids from ab initio molecular dynamics data.',
@@ -219,6 +226,20 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Reveals how Li⁺ doping reshapes IL orientation and weakens IL-substrate interactions on TiO₂-B(100).',
             'Shows Li⁺ concentration increases the contact angle from 86.97° to 131.18°, driving a hydrophilic-to-hydrophobic transition.',
             'Identifies the dense adjacent interfacial layer from strong Li⁺ adsorption as the dominant wetting-control mechanism.',
+        ],
+    },
+    wangTailoringMultipleSites2021: {
+        highlights: [
+            'Uses a multiple-site ligand screening strategy to construct robust MOF-303(Al) for reversible NH₃ capture.',
+            'Achieves 19.7 mmol g⁻¹ NH₃ adsorption at 25.0 °C and 1.0 bar with stable adsorption-desorption cycling.',
+            'Links high capacity and recyclability to hydrogen bonding between NH₃ and multiple sites in MOF-303(Al).',
+        ],
+    },
+    wangTopologicalEngineeringTwodimensional2021: {
+        highlights: [
+            'Resolves annular two-dimensional ionic liquid islands on graphite using coupled first-principles and molecular dynamics simulations.',
+            'Shows formation energy and HOMO-LUMO gaps converge as island size exceeds a critical topological scale.',
+            'Identifies island edges as dominant CO₂ adsorption sites with up to 99.7% selectivity over CH₄, CO, and N₂.',
         ],
     },
     wangSystematicDrudebasedParameterization2026: {
