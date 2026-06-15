@@ -104,7 +104,7 @@ function buildClientCacheCleanupScript(): string {
   return `
     try {
       const cacheVersionKey = 'chenlu-site-cache-version';
-      const cacheVersion = '2026-06-15-publication-images-26';
+      const cacheVersion = '2026-06-15-publication-images-27-28';
 
       if (localStorage.getItem(cacheVersionKey) !== cacheVersion) {
         if ('serviceWorker' in navigator) {
