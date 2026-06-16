@@ -1,4 +1,5 @@
 import type { BibTeXInlineNode } from '@/types/publication';
+import UnicodeScriptText from './UnicodeScriptText';
 
 interface FormattedBibTeXTextProps {
   nodes?: BibTeXInlineNode[];
@@ -10,7 +11,7 @@ function renderNodes(nodes: BibTeXInlineNode[], keyPrefix = 'node'): React.React
     const key = `${keyPrefix}-${index}`;
 
     if (node.type === 'text') {
-      return node.text;
+      return <UnicodeScriptText key={key} text={node.text} />;
     }
 
     const children = renderNodes(node.children, key);
@@ -32,16 +33,16 @@ function renderNodes(nodes: BibTeXInlineNode[], keyPrefix = 'node'): React.React
     }
 
     if (node.type === 'sup') {
-      return <sup key={key} className="align-super text-[0.72em] leading-none">{children}</sup>;
+      return <sup key={key}>{children}</sup>;
     }
 
-    return <sub key={key} className="align-sub text-[0.72em] leading-none">{children}</sub>;
+    return <sub key={key}>{children}</sub>;
   });
 }
 
 export default function FormattedBibTeXText({ nodes, fallback }: FormattedBibTeXTextProps) {
   if (!nodes || nodes.length === 0) {
-    return <>{fallback}</>;
+    return <UnicodeScriptText text={fallback} />;
   }
 
   return <>{renderNodes(nodes)}</>;

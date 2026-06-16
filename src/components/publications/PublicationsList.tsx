@@ -26,6 +26,7 @@ import { getResearchDirectionById, getResearchDirectionForPublication } from '@/
 import { useLocaleStore } from '@/lib/stores/localeStore';
 import FormattedBibTeXText from './FormattedBibTeXText';
 import PublicationAuthors from './PublicationAuthors';
+import UnicodeScriptText from './UnicodeScriptText';
 
 interface PublicationsListProps {
     config: PublicationPageConfig;
@@ -1203,10 +1204,14 @@ function ScientificText({ text }: { text: string }) {
                 }
 
                 if (part === 'Li+') {
-                    return <ScientificNoWrap key={key}>Li⁺</ScientificNoWrap>;
+                    return (
+                        <ScientificNoWrap key={key}>
+                            Li<sup>+</sup>
+                        </ScientificNoWrap>
+                    );
                 }
 
-                return part;
+                return <UnicodeScriptText key={key} text={part} />;
             })}
         </>
     );
@@ -1241,7 +1246,7 @@ function RhoBCP() {
 function R2Global() {
     return (
         <ScientificNoWrap>
-            R²<CompactSub>global</CompactSub>
+            R<sup>2</sup><CompactSub>global</CompactSub>
         </ScientificNoWrap>
     );
 }
@@ -1275,5 +1280,5 @@ function ScientificNoWrap({ children }: { children: ReactNode }) {
 }
 
 function CompactSub({ children }: { children: ReactNode }) {
-    return <sub className="align-sub text-[0.72em] leading-none">{children}</sub>;
+    return <sub>{children}</sub>;
 }
