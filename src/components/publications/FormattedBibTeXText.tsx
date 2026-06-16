@@ -32,10 +32,10 @@ function renderNodes(nodes: BibTeXInlineNode[], keyPrefix = 'node'): React.React
     }
 
     if (node.type === 'sup') {
-      return <sup key={key}>{children}</sup>;
+      return <sup key={key} className="align-super text-[0.72em] leading-none">{children}</sup>;
     }
 
-    return <sub key={key}>{children}</sub>;
+    return <sub key={key} className="align-sub text-[0.72em] leading-none">{children}</sub>;
   });
 }
 
