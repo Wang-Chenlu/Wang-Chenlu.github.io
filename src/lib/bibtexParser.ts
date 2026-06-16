@@ -446,7 +446,9 @@ function cleanBibTeXString(str?: string): string {
     .replace(/\$\\?varepsilon_s\$/g, 'epsilon_s')
     .replace(/\$\\?varepsilon_c\$/g, 'epsilon_c')
     .replace(/\$\\?epsilon_s\$/g, 'epsilon_s')
-    .replace(/\$\\?epsilon_c\$/g, 'epsilon_c');
+    .replace(/\$\\?epsilon_c\$/g, 'epsilon_c')
+    .replace(/εs/g, 'epsilon_s')
+    .replace(/εc/g, 'epsilon_c');
 }
 
 function detectResearchArea(title: string, keywords: string[]): ResearchArea {

@@ -1171,35 +1171,35 @@ function ScientificText({ text }: { text: string }) {
                 }
 
                 if (part === 'PF6') {
-                    return <ScientificNoWrap key={key}>PF₆</ScientificNoWrap>;
+                    return <ChemicalFormula key={key} formula={['PF', '6']} />;
                 }
 
                 if (part === 'TiO2') {
-                    return <ScientificNoWrap key={key}>TiO₂</ScientificNoWrap>;
+                    return <ChemicalFormula key={key} formula={['TiO', '2']} />;
                 }
 
                 if (part === 'SiO2') {
-                    return <ScientificNoWrap key={key}>SiO₂</ScientificNoWrap>;
+                    return <ChemicalFormula key={key} formula={['SiO', '2']} />;
                 }
 
                 if (part === 'CO2') {
-                    return <ScientificNoWrap key={key}>CO₂</ScientificNoWrap>;
+                    return <ChemicalFormula key={key} formula={['CO', '2']} />;
                 }
 
                 if (part === 'H2O') {
-                    return <ScientificNoWrap key={key}>H₂O</ScientificNoWrap>;
+                    return <ChemicalFormula key={key} formula={['H', '2', 'O']} />;
                 }
 
                 if (part === 'H2') {
-                    return <ScientificNoWrap key={key}>H₂</ScientificNoWrap>;
+                    return <ChemicalFormula key={key} formula={['H', '2']} />;
                 }
 
                 if (part === 'N2') {
-                    return <ScientificNoWrap key={key}>N₂</ScientificNoWrap>;
+                    return <ChemicalFormula key={key} formula={['N', '2']} />;
                 }
 
                 if (part === 'CH4') {
-                    return <ScientificNoWrap key={key}>CH₄</ScientificNoWrap>;
+                    return <ChemicalFormula key={key} formula={['CH', '4']} />;
                 }
 
                 if (part === 'Li+') {
@@ -1209,6 +1209,16 @@ function ScientificText({ text }: { text: string }) {
                 return part;
             })}
         </>
+    );
+}
+
+function ChemicalFormula({ formula }: { formula: [string, string] | [string, string, string] }) {
+    const [prefix, subscript, suffix] = formula;
+
+    return (
+        <ScientificNoWrap>
+            {prefix}<CompactSub>{subscript}</CompactSub>{suffix}
+        </ScientificNoWrap>
     );
 }
 
