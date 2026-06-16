@@ -166,6 +166,13 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Attributes enhanced ionicity to IL structural reconstruction near graphene walls, guiding IL-based nanoporous electrodes.',
         ],
     },
+    WangChenLuDiWeiNaMiShouXianChiZiYeTiDeYanJiuJinZhan2021: {
+        highlights: [
+            'Reviews structural and property changes of ionic liquids under low-dimensional nanoconfinement.',
+            'Summarizes how external fields, temperature, channel size, and surface properties regulate confined ionic-liquid structures.',
+            'Connects low-dimensional confined ionic liquids to gas separation, confined catalysis, and supercapacitor energy-storage applications.',
+        ],
+    },
     lingRevisitingStructureInteraction2023: {
         highlights: [
             'Builds a deep-learning force field (DPFF) for 10 ionic liquids from ab initio molecular dynamics data.',
