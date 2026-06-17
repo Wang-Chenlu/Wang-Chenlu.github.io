@@ -1170,7 +1170,9 @@ function PublicationCodeDataButton({ href, isChinese }: { href?: string; isChine
 }
 
 function ScientificText({ text }: { text: string }) {
-    const parts = text.split(/(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|Caryl-O|nchain|R²global|epsilon_s|epsilon_c|PF6|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g);
+    const parts = normalizeScientificTextInput(text).split(
+        /(\$rho\$BCP|rho_BCP|rhoBCP|ρ_BCP|E_Z-bond|EZ-bond|Caryl-O|nchain|R²global|H_CR|w_EIE|EMIM_TF2N_PAIR|TF2N|epsilon_s|epsilon_c|PF6|TiO2|SiO2|CO2|H2O|H2|N2|CH4|Li\+)/g
+    );
 
     return (
         <>
@@ -1195,6 +1197,22 @@ function ScientificText({ text }: { text: string }) {
 
                 if (part === 'nchain') {
                     return <NChain key={key} />;
+                }
+
+                if (part === 'H_CR') {
+                    return <HCR key={key} />;
+                }
+
+                if (part === 'w_EIE') {
+                    return <WEIE key={key} />;
+                }
+
+                if (part === 'EMIM_TF2N_PAIR') {
+                    return <EmimTF2NPair key={key} />;
+                }
+
+                if (part === 'TF2N') {
+                    return <TF2N key={key} />;
                 }
 
                 if (part === 'epsilon_s') {
@@ -1301,6 +1319,38 @@ function NChain() {
     );
 }
 
+function HCR() {
+    return (
+        <ScientificNoWrap>
+            H<CompactSub>CR</CompactSub>
+        </ScientificNoWrap>
+    );
+}
+
+function WEIE() {
+    return (
+        <ScientificNoWrap>
+            w<CompactSub>EIE</CompactSub>
+        </ScientificNoWrap>
+    );
+}
+
+function EmimTF2NPair() {
+    return (
+        <ScientificNoWrap>
+            ([Emim]<sup>+</sup>[TF<CompactSub>2</CompactSub>N]<sup>-</sup>)
+        </ScientificNoWrap>
+    );
+}
+
+function TF2N() {
+    return (
+        <ScientificNoWrap>
+            TF<CompactSub>2</CompactSub>N
+        </ScientificNoWrap>
+    );
+}
+
 function EpsilonSub({ children }: { children: ReactNode }) {
     return (
         <ScientificNoWrap>
@@ -1315,4 +1365,17 @@ function ScientificNoWrap({ children }: { children: ReactNode }) {
 
 function CompactSub({ children }: { children: ReactNode }) {
     return <sub>{children}</sub>;
+}
+
+function normalizeScientificTextInput(text: string): string {
+    return text
+        .replace(/\{\$\s*<\s*\$\}/g, '<')
+        .replace(/\{\$\s*>\s*\$\}/g, '>')
+        .replace(/\$\s*<\s*\$/g, '<')
+        .replace(/\$\s*>\s*\$/g, '>')
+        .replace(/\bH\s+CR\b/g, 'H_CR')
+        .replace(/\bw\s+EIE\b/g, 'w_EIE')
+        .replace(/\(\s*\[\s*Emim\s*\]\s*\+\s*\[\s*TF\s*2\s*N\s*\]\s*-\s*\)/gi, 'EMIM_TF2N_PAIR')
+        .replace(/\(\s*\[\s*Emim\s*\]\s*\+\s*\[\s*TF2N\s*\]\s*-\s*\)/gi, 'EMIM_TF2N_PAIR')
+        .replace(/\bTF\s*2\s*N\b/g, 'TF2N');
 }

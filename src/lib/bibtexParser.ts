@@ -469,10 +469,18 @@ function cleanBibTeXString(str?: string): string {
 
   return parseBibTeXInline(str)
     .plainText
+    .replace(/\{\$\s*<\s*\$\}/g, '<')
+    .replace(/\{\$\s*>\s*\$\}/g, '>')
+    .replace(/\$\s*<\s*\$/g, '<')
+    .replace(/\$\s*>\s*\$/g, '>')
     .replace(/\$\\?varepsilon_s\$/g, 'epsilon_s')
     .replace(/\$\\?varepsilon_c\$/g, 'epsilon_c')
     .replace(/\$\\?epsilon_s\$/g, 'epsilon_s')
     .replace(/\$\\?epsilon_c\$/g, 'epsilon_c')
+    .replace(/\bH\s+CR\b/g, 'H_CR')
+    .replace(/\bw\s+EIE\b/g, 'w_EIE')
+    .replace(/\(\s*\[\s*Emim\s*\]\s*\+\s*\[\s*TF\s*2\s*N\s*\]\s*-\s*\)/gi, 'EMIM_TF2N_PAIR')
+    .replace(/\(\s*\[\s*Emim\s*\]\s*\+\s*\[\s*TF2N\s*\]\s*-\s*\)/gi, 'EMIM_TF2N_PAIR')
     .replace(/εs/g, 'epsilon_s')
     .replace(/εc/g, 'epsilon_c');
 }
