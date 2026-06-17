@@ -390,6 +390,17 @@ export default function PublicationsList({
         });
     };
 
+    const setFigureIndex = (publicationId: string, figureCount: number, nextIndex: number) => {
+        if (figureCount <= 0) {
+            return;
+        }
+
+        setFigureIndexes((current) => ({
+            ...current,
+            [publicationId]: Math.min(Math.max(nextIndex, 0), figureCount - 1),
+        }));
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -602,6 +613,7 @@ export default function PublicationsList({
                                     currentIndex={figureIndex}
                                     onPrevious={() => shiftFigure(pub.id, mediaFigures.length, -1)}
                                     onNext={() => shiftFigure(pub.id, mediaFigures.length, 1)}
+                                    onSelectFigure={(nextIndex) => setFigureIndex(pub.id, mediaFigures.length, nextIndex)}
                                     isChinese={isChinese}
                                     directionId={direction?.id}
                                 />
@@ -729,6 +741,7 @@ function PublicationHighlightPanel({
     currentIndex,
     onPrevious,
     onNext,
+    onSelectFigure,
     isChinese,
     directionId,
 }: {
@@ -738,6 +751,7 @@ function PublicationHighlightPanel({
     currentIndex: number;
     onPrevious: () => void;
     onNext: () => void;
+    onSelectFigure: (index: number) => void;
     isChinese: boolean;
     directionId?: string;
 }) {
@@ -774,6 +788,7 @@ function PublicationHighlightPanel({
                     currentIndex={currentIndex}
                     onPrevious={onPrevious}
                     onNext={onNext}
+                    onSelectFigure={onSelectFigure}
                     isChinese={isChinese}
                 />
             ) : null}
@@ -932,6 +947,7 @@ function PublicationFigureCarousel({
     currentIndex,
     onPrevious,
     onNext,
+    onSelectFigure,
     isChinese,
 }: {
     publication: Publication;
@@ -939,6 +955,7 @@ function PublicationFigureCarousel({
     currentIndex: number;
     onPrevious: () => void;
     onNext: () => void;
+    onSelectFigure: (index: number) => void;
     isChinese: boolean;
 }) {
     const figure = figures[currentIndex];
@@ -985,6 +1002,37 @@ function PublicationFigureCarousel({
             }}
             tabIndex={0}
         >
+            {hasMultipleFigures ? (
+                <div
+                    className="mb-3 flex max-w-full gap-1.5 overflow-x-auto pb-1"
+                    aria-label={isChinese ? '媒体类型导航' : 'Media navigation'}
+                >
+                    {figures.map((item, index) => {
+                        const isActive = index === currentIndex;
+                        const label = getPublicationMediaLabel(item, figures, index);
+
+                        return (
+                            <button
+                                key={`${item}-${index}`}
+                                type="button"
+                                onClick={() => onSelectFigure(index)}
+                                className={cn(
+                                    "shrink-0 rounded-md border px-2.5 py-1 text-xs font-semibold leading-none transition-colors",
+                                    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                                    isActive
+                                        ? "border-accent bg-accent text-white"
+                                        : "border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-accent/60 hover:text-accent dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-accent/70 dark:hover:text-accent-light"
+                                )}
+                                aria-current={isActive ? 'true' : undefined}
+                                title={label}
+                            >
+                                {label}
+                            </button>
+                        );
+                    })}
+                </div>
+            ) : null}
+
             <div className="relative overflow-hidden rounded-md bg-neutral-50 dark:bg-neutral-900">
                 <FigurePreview
                     figure={figure}
@@ -1016,7 +1064,7 @@ function PublicationFigureCarousel({
             </div>
 
             <div className="mt-3 flex items-center justify-center text-xs font-semibold text-neutral-500 dark:text-slate-200">
-                {currentIndex + 1}/{figures.length}
+                {getPublicationMediaLabel(figure, figures, currentIndex)} · {currentIndex + 1}/{figures.length}
             </div>
         </div>
     );
@@ -1078,6 +1126,37 @@ function isCoverFigure(figure: string): boolean {
     return /(?:^|\/)cover\.(png|jpe?g|webp|gif|svg|pdf)(?:$|[?#])/i.test(figure);
 }
 
+function getPublicationMediaLabel(figure: string, figures: string[], currentIndex: number): string {
+    if (isCoverFigure(figure)) {
+        return 'Cover';
+    }
+
+    if (isTocFigure(figure)) {
+        return 'TOC';
+    }
+
+    const figureNumber = getFigureNumberFromPath(figure);
+
+    if (figureNumber !== undefined) {
+        return `Fig. ${figureNumber}`;
+    }
+
+    const precedingNonSpecialCount = figures
+        .slice(0, currentIndex + 1)
+        .filter((item) => !isCoverFigure(item) && !isTocFigure(item))
+        .length;
+
+    return `Fig. ${precedingNonSpecialCount || currentIndex + 1}`;
+}
+
+function getFigureNumberFromPath(figure: string): number | undefined {
+    const decodedPath = decodeURIComponent(figure.split(/[?#]/)[0] || figure);
+    const filename = decodedPath.split('/').pop() || decodedPath;
+    const match = filename.match(/figure\s*(\d+)/i);
+
+    return match ? Number(match[1]) : undefined;
+}
+
 function getPublicationFigureAlt(publication: Publication, figure: string, currentIndex: number): string {
     if (isCoverFigure(figure)) {
         return `${publication.title} cover graphic`;
@@ -1087,7 +1166,7 @@ function getPublicationFigureAlt(publication: Publication, figure: string, curre
         return `${publication.title} TOC graphic`;
     }
 
-    return `${publication.title} figure ${currentIndex + 1}`;
+    return `${publication.title} ${getPublicationMediaLabel(figure, [figure], currentIndex).toLowerCase()}`;
 }
 
 function PublicationVenue({ pub }: { pub: Publication }) {
