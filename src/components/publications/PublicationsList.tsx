@@ -69,19 +69,19 @@ const DIRECTION_HIGHLIGHT_ACCENTS: Record<string, { text: string; dot: string }>
 
 const DIRECTION_MEDIA_NAV_ACCENTS: Record<string, { active: string; inactive: string; focus: string }> = {
     'electrolytes-energy-storage': {
-        active: 'border-[#d97706] bg-[#d97706] text-white dark:border-amber-400 dark:bg-amber-400 dark:text-slate-950',
-        inactive: 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-[#d97706]/70 hover:text-[#d97706] dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-amber-400/80 dark:hover:text-amber-400',
-        focus: 'focus-visible:outline-[#d97706] dark:focus-visible:outline-amber-400',
+        active: 'border-amber-200 bg-amber-50 text-amber-700 shadow-sm ring-1 ring-amber-200/70 dark:border-amber-500/30 dark:bg-amber-500/10 dark:text-amber-300 dark:ring-amber-500/25',
+        inactive: 'border-amber-200/70 bg-amber-50/40 text-amber-700/80 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-800 dark:border-amber-500/20 dark:bg-amber-500/5 dark:text-amber-300/80 dark:hover:border-amber-500/35 dark:hover:bg-amber-500/10 dark:hover:text-amber-200',
+        focus: 'focus-visible:outline-amber-500 dark:focus-visible:outline-amber-400',
     },
     'molecular-ionic-liquids': {
-        active: 'border-[#16a34a] bg-[#16a34a] text-white dark:border-green-400 dark:bg-green-400 dark:text-slate-950',
-        inactive: 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-[#16a34a]/70 hover:text-[#16a34a] dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-green-400/80 dark:hover:text-green-400',
-        focus: 'focus-visible:outline-[#16a34a] dark:focus-visible:outline-green-400',
+        active: 'border-green-200 bg-green-50 text-green-800 shadow-sm ring-1 ring-green-200/70 dark:border-green-600/30 dark:bg-green-600/10 dark:text-green-300 dark:ring-green-600/25',
+        inactive: 'border-green-200/70 bg-green-50/40 text-green-800/80 hover:border-green-300 hover:bg-green-50 hover:text-green-900 dark:border-green-600/20 dark:bg-green-600/5 dark:text-green-300/80 dark:hover:border-green-600/35 dark:hover:bg-green-600/10 dark:hover:text-green-200',
+        focus: 'focus-visible:outline-green-600 dark:focus-visible:outline-green-400',
     },
     'interfaces-nanoconfinement': {
-        active: 'border-[#7c3aed] bg-[#7c3aed] text-white dark:border-violet-400 dark:bg-violet-400 dark:text-slate-950',
-        inactive: 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-[#7c3aed]/70 hover:text-[#7c3aed] dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-violet-400/80 dark:hover:text-violet-400',
-        focus: 'focus-visible:outline-[#7c3aed] dark:focus-visible:outline-violet-400',
+        active: 'border-violet-200 bg-violet-50 text-violet-700 shadow-sm ring-1 ring-violet-200/70 dark:border-violet-500/30 dark:bg-violet-500/10 dark:text-violet-300 dark:ring-violet-500/25',
+        inactive: 'border-violet-200/70 bg-violet-50/40 text-violet-700/80 hover:border-violet-300 hover:bg-violet-50 hover:text-violet-800 dark:border-violet-500/20 dark:bg-violet-500/5 dark:text-violet-300/80 dark:hover:border-violet-500/35 dark:hover:bg-violet-500/10 dark:hover:text-violet-200',
+        focus: 'focus-visible:outline-violet-500 dark:focus-visible:outline-violet-400',
     },
 };
 
@@ -982,8 +982,8 @@ function PublicationFigureCarousel({
     const figure = figures[currentIndex];
     const hasMultipleFigures = figures.length > 1;
     const navAccent = directionId ? DIRECTION_MEDIA_NAV_ACCENTS[directionId] : undefined;
-    const navActiveClass = navAccent?.active || 'border-accent bg-accent text-white';
-    const navInactiveClass = navAccent?.inactive || 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-accent/60 hover:text-accent dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-accent/70 dark:hover:text-accent-light';
+    const navActiveClass = navAccent?.active || 'border-neutral-300 bg-neutral-100 text-neutral-800 shadow-sm ring-1 ring-neutral-200 dark:border-slate-500 dark:bg-slate-800 dark:text-slate-100 dark:ring-slate-600/60';
+    const navInactiveClass = navAccent?.inactive || 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-neutral-300 hover:bg-neutral-100 hover:text-neutral-800 dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-slate-500 dark:hover:bg-slate-800 dark:hover:text-slate-100';
     const navFocusClass = navAccent?.focus || 'focus-visible:outline-accent';
     const touchStartX = useRef<number | null>(null);
 
@@ -1086,10 +1086,6 @@ function PublicationFigureCarousel({
                         </button>
                     </>
                 )}
-            </div>
-
-            <div className="mt-3 flex items-center justify-center text-xs font-semibold text-neutral-500 dark:text-slate-200">
-                {getPublicationMediaLabel(figure, figures, currentIndex)} · {currentIndex + 1}/{figures.length}
             </div>
         </div>
     );
