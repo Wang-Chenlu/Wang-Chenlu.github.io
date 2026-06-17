@@ -69,6 +69,7 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
     const publicationId = entry.citationKey || tags.id || `pub-${Date.now()}-${index}`;
     const selected = parseBoolean(tags.selected);
     const preview = resolvePublicPreview(tags.preview);
+    const cover = resolvePublicationCover(publicationId);
     const toc = resolvePublicationToc(publicationId);
     const figures = resolvePublicationFigures(publicationId, preview);
     const title = parseBibTeXInline(tags.title || 'Untitled');
@@ -107,6 +108,7 @@ export function parseBibTeX(bibtexContent: string, locale?: string): Publication
       group: cleanBibTeXString(tags.group),
       role: parsePublicationRole(tags.role),
       preview,
+      cover,
       toc,
       figures,
 
@@ -209,26 +211,50 @@ function resolvePublicationFigures(publicationId: string, preview?: string): str
   }
 
   const figurePaths = fs.readdirSync(figuresDir)
-    .filter((filename) => /\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename) && !/^toc\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename))
+    .filter((filename) => isPublicationImage(filename) && !isCoverFilename(filename) && !isTocFilename(filename))
     .sort(compareFigureFilenames)
     .map((filename) => toPublicUrl(path.posix.join('images', 'publications', publicationId, filename)));
 
   return figurePaths.length > 0 ? figurePaths : (preview ? [preview] : undefined);
 }
 
+function resolvePublicationCover(publicationId: string): string | undefined {
+  return resolveNamedPublicationImage(publicationId, isCoverFilename);
+}
+
 function resolvePublicationToc(publicationId: string): string | undefined {
+  return resolveNamedPublicationImage(publicationId, isTocFilename);
+}
+
+function resolveNamedPublicationImage(
+  publicationId: string,
+  predicate: (filename: string) => boolean
+): string | undefined {
   const figuresDir = path.join(process.cwd(), 'public', 'images', 'publications', publicationId);
 
   if (!fs.existsSync(figuresDir) || !fs.statSync(figuresDir).isDirectory()) {
     return undefined;
   }
 
-  const tocFilename = fs.readdirSync(figuresDir)
-    .find((filename) => /^toc\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename));
+  const imageFilename = fs.readdirSync(figuresDir)
+    .filter(isPublicationImage)
+    .find(predicate);
 
-  return tocFilename
-    ? toPublicUrl(path.posix.join('images', 'publications', publicationId, tocFilename))
+  return imageFilename
+    ? toPublicUrl(path.posix.join('images', 'publications', publicationId, imageFilename))
     : undefined;
+}
+
+function isPublicationImage(filename: string): boolean {
+  return /\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename);
+}
+
+function isCoverFilename(filename: string): boolean {
+  return /^cover\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename);
+}
+
+function isTocFilename(filename: string): boolean {
+  return /^toc\.(png|jpe?g|webp|gif|svg|pdf)$/i.test(filename);
 }
 
 function compareFigureFilenames(left: string, right: string): number {

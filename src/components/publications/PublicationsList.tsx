@@ -145,6 +145,20 @@ const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
             'Combines electrode testing and molecular dynamics to connect CNT-rGO dispersion with high specific capacitance and surface area.',
         ],
     },
+    wangHeightdrivenStructureThermodynamic2019: {
+        highlights: [
+            'Maps nonmonotonic entropy changes of confined imidazole ionic liquids as graphene nanochannel height varies.',
+            'Identifies a critical nanochannel height of 1.0 nm with weaker hydrogen bonding, higher entropy, and enhanced stability.',
+            'Connects local ion structures, external force, and partial solid nature to height-dependent confined-IL thermodynamics.',
+        ],
+    },
+    wangMolecularInsightsRegulatable2019: {
+        highlights: [
+            'Reveals how graphene nanochannel width and oxidation degree regulate confined ionic-liquid structure and flow behavior.',
+            'Distinguishes Poiseuille, partial plunger, and full plunger flow using an effective influence extent descriptor.',
+            'Builds structure-property relations linking viscosity, interfacial friction, pressure gradient, and nanochannel design.',
+        ],
+    },
     liuThermodynamicalOriginNonmonotonic2021: {
         highlights: [
             'Uses GPU-accelerated microsecond-scale molecular dynamics to track imidazole IL insertion into lipid bilayers.',
@@ -535,7 +549,7 @@ export default function PublicationsList({
                         const DirectionIcon = direction?.icon;
                         const figures = getPublicationFigures(pub);
                         const highlight = PUBLICATION_HIGHLIGHTS[pub.id];
-                        const mediaFigures = getPublicationMediaFigures(pub.toc, figures);
+                        const mediaFigures = getPublicationMediaFigures(pub.cover, pub.toc, figures);
                         const figureIndex = mediaFigures.length > 0
                             ? Math.min(figureIndexes[pub.id] || 0, mediaFigures.length - 1)
                             : 0;
@@ -974,7 +988,7 @@ function PublicationFigureCarousel({
             <div className="relative overflow-hidden rounded-md bg-neutral-50 dark:bg-neutral-900">
                 <FigurePreview
                     figure={figure}
-                    alt={isTocFigure(figure) ? `${publication.title} TOC graphic` : `${publication.title} figure ${currentIndex + 1}`}
+                    alt={getPublicationFigureAlt(publication, figure, currentIndex)}
                 />
 
                 {hasMultipleFigures && (
@@ -1040,15 +1054,12 @@ function getPublicationFigures(publication: Publication): string[] {
     return publication.preview ? [publication.preview] : [];
 }
 
-function getPublicationMediaFigures(toc: string | undefined, figures: string[]): string[] {
-    if (!toc) {
-        return figures;
-    }
+function getPublicationMediaFigures(cover: string | undefined, toc: string | undefined, figures: string[]): string[] {
+    const priorityFigures = [cover, toc].filter((figure): figure is string => Boolean(figure));
+    const priorityPaths = new Set(priorityFigures.map(normalizePublicAssetPath));
+    const nonPriorityFigures = figures.filter((figure) => !priorityPaths.has(normalizePublicAssetPath(figure)));
 
-    const normalizedToc = normalizePublicAssetPath(toc);
-    const nonTocFigures = figures.filter((figure) => normalizePublicAssetPath(figure) !== normalizedToc);
-
-    return [toc, ...nonTocFigures];
+    return [...priorityFigures, ...nonPriorityFigures];
 }
 
 function normalizePublicAssetPath(pathValue: string): string {
@@ -1061,6 +1072,22 @@ function isPdfFigure(figure: string): boolean {
 
 function isTocFigure(figure: string): boolean {
     return /(?:^|\/)toc\.(png|jpe?g|webp|gif|svg|pdf)(?:$|[?#])/i.test(figure);
+}
+
+function isCoverFigure(figure: string): boolean {
+    return /(?:^|\/)cover\.(png|jpe?g|webp|gif|svg|pdf)(?:$|[?#])/i.test(figure);
+}
+
+function getPublicationFigureAlt(publication: Publication, figure: string, currentIndex: number): string {
+    if (isCoverFigure(figure)) {
+        return `${publication.title} cover graphic`;
+    }
+
+    if (isTocFigure(figure)) {
+        return `${publication.title} TOC graphic`;
+    }
+
+    return `${publication.title} figure ${currentIndex + 1}`;
 }
 
 function PublicationVenue({ pub }: { pub: Publication }) {
