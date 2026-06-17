@@ -67,6 +67,24 @@ const DIRECTION_HIGHLIGHT_ACCENTS: Record<string, { text: string; dot: string }>
     },
 };
 
+const DIRECTION_MEDIA_NAV_ACCENTS: Record<string, { active: string; inactive: string; focus: string }> = {
+    'electrolytes-energy-storage': {
+        active: 'border-[#d97706] bg-[#d97706] text-white dark:border-amber-400 dark:bg-amber-400 dark:text-slate-950',
+        inactive: 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-[#d97706]/70 hover:text-[#d97706] dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-amber-400/80 dark:hover:text-amber-400',
+        focus: 'focus-visible:outline-[#d97706] dark:focus-visible:outline-amber-400',
+    },
+    'molecular-ionic-liquids': {
+        active: 'border-[#16a34a] bg-[#16a34a] text-white dark:border-green-400 dark:bg-green-400 dark:text-slate-950',
+        inactive: 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-[#16a34a]/70 hover:text-[#16a34a] dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-green-400/80 dark:hover:text-green-400',
+        focus: 'focus-visible:outline-[#16a34a] dark:focus-visible:outline-green-400',
+    },
+    'interfaces-nanoconfinement': {
+        active: 'border-[#7c3aed] bg-[#7c3aed] text-white dark:border-violet-400 dark:bg-violet-400 dark:text-slate-950',
+        inactive: 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-[#7c3aed]/70 hover:text-[#7c3aed] dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-violet-400/80 dark:hover:text-violet-400',
+        focus: 'focus-visible:outline-[#7c3aed] dark:focus-visible:outline-violet-400',
+    },
+};
+
 const ZH_PUBLICATION_TYPE_LABELS: Record<string, string> = {
     journal: '期刊论文',
     preprint: '预印本',
@@ -790,6 +808,7 @@ function PublicationHighlightPanel({
                     onNext={onNext}
                     onSelectFigure={onSelectFigure}
                     isChinese={isChinese}
+                    directionId={directionId}
                 />
             ) : null}
         </section>
@@ -949,6 +968,7 @@ function PublicationFigureCarousel({
     onNext,
     onSelectFigure,
     isChinese,
+    directionId,
 }: {
     publication: Publication;
     figures: string[];
@@ -957,9 +977,14 @@ function PublicationFigureCarousel({
     onNext: () => void;
     onSelectFigure: (index: number) => void;
     isChinese: boolean;
+    directionId?: string;
 }) {
     const figure = figures[currentIndex];
     const hasMultipleFigures = figures.length > 1;
+    const navAccent = directionId ? DIRECTION_MEDIA_NAV_ACCENTS[directionId] : undefined;
+    const navActiveClass = navAccent?.active || 'border-accent bg-accent text-white';
+    const navInactiveClass = navAccent?.inactive || 'border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-accent/60 hover:text-accent dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-accent/70 dark:hover:text-accent-light';
+    const navFocusClass = navAccent?.focus || 'focus-visible:outline-accent';
     const touchStartX = useRef<number | null>(null);
 
     const handleTouchEnd = (clientX: number) => {
@@ -1018,13 +1043,13 @@ function PublicationFigureCarousel({
                                 onClick={() => onSelectFigure(index)}
                                 className={cn(
                                     "shrink-0 rounded-md border px-2.5 py-1 text-xs font-semibold leading-none transition-colors",
-                                    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                                    "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2",
+                                    navFocusClass,
                                     isActive
-                                        ? "border-accent bg-accent text-white"
-                                        : "border-neutral-200 bg-neutral-50 text-neutral-600 hover:border-accent/60 hover:text-accent dark:border-neutral-700 dark:bg-neutral-900 dark:text-slate-300 dark:hover:border-accent/70 dark:hover:text-accent-light"
+                                        ? navActiveClass
+                                        : navInactiveClass
                                 )}
                                 aria-current={isActive ? 'true' : undefined}
-                                title={label}
                             >
                                 {label}
                             </button>
