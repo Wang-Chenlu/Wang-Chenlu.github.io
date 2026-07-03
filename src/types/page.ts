@@ -24,8 +24,14 @@ export interface CardItem {
     image?: string;
 }
 
+export interface CardPageSummaryConfig {
+    eyebrow?: string;
+}
+
 export interface CardPageConfig extends BasePageConfig {
     type: 'card';
+    variant?: 'awards' | string;
     items: CardItem[];
     empty?: string;
+    summary?: CardPageSummaryConfig;
 }

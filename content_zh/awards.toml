@@ -1,73 +1,27 @@
 type = "card"
+variant = "awards"
 title = "荣誉奖励"
-description = "部分荣誉与奖励。"
 empty = "荣誉奖励将陆续补充。"
 
+[summary]
+eyebrow = "精选荣誉"
+
 [[items]]
-title = "江苏省卓越博士后"
-date = "2025.08"
+title = "卓越博士后"
+subtitle = "江苏省"
+date = "2025"
 
 [[items]]
 title = "优秀毕业生"
 subtitle = "北京市普通高等学校"
-date = "2024.06"
+date = "2024"
 
 [[items]]
 title = "优秀毕业生"
 subtitle = "中国科学院大学"
-date = "2024.06"
-
-[[items]]
-title = "优秀墙报奖"
-subtitle = "第七届全国化学工程与生物化工年会"
-date = "2023.07"
+date = "2024"
 
 [[items]]
 title = "国家奖学金"
 subtitle = "博士研究生"
-date = "2022.12"
-
-[[items]]
-title = "主题报告特等奖"
-subtitle = "沈阳化工大学2021年科教融合论坛研究生学术报告会"
-date = "2021.12"
-
-[[items]]
-title = "三好学生"
-subtitle = "中国科学院大学2020-2021学年"
-date = "2021.06"
-
-[[items]]
-title = "最佳墙报奖"
-subtitle = "北京大学第三届物理化学研究生前沿论坛"
-date = "2019.05"
-
-[[items]]
-title = "Best Organization Award"
-subtitle = "The 8th International Congress on Ionic Liquids"
-date = "2019.05"
-
-[[items]]
-title = "Best Organization Award"
-subtitle = "The 7th CAS-TWAS Symposium on Green Technology"
-date = "2018.07"
-
-[[items]]
-title = "一等奖"
-subtitle = "第四届全国大学生水利创新设计大赛"
-date = "2015.07"
-
-[[items]]
-title = "优秀团员"
-subtitle = "西北农林科技大学2014年度"
-date = "2015.05"
-
-[[items]]
-title = "二等学业、专业奖学金（5次）"
-subtitle = "西北农林科技大学硕士研究生、本科生"
-date = "2014-2019"
-
-[[items]]
-title = "一等奖"
-subtitle = "西北农林科技大学2014年度寒假社会实践论文"
-date = "2014.06"
+date = "2022"

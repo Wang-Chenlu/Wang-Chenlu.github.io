@@ -1,5 +1,34 @@
 type = "card"
 title = "教学与报告"
-description = "教学、报告与展示内容将稍后添加。"
+description = "部分学术报告、墙报展示与会议活动。"
 empty = "教学、报告与展示内容将稍后添加。"
-items = []
+
+[[items]]
+title = "优秀墙报奖"
+subtitle = "第七届全国化学工程与生物化工年会"
+date = "2023"
+tags = ["墙报"]
+
+[[items]]
+title = "主题报告特等奖"
+subtitle = "沈阳化工大学2021年科教融合论坛研究生学术报告会"
+date = "2021"
+tags = ["报告"]
+
+[[items]]
+title = "最佳墙报奖"
+subtitle = "北京大学第三届物理化学研究生前沿论坛"
+date = "2019"
+tags = ["墙报"]
+
+[[items]]
+title = "最佳组织奖"
+subtitle = "第八届国际离子液体大会"
+date = "2019"
+tags = ["会议组织"]
+
+[[items]]
+title = "最佳组织奖"
+subtitle = "第七届中国科学院-世界科学院绿色技术研讨会"
+date = "2018"
+tags = ["会议组织"]

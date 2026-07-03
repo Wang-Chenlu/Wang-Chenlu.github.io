@@ -1,72 +1,27 @@
 type = "card"
+variant = "awards"
 title = "Awards"
-description = "Selected awards and honors."
 empty = "Awards and honors will be added soon."
 
+[summary]
+eyebrow = "Selected Honors"
+
 [[items]]
-title = "Jiangsu Excellent Postdoctoral Fellow"
-date = "2025.08"
+title = "Funding Program for Excellent Postdoctoral Talent"
+subtitle = "Jiangsu"
+date = "2025"
 
 [[items]]
 title = "Outstanding Graduate"
-subtitle = "Beijing Municipal Higher Education Institutions"
-date = "2024.06"
+subtitle = "Beijing Higher Education Institutions"
+date = "2024"
 
 [[items]]
 title = "Outstanding Graduate"
 subtitle = "University of Chinese Academy of Sciences"
-date = "2024.06"
+date = "2024"
 
 [[items]]
-title = "Excellent Poster Award"
-subtitle = "7th National Conference on Chemical Engineering and Biochemical Engineering"
-date = "2023.07"
-
-[[items]]
-title = "National Scholarship for Doctoral Students"
-date = "2022.12"
-
-[[items]]
-title = "Grand Prize for Thematic Presentation"
-subtitle = "2021 Science-Education Integration Forum Graduate Academic Report Meeting, Shenyang University of Chemical Technology"
-date = "2021.12"
-
-[[items]]
-title = "Merit Student"
-subtitle = "University of Chinese Academy of Sciences, 2020-2021 Academic Year"
-date = "2021.06"
-
-[[items]]
-title = "Best Poster Award"
-subtitle = "3rd Peking University Physical Chemistry Graduate Frontier Forum"
-date = "2019.05"
-
-[[items]]
-title = "Best Organization Award"
-subtitle = "The 8th International Congress on Ionic Liquids"
-date = "2019.05"
-
-[[items]]
-title = "Best Organization Award"
-subtitle = "The 7th CAS-TWAS Symposium on Green Technology"
-date = "2018.07"
-
-[[items]]
-title = "First Prize"
-subtitle = "4th National Undergraduate Water Conservancy Innovation Design Competition"
-date = "2015.07"
-
-[[items]]
-title = "Outstanding League Member"
-subtitle = "Northwest A&F University, 2014 Academic Year"
-date = "2015.05"
-
-[[items]]
-title = "Second-Class Academic/Major Scholarships (5 times)"
-subtitle = "Northwest A&F University, Master's and Undergraduate Studies"
-date = "2014-2019"
-
-[[items]]
-title = "First Prize"
-subtitle = "2014 Winter Social Practice Paper, Northwest A&F University"
-date = "2014.06"
+title = "National Scholarship"
+subtitle = "Doctoral Students"
+date = "2022"

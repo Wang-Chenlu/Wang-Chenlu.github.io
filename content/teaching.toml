@@ -1,5 +1,34 @@
 type = "card"
 title = "Teaching & Talks"
-description = "Teaching activities, talks, and presentations will be added soon."
+description = "Selected talks, poster presentations, and conference contributions."
 empty = "Teaching activities, talks, and presentations will be added soon."
-items = []
+
+[[items]]
+title = "Excellent Poster Award"
+subtitle = "7th National Conference on Chemical Engineering and Biochemical Engineering"
+date = "2023"
+tags = ["Poster"]
+
+[[items]]
+title = "Grand Prize for Thematic Presentation"
+subtitle = "2021 Science-Education Integration Forum Graduate Academic Report Meeting, Shenyang University of Chemical Technology"
+date = "2021"
+tags = ["Talk"]
+
+[[items]]
+title = "Best Poster Award"
+subtitle = "3rd Peking University Physical Chemistry Graduate Frontier Forum"
+date = "2019"
+tags = ["Poster"]
+
+[[items]]
+title = "Best Organization Award"
+subtitle = "The 8th International Congress on Ionic Liquids"
+date = "2019"
+tags = ["Conference"]
+
+[[items]]
+title = "Best Organization Award"
+subtitle = "The 7th CAS-TWAS Symposium on Green Technology"
+date = "2018"
+tags = ["Conference"]
