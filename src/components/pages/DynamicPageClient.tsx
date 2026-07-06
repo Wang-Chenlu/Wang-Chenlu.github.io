@@ -33,20 +33,21 @@ export default function DynamicPageClient({ dataByLocale, defaultLocale }: Dynam
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div key={locale} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {pageData.type === 'publication' && (
         <Suspense fallback={<PublicationsList config={pageData.config} publications={pageData.publications} />}>
           <PublicationPageWithQuery
+            key={locale}
             config={pageData.config}
             publications={pageData.publications}
           />
         </Suspense>
       )}
       {pageData.type === 'text' && (
-        <TextPage config={pageData.config} content={pageData.content} />
+        <TextPage key={locale} config={pageData.config} content={pageData.content} />
       )}
       {pageData.type === 'card' && (
-        <CardPage config={pageData.config} />
+        <CardPage key={locale} config={pageData.config} />
       )}
     </div>
   );
