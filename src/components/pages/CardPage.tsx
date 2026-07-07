@@ -115,6 +115,25 @@ function sortAwardsByDate(items: CardPageConfig['items']) {
         .map(({ item }) => item);
 }
 
+function renderHighlightedTitle(title: string, highlight?: string, compactHighlight = false, embedded = false) {
+    if (!highlight || !title.includes(highlight)) {
+        return title;
+    }
+
+    const highlightStart = title.indexOf(highlight);
+    const before = title.slice(0, highlightStart);
+    const after = title.slice(highlightStart + highlight.length);
+    const highlightSize = compactHighlight ? (embedded ? "text-base" : "text-lg") : "";
+
+    return (
+        <>
+            {before}
+            <span className={`text-accent-dark dark:text-accent-light ${highlightSize}`}>{highlight}</span>
+            {after}
+        </>
+    );
+}
+
 function AwardsCardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
     const items = config.items || [];
     const sortedItems = sortAwardsByDate(items);
@@ -152,6 +171,7 @@ function AwardsCardPage({ config, embedded = false }: { config: CardPageConfig; 
                             const date = getTimelineDate(item.date);
                             const accent = awardAccentStyles[index % awardAccentStyles.length];
                             const AwardIcon = accent.icon;
+                            const titleSize = embedded ? "text-lg" : "text-xl";
 
                             return (
                                 <motion.li
@@ -175,14 +195,14 @@ function AwardsCardPage({ config, embedded = false }: { config: CardPageConfig; 
                                                 <AwardIcon className="h-5 w-5" aria-hidden="true" />
                                             </div>
                                             <div className="min-w-0">
-                                                <h3 className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>
+                                                <h3 className={`${titleSize} font-semibold text-primary`}>
                                                     {item.subtitle ? (
                                                         <>
                                                             <span className="text-accent-dark dark:text-accent-light">{item.subtitle}</span>
                                                             <span className="mx-2 text-neutral-300 dark:text-neutral-600">·</span>
                                                             <span>{item.title}</span>
                                                         </>
-                                                    ) : item.title}
+                                                    ) : renderHighlightedTitle(item.title, item.highlight, item.compact, embedded)}
                                                 </h3>
                                             </div>
                                         </div>

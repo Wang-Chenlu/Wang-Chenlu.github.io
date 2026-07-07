@@ -7,21 +7,21 @@ empty = "Awards and honors will be added soon."
 eyebrow = "Selected Honors"
 
 [[items]]
-title = "Funding Program for Excellent Postdoctoral Talent"
-subtitle = "Jiangsu"
+title = "Jiangsu Funding Program for Excellent Postdoctoral Talent"
 date = "2025"
 
 [[items]]
-title = "Outstanding Graduate"
-subtitle = "Beijing Higher Education Institutions"
+title = "Outstanding Graduate · Beijing Higher Education Institutions"
 date = "2024"
+compact = true
+highlight = "Beijing Higher Education Institutions"
 
 [[items]]
-title = "Outstanding Graduate"
-subtitle = "University of Chinese Academy of Sciences"
+title = "Outstanding Graduate · University of Chinese Academy of Sciences"
 date = "2024"
+compact = true
+highlight = "University of Chinese Academy of Sciences"
 
 [[items]]
-title = "National Scholarship"
-subtitle = "Doctoral Students"
+title = "National Scholarship for Doctoral Students"
 date = "2022"

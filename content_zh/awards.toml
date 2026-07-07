@@ -7,21 +7,21 @@ empty = "荣誉奖励将陆续补充。"
 eyebrow = "精选荣誉"
 
 [[items]]
-title = "卓越博士后"
-subtitle = "江苏省"
+title = "江苏省卓越博士后"
 date = "2025"
 
 [[items]]
-title = "优秀毕业生"
-subtitle = "北京市普通高等学校"
+title = "优秀毕业生 · 北京市普通高等学校"
 date = "2024"
+compact = true
+highlight = "北京市普通高等学校"
 
 [[items]]
-title = "优秀毕业生"
-subtitle = "中国科学院大学"
+title = "优秀毕业生 · 中国科学院大学"
 date = "2024"
+compact = true
+highlight = "中国科学院大学"
 
 [[items]]
-title = "国家奖学金"
-subtitle = "博士研究生"
+title = "国家奖学金 · 博士研究生"
 date = "2022"
