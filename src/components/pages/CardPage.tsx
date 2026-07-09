@@ -145,7 +145,7 @@ function renderOrdinalText(text: string) {
         if (index % 3 === 1) {
             return (
                 <span key={`${part}-${index}`}>
-                    {part}<sup className="align-super text-[0.68em] leading-none">{parts[index + 1]}</sup>
+                    {part}<sup>{parts[index + 1]}</sup>
                 </span>
             );
         }
