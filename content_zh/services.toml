@@ -1,9 +1,27 @@
 type = "card"
+variant = "services"
 title = "学术服务"
-description = "专业服务与社区参与。"
+empty = "学术服务内容将稍后添加。"
 
-[[items]]
-title = "审稿人"
-subtitle = "某期刊"
-date = "2024"
-content = "参与审阅论文。"
+[summary]
+eyebrow = "精选服务"
+
+[[sections]]
+title = "期刊审稿"
+
+[[sections.items]]
+title = "担任 RSC Advances、Physical Chemistry Chemical Physics、Journal of Environmental Chemical Engineering 等期刊审稿人"
+date = "2022 年至今"
+
+[[sections]]
+title = "会议服务"
+
+[[sections.items]]
+title = "第八届国际离子液体大会"
+role = "会议组织 · 最佳组织奖"
+date = "2019"
+
+[[sections.items]]
+title = "第七届中国科学院-世界科学院绿色技术研讨会"
+role = "会议组织 · 最佳组织奖"
+date = "2018"

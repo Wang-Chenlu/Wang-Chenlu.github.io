@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Award, BookOpen, FileText, GraduationCap, Medal, Mic, Sparkles, Trophy } from 'lucide-react';
+import { Award, BookOpen, ClipboardCheck, FileText, GraduationCap, Handshake, Medal, Mic, Sparkles, Trophy, Users } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { CardPageConfig } from '@/types/page';
 
@@ -278,9 +278,29 @@ const teachingSectionStyles = [
     },
 ];
 
+const serviceSectionStyles = [
+    {
+        icon: ClipboardCheck,
+        dot: 'bg-accent',
+        badge: 'bg-accent/10 text-accent-dark ring-accent/20 dark:bg-accent/15 dark:text-accent-light dark:ring-accent/25',
+        border: 'hover:border-accent/45 dark:hover:border-accent/45',
+    },
+    {
+        icon: Users,
+        dot: 'bg-teal-500',
+        badge: 'bg-teal-500/10 text-teal-700 ring-teal-500/20 dark:bg-teal-500/10 dark:text-teal-300 dark:ring-teal-500/25',
+        border: 'hover:border-teal-500/45 dark:hover:border-teal-400/45',
+    },
+];
+
 function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
     const sections = config.sections || [];
     const summary = config.summary || {};
+    const isService = config.variant === 'services';
+    const HeaderIcon = isService ? Handshake : BookOpen;
+    const sectionStyles = isService ? serviceSectionStyles : teachingSectionStyles;
+    const sectionIdPrefix = isService ? 'service-section' : 'teaching-section';
+    const defaultEyebrow = isService ? 'Selected Service' : 'Selected Teaching & Talks';
 
     return (
         <motion.div
@@ -291,8 +311,8 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
             <header className={`${embedded ? "mb-6 pb-6" : "mb-10 pb-8"} border-b border-neutral-200/80 dark:border-[rgba(148,163,184,0.18)]`}>
                 <div className="max-w-2xl">
                     <div className="inline-flex items-center gap-2 text-sm font-semibold text-accent-dark dark:text-accent-light">
-                        <BookOpen className="h-4 w-4" aria-hidden="true" />
-                        <span>{summary.eyebrow || 'Selected Teaching & Talks'}</span>
+                        <HeaderIcon className="h-4 w-4" aria-hidden="true" />
+                        <span>{summary.eyebrow || defaultEyebrow}</span>
                     </div>
                     <h1 className={`${embedded ? "text-2xl" : "text-4xl"} mt-3 font-serif font-bold text-primary`}>{config.title}</h1>
                     {config.description && (
@@ -317,17 +337,17 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
             ) : (
                 <div className={embedded ? "space-y-8" : "space-y-10"}>
                     {sections.map((section, sectionIndex) => {
-                        const accent = teachingSectionStyles[sectionIndex % teachingSectionStyles.length];
+                        const accent = sectionStyles[sectionIndex % sectionStyles.length];
                         const SectionIcon = accent.icon;
 
                         return (
-                            <section key={section.title} aria-labelledby={`teaching-section-${sectionIndex}`} className="relative">
+                            <section key={section.title} aria-labelledby={`${sectionIdPrefix}-${sectionIndex}`} className="relative">
                                 <div className="mb-4 flex items-center gap-3 sm:ml-[8rem] sm:pl-5">
                                     <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ring-1 ${accent.badge}`}>
                                         <SectionIcon className="h-5 w-5" aria-hidden="true" />
                                     </span>
                                     <div className="min-w-0">
-                                        <h2 id={`teaching-section-${sectionIndex}`} className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>
+                                        <h2 id={`${sectionIdPrefix}-${sectionIndex}`} className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>
                                             {section.title}
                                         </h2>
                                         {section.description && (
@@ -417,7 +437,7 @@ export default function CardPage({ config, embedded = false }: { config: CardPag
         return <AwardsCardPage config={config} embedded={embedded} />;
     }
 
-    if (config.variant === 'teaching') {
+    if (config.variant === 'teaching' || config.variant === 'services') {
         return <TeachingCardPage config={config} embedded={embedded} />;
     }
 
