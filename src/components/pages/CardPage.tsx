@@ -236,19 +236,19 @@ function AwardsCardPage({ config, embedded = false }: { config: CardPageConfig; 
 const teachingSectionStyles = [
     {
         icon: Mic,
-        bar: 'bg-accent',
+        dot: 'bg-accent',
         badge: 'bg-accent/10 text-accent-dark ring-accent/20 dark:bg-accent/15 dark:text-accent-light dark:ring-accent/25',
         border: 'hover:border-accent/45 dark:hover:border-accent/45',
     },
     {
         icon: FileText,
-        bar: 'bg-teal-500',
+        dot: 'bg-teal-500',
         badge: 'bg-teal-500/10 text-teal-700 ring-teal-500/20 dark:bg-teal-500/10 dark:text-teal-300 dark:ring-teal-500/25',
         border: 'hover:border-teal-500/45 dark:hover:border-teal-400/45',
     },
     {
         icon: BookOpen,
-        bar: 'bg-indigo-500',
+        dot: 'bg-indigo-500',
         badge: 'bg-indigo-500/10 text-indigo-700 ring-indigo-500/20 dark:bg-indigo-500/10 dark:text-indigo-300 dark:ring-indigo-500/25',
         border: 'hover:border-indigo-500/45 dark:hover:border-indigo-400/45',
     },
@@ -256,6 +256,7 @@ const teachingSectionStyles = [
 
 function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
     const sections = config.sections || [];
+    const summary = config.summary || {};
 
     return (
         <motion.div
@@ -263,15 +264,26 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
         >
-            <header className={embedded ? "mb-6" : "mb-10"}>
-                <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
-                {config.description && (
-                    <div className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-500 max-w-2xl leading-relaxed`}>
-                        <ReactMarkdown components={markdownComponents}>
-                            {config.description}
-                        </ReactMarkdown>
+            <header className={`${embedded ? "mb-6 pb-6" : "mb-10 pb-8"} border-b border-neutral-200/80 dark:border-[rgba(148,163,184,0.18)]`}>
+                <div className="max-w-2xl">
+                    <div className="inline-flex items-center gap-2 text-sm font-semibold text-accent-dark dark:text-accent-light">
+                        <BookOpen className="h-4 w-4" aria-hidden="true" />
+                        <span>{summary.eyebrow || 'Selected Teaching & Talks'}</span>
                     </div>
-                )}
+                    <h1 className={`${embedded ? "text-2xl" : "text-4xl"} mt-3 font-serif font-bold text-primary`}>{config.title}</h1>
+                    {config.description && (
+                        <div className={`${embedded ? "mt-3 text-base" : "mt-4 text-lg"} text-neutral-600 dark:text-neutral-500 leading-relaxed`}>
+                            <ReactMarkdown components={markdownComponents}>
+                                {config.description}
+                            </ReactMarkdown>
+                        </div>
+                    )}
+                    <div className="mt-5 grid h-1 w-28 grid-cols-3 overflow-hidden rounded-full">
+                        <span className="bg-accent" />
+                        <span className="bg-teal-500" />
+                        <span className="bg-indigo-500" />
+                    </div>
+                </div>
             </header>
 
             {sections.length === 0 ? (
@@ -286,7 +298,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
 
                         return (
                             <section key={section.title} aria-labelledby={`teaching-section-${sectionIndex}`} className="relative">
-                                <div className="mb-4 flex items-center gap-3">
+                                <div className="mb-4 flex items-center gap-3 sm:ml-[8rem] sm:pl-5">
                                     <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ring-1 ${accent.badge}`}>
                                         <SectionIcon className="h-5 w-5" aria-hidden="true" />
                                     </span>
@@ -300,56 +312,71 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                     </div>
                                 </div>
 
-                                <div className="relative pl-4">
-                                    <span className={`absolute left-0 top-1 h-[calc(100%-0.25rem)] w-1 rounded-full ${accent.bar}`} />
-                                    <div className="grid gap-3">
-                                        {section.items.map((item, itemIndex) => (
-                                            <motion.article
+                                <ol className="relative space-y-4 before:absolute before:bottom-0 before:left-[8rem] before:top-0 before:hidden before:w-px before:bg-neutral-200 sm:before:block dark:before:bg-[rgba(148,163,184,0.18)]">
+                                    {section.items.map((item, itemIndex) => {
+                                        const date = getTimelineDate(item.date);
+                                        const role = item.role || item.subtitle;
+
+                                        return (
+                                            <motion.li
                                                 key={`${section.title}-${item.title}-${item.date || itemIndex}`}
-                                                initial={{ opacity: 0, y: 14 }}
+                                                initial={{ opacity: 0, y: 16 }}
                                                 animate={{ opacity: 1, y: 0 }}
-                                                transition={{ duration: 0.32, delay: 0.05 * itemIndex }}
-                                                className={`rounded-lg border border-neutral-200/80 bg-white p-4 shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(15,23,42,0.08)] dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-900/60 dark:shadow-none ${accent.border}`}
+                                                transition={{ duration: 0.35, delay: 0.06 * itemIndex }}
+                                                className="grid gap-3 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-5"
                                             >
-                                                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-                                                    <div className="min-w-0">
-                                                        <h3 className={`${embedded ? "text-base" : "text-lg"} font-semibold leading-snug text-primary`}>
-                                                            {item.title}
-                                                        </h3>
-                                                        {item.subtitle && (
-                                                            <p className="mt-2 text-sm font-medium text-accent-dark dark:text-accent-light">
-                                                                {item.subtitle}
-                                                            </p>
-                                                        )}
-                                                    </div>
-                                                    {item.date && (
-                                                        <span className="shrink-0 self-start rounded-md bg-neutral-100 px-2.5 py-1 text-sm font-semibold text-neutral-600 dark:bg-neutral-800/80 dark:text-neutral-400">
-                                                            {item.date}
-                                                        </span>
+                                                <div className="flex items-baseline gap-2 sm:flex-col sm:items-end sm:gap-0 sm:pt-4 sm:pr-4 sm:text-right">
+                                                    <span className="whitespace-nowrap font-serif text-base font-semibold text-primary sm:text-lg">{date.primary}</span>
+                                                    {date.secondary && (
+                                                        <span className="whitespace-nowrap text-xs font-medium text-neutral-500 dark:text-neutral-500">{date.secondary}</span>
                                                     )}
                                                 </div>
 
-                                                {item.content && (
-                                                    <div className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-500">
-                                                        <ReactMarkdown components={markdownComponents}>
-                                                            {item.content}
-                                                        </ReactMarkdown>
+                                                <article className={`relative rounded-lg border border-neutral-200/80 bg-white p-5 shadow-[0_12px_30px_rgba(15,23,42,0.06)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_38px_rgba(15,23,42,0.09)] dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-900/60 dark:shadow-none ${accent.border}`}>
+                                                    <span className={`absolute left-[-1.7rem] top-6 hidden h-3.5 w-3.5 rounded-full border-2 border-background shadow-sm sm:block ${accent.dot}`} />
+                                                    <div className="flex gap-4">
+                                                        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ring-1 ${accent.badge}`}>
+                                                            <SectionIcon className="h-5 w-5" aria-hidden="true" />
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <h3 className="text-sm font-semibold leading-relaxed text-primary">
+                                                                {item.title}
+                                                            </h3>
+                                                            {item.venue && (
+                                                                <p className="mt-2 text-sm font-medium text-neutral-600 dark:text-neutral-500">
+                                                                    {item.venue}
+                                                                </p>
+                                                            )}
+                                                            {role && (
+                                                                <p className="mt-2 text-sm font-semibold text-accent-dark dark:text-accent-light">
+                                                                    {role}
+                                                                </p>
+                                                            )}
+                                                        </div>
                                                     </div>
-                                                )}
 
-                                                {item.tags && (
-                                                    <div className="mt-3 flex flex-wrap gap-2">
-                                                        {item.tags.map(tag => (
-                                                            <span key={tag} className="rounded border border-neutral-200 bg-neutral-50 px-2 py-1 text-xs text-neutral-500 dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-800/50 dark:text-neutral-500">
-                                                                {tag}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                )}
-                                            </motion.article>
-                                        ))}
-                                    </div>
-                                </div>
+                                                    {item.content && (
+                                                        <div className={`${embedded ? "text-sm" : "text-base"} mt-4 pl-14 text-neutral-600 dark:text-neutral-500 leading-relaxed`}>
+                                                            <ReactMarkdown components={markdownComponents}>
+                                                                {item.content}
+                                                            </ReactMarkdown>
+                                                        </div>
+                                                    )}
+
+                                                    {item.tags && (
+                                                        <div className="mt-4 flex flex-wrap gap-2 pl-14">
+                                                            {item.tags.map(tag => (
+                                                                <span key={tag} className="rounded border border-neutral-200 bg-neutral-50 px-2 py-1 text-xs text-neutral-500 dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-800/50 dark:text-neutral-500">
+                                                                    {tag}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    )}
+                                                </article>
+                                            </motion.li>
+                                        );
+                                    })}
+                                </ol>
                             </section>
                         );
                     })}

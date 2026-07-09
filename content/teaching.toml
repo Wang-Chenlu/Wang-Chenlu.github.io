@@ -1,59 +1,67 @@
 type = "card"
 variant = "teaching"
 title = "Teaching & Talks"
-description = "Selected invited talks, oral/poster presentations, and training activities"
 empty = "Teaching activities, talks, and presentations will be added soon."
+
+[summary]
+eyebrow = "Selected Activities"
 
 [[sections]]
 title = "Invited and Oral Presentations"
 
 [[sections.items]]
-title = "Academic Salon on “Focusing on Carbon Neutrality and Exploring Sustainable Development Pathways”, University of Chinese Academy of Sciences"
-subtitle = "Invited Talk"
+title = "Academic Salon on “Focusing on Carbon Neutrality and Exploring Sustainable Development Pathways”"
+venue = "University of Chinese Academy of Sciences"
+role = "Invited Talk"
 date = "2022"
 
 [[sections.items]]
-title = "Graduate Academic Conference of the Science-Education Integration Forum, Shenyang University of Chemical Technology"
-subtitle = "Oral Presentation · Grand Prize"
+title = "Graduate Academic Conference of the Science-Education Integration Forum"
+venue = "Shenyang University of Chemical Technology"
+role = "Oral Presentation · Grand Prize"
 date = "2021"
 
 [[sections.items]]
-title = "3rd Peking University Graduate Frontier Forum in Physical Chemistry"
-subtitle = "Oral Presentation"
+title = "The 3rd Graduate Frontier Forum in Physical Chemistry"
+venue = "Peking University"
+role = "Oral Presentation"
 date = "2019"
 
 [[sections.items]]
 title = "The 3rd Chinese-Foreign Postgraduate Exchange Forum"
-subtitle = "Oral Presentation"
+venue = "Beijing University of Chemical Technology"
+role = "Oral Presentation"
 date = "2019"
 
 [[sections]]
 title = "Poster Presentations"
 
 [[sections.items]]
-title = "7th National Conference on Chemical Engineering and Biochemical Engineering"
-subtitle = "Poster Presentation · Excellent Poster Award"
+title = "the 7th Chinese National Chemical and Biochemical Engineering Annual Meeting"
+role = "Poster Presentation · Excellent Poster Award"
 date = "2023"
 
 [[sections.items]]
-title = "3rd Peking University Graduate Frontier Forum in Physical Chemistry"
-subtitle = "Poster Presentation · Best Poster Award"
+title = "The 3rd Graduate Frontier Forum in Physical Chemistry"
+venue = "Peking University"
+role = "Poster Presentation · Best Poster Award"
 date = "2019"
 
 [[sections.items]]
 title = "The 8th International Congress on Ionic Liquids"
-subtitle = "Poster Presentation"
+role = "Poster Presentation"
 date = "2019"
 
 [[sections.items]]
 title = "The 7th CAS-TWAS Symposium on Green Technology"
-subtitle = "Poster Presentation"
+role = "Poster Presentation"
 date = "2018"
 
 [[sections]]
 title = "Teaching & Training"
 
 [[sections.items]]
-title = "LAMMPS Training Course, Institute of Process Engineering, Chinese Academy of Sciences"
-subtitle = "Instructor"
+title = "LAMMPS Training Course"
+venue = "Institute of Process Engineering, Chinese Academy of Sciences"
+role = "Instructor"
 date = "2020"
