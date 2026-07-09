@@ -1,34 +1,59 @@
 type = "card"
+variant = "teaching"
 title = "教学与报告"
-description = "部分学术报告、墙报展示与会议活动。"
+description = "部分邀请报告、口头报告、墙报交流与教学培训经历。"
 empty = "教学、报告与展示内容将稍后添加。"
 
-[[items]]
-title = "优秀墙报奖"
-subtitle = "第七届全国化学工程与生物化工年会"
-date = "2023"
-tags = ["墙报"]
+[[sections]]
+title = "邀请与口头报告"
 
-[[items]]
-title = "主题报告特等奖"
-subtitle = "沈阳化工大学2021年科教融合论坛研究生学术报告会"
+[[sections.items]]
+title = "中国科学院大学“聚焦双碳，探索可持续发展道路”学术沙龙"
+subtitle = "邀请报告"
+date = "2022"
+
+[[sections.items]]
+title = "沈阳化工大学科教融合论坛研究生学术报告会"
+subtitle = "口头报告 · 特等奖"
 date = "2021"
-tags = ["报告"]
 
-[[items]]
-title = "最佳墙报奖"
-subtitle = "北京大学第三届物理化学研究生前沿论坛"
+[[sections.items]]
+title = "北京大学第三届物理化学研究生前沿论坛"
+subtitle = "口头报告"
 date = "2019"
-tags = ["墙报"]
 
-[[items]]
-title = "最佳组织奖"
-subtitle = "第八届国际离子液体大会"
+[[sections.items]]
+title = "第三届中外研究生交流论坛"
+subtitle = "口头报告"
 date = "2019"
-tags = ["会议组织"]
 
-[[items]]
-title = "最佳组织奖"
-subtitle = "第七届中国科学院-世界科学院绿色技术研讨会"
+[[sections]]
+title = "墙报交流"
+
+[[sections.items]]
+title = "第七届全国化学工程与生物化工年会"
+subtitle = "墙报交流 · 优秀墙报奖"
+date = "2023"
+
+[[sections.items]]
+title = "北京大学第三届物理化学研究生前沿论坛"
+subtitle = "墙报交流 · 最佳墙报奖"
+date = "2019"
+
+[[sections.items]]
+title = "第八届国际离子液体大会"
+subtitle = "墙报交流"
+date = "2019"
+
+[[sections.items]]
+title = "第七届中国科学院-世界科学院绿色技术研讨会"
+subtitle = "墙报交流"
 date = "2018"
-tags = ["会议组织"]
+
+[[sections]]
+title = "教学与培训"
+
+[[sections.items]]
+title = "中国科学院过程工程研究所 LAMMPS 培训课程"
+subtitle = "讲解人"
+date = "2020"

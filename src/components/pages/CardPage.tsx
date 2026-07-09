@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Award, GraduationCap, Medal, Sparkles, Trophy } from 'lucide-react';
+import { Award, BookOpen, FileText, GraduationCap, Medal, Mic, Sparkles, Trophy } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { CardPageConfig } from '@/types/page';
 
@@ -100,7 +100,7 @@ function getDateSortValue(date?: string) {
     return years.length > 0 ? Math.max(...years) * 100 : 0;
 }
 
-function sortAwardsByDate(items: CardPageConfig['items']) {
+function sortAwardsByDate(items: NonNullable<CardPageConfig['items']>) {
     return items
         .map((item, index) => ({ item, index }))
         .sort((a, b) => {
@@ -233,11 +233,141 @@ function AwardsCardPage({ config, embedded = false }: { config: CardPageConfig; 
     );
 }
 
+const teachingSectionStyles = [
+    {
+        icon: Mic,
+        bar: 'bg-accent',
+        badge: 'bg-accent/10 text-accent-dark ring-accent/20 dark:bg-accent/15 dark:text-accent-light dark:ring-accent/25',
+        border: 'hover:border-accent/45 dark:hover:border-accent/45',
+    },
+    {
+        icon: FileText,
+        bar: 'bg-teal-500',
+        badge: 'bg-teal-500/10 text-teal-700 ring-teal-500/20 dark:bg-teal-500/10 dark:text-teal-300 dark:ring-teal-500/25',
+        border: 'hover:border-teal-500/45 dark:hover:border-teal-400/45',
+    },
+    {
+        icon: BookOpen,
+        bar: 'bg-indigo-500',
+        badge: 'bg-indigo-500/10 text-indigo-700 ring-indigo-500/20 dark:bg-indigo-500/10 dark:text-indigo-300 dark:ring-indigo-500/25',
+        border: 'hover:border-indigo-500/45 dark:hover:border-indigo-400/45',
+    },
+];
+
+function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
+    const sections = config.sections || [];
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+        >
+            <header className={embedded ? "mb-6" : "mb-10"}>
+                <h1 className={`${embedded ? "text-2xl" : "text-4xl"} font-serif font-bold text-primary mb-4`}>{config.title}</h1>
+                {config.description && (
+                    <div className={`${embedded ? "text-base" : "text-lg"} text-neutral-600 dark:text-neutral-500 max-w-2xl leading-relaxed`}>
+                        <ReactMarkdown components={markdownComponents}>
+                            {config.description}
+                        </ReactMarkdown>
+                    </div>
+                )}
+            </header>
+
+            {sections.length === 0 ? (
+                <div className={`${embedded ? "p-4" : "p-6"} rounded-lg border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900 text-neutral-600 dark:text-neutral-500`}>
+                    {config.empty || 'Content will be added soon.'}
+                </div>
+            ) : (
+                <div className={embedded ? "space-y-8" : "space-y-10"}>
+                    {sections.map((section, sectionIndex) => {
+                        const accent = teachingSectionStyles[sectionIndex % teachingSectionStyles.length];
+                        const SectionIcon = accent.icon;
+
+                        return (
+                            <section key={section.title} aria-labelledby={`teaching-section-${sectionIndex}`} className="relative">
+                                <div className="mb-4 flex items-center gap-3">
+                                    <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ring-1 ${accent.badge}`}>
+                                        <SectionIcon className="h-5 w-5" aria-hidden="true" />
+                                    </span>
+                                    <div className="min-w-0">
+                                        <h2 id={`teaching-section-${sectionIndex}`} className={`${embedded ? "text-lg" : "text-xl"} font-semibold text-primary`}>
+                                            {section.title}
+                                        </h2>
+                                        {section.description && (
+                                            <p className="mt-1 text-sm text-neutral-500 dark:text-neutral-500">{section.description}</p>
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="relative pl-4">
+                                    <span className={`absolute left-0 top-1 h-[calc(100%-0.25rem)] w-1 rounded-full ${accent.bar}`} />
+                                    <div className="grid gap-3">
+                                        {section.items.map((item, itemIndex) => (
+                                            <motion.article
+                                                key={`${section.title}-${item.title}-${item.date || itemIndex}`}
+                                                initial={{ opacity: 0, y: 14 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.32, delay: 0.05 * itemIndex }}
+                                                className={`rounded-lg border border-neutral-200/80 bg-white p-4 shadow-[0_10px_24px_rgba(15,23,42,0.05)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_32px_rgba(15,23,42,0.08)] dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-900/60 dark:shadow-none ${accent.border}`}
+                                            >
+                                                <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+                                                    <div className="min-w-0">
+                                                        <h3 className={`${embedded ? "text-base" : "text-lg"} font-semibold leading-snug text-primary`}>
+                                                            {item.title}
+                                                        </h3>
+                                                        {item.subtitle && (
+                                                            <p className="mt-2 text-sm font-medium text-accent-dark dark:text-accent-light">
+                                                                {item.subtitle}
+                                                            </p>
+                                                        )}
+                                                    </div>
+                                                    {item.date && (
+                                                        <span className="shrink-0 self-start rounded-md bg-neutral-100 px-2.5 py-1 text-sm font-semibold text-neutral-600 dark:bg-neutral-800/80 dark:text-neutral-400">
+                                                            {item.date}
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                {item.content && (
+                                                    <div className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-500">
+                                                        <ReactMarkdown components={markdownComponents}>
+                                                            {item.content}
+                                                        </ReactMarkdown>
+                                                    </div>
+                                                )}
+
+                                                {item.tags && (
+                                                    <div className="mt-3 flex flex-wrap gap-2">
+                                                        {item.tags.map(tag => (
+                                                            <span key={tag} className="rounded border border-neutral-200 bg-neutral-50 px-2 py-1 text-xs text-neutral-500 dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-800/50 dark:text-neutral-500">
+                                                                {tag}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </motion.article>
+                                        ))}
+                                    </div>
+                                </div>
+                            </section>
+                        );
+                    })}
+                </div>
+            )}
+        </motion.div>
+    );
+}
+
 export default function CardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
     const items = config.items || [];
 
     if (config.variant === 'awards') {
         return <AwardsCardPage config={config} embedded={embedded} />;
+    }
+
+    if (config.variant === 'teaching') {
+        return <TeachingCardPage config={config} embedded={embedded} />;
     }
 
     return (

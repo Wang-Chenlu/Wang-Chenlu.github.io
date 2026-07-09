@@ -1,34 +1,59 @@
 type = "card"
+variant = "teaching"
 title = "Teaching & Talks"
-description = "Selected talks, poster presentations, and conference contributions."
+description = "Selected invited talks, oral/poster presentations, and training activities"
 empty = "Teaching activities, talks, and presentations will be added soon."
 
-[[items]]
-title = "Excellent Poster Award"
-subtitle = "7th National Conference on Chemical Engineering and Biochemical Engineering"
-date = "2023"
-tags = ["Poster"]
+[[sections]]
+title = "Invited and Oral Presentations"
 
-[[items]]
-title = "Grand Prize for Thematic Presentation"
-subtitle = "2021 Science-Education Integration Forum Graduate Academic Report Meeting, Shenyang University of Chemical Technology"
+[[sections.items]]
+title = "Academic Salon on “Focusing on Carbon Neutrality and Exploring Sustainable Development Pathways”, University of Chinese Academy of Sciences"
+subtitle = "Invited Talk"
+date = "2022"
+
+[[sections.items]]
+title = "Graduate Academic Conference of the Science-Education Integration Forum, Shenyang University of Chemical Technology"
+subtitle = "Oral Presentation · Grand Prize"
 date = "2021"
-tags = ["Talk"]
 
-[[items]]
-title = "Best Poster Award"
-subtitle = "3rd Peking University Physical Chemistry Graduate Frontier Forum"
+[[sections.items]]
+title = "3rd Peking University Graduate Frontier Forum in Physical Chemistry"
+subtitle = "Oral Presentation"
 date = "2019"
-tags = ["Poster"]
 
-[[items]]
-title = "Best Organization Award"
-subtitle = "The 8th International Congress on Ionic Liquids"
+[[sections.items]]
+title = "The 3rd Chinese-Foreign Postgraduate Exchange Forum"
+subtitle = "Oral Presentation"
 date = "2019"
-tags = ["Conference"]
 
-[[items]]
-title = "Best Organization Award"
-subtitle = "The 7th CAS-TWAS Symposium on Green Technology"
+[[sections]]
+title = "Poster Presentations"
+
+[[sections.items]]
+title = "7th National Conference on Chemical Engineering and Biochemical Engineering"
+subtitle = "Poster Presentation · Excellent Poster Award"
+date = "2023"
+
+[[sections.items]]
+title = "3rd Peking University Graduate Frontier Forum in Physical Chemistry"
+subtitle = "Poster Presentation · Best Poster Award"
+date = "2019"
+
+[[sections.items]]
+title = "The 8th International Congress on Ionic Liquids"
+subtitle = "Poster Presentation"
+date = "2019"
+
+[[sections.items]]
+title = "The 7th CAS-TWAS Symposium on Green Technology"
+subtitle = "Poster Presentation"
 date = "2018"
-tags = ["Conference"]
+
+[[sections]]
+title = "Teaching & Training"
+
+[[sections.items]]
+title = "LAMMPS Training Course, Institute of Process Engineering, Chinese Academy of Sciences"
+subtitle = "Instructor"
+date = "2020"

@@ -30,10 +30,17 @@ export interface CardPageSummaryConfig {
     eyebrow?: string;
 }
 
+export interface CardSection {
+    title: string;
+    description?: string;
+    items: CardItem[];
+}
+
 export interface CardPageConfig extends BasePageConfig {
     type: 'card';
     variant?: 'awards' | string;
-    items: CardItem[];
+    items?: CardItem[];
+    sections?: CardSection[];
     empty?: string;
     summary?: CardPageSummaryConfig;
 }
