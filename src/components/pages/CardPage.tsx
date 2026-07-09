@@ -134,6 +134,30 @@ function renderHighlightedTitle(title: string, highlight?: string, compactHighli
     );
 }
 
+function renderOrdinalText(text: string) {
+    const parts = text.split(/(\d+)(st|nd|rd|th)\b/gi);
+
+    if (parts.length === 1) {
+        return text;
+    }
+
+    return parts.map((part, index) => {
+        if (index % 3 === 1) {
+            return (
+                <span key={`${part}-${index}`}>
+                    {part}<sup className="align-super text-[0.68em] leading-none">{parts[index + 1]}</sup>
+                </span>
+            );
+        }
+
+        if (index % 3 === 2) {
+            return null;
+        }
+
+        return part;
+    });
+}
+
 function AwardsCardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
     const items = config.items || [];
     const sortedItems = sortAwardsByDate(items);
@@ -340,7 +364,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                         </div>
                                                         <div className="min-w-0">
                                                             <h3 className="text-sm font-semibold leading-relaxed text-primary">
-                                                                {item.title}
+                                                                {renderOrdinalText(item.title)}
                                                             </h3>
                                                             {item.venue && (
                                                                 <p className="mt-2 text-sm font-medium text-neutral-600 dark:text-neutral-500">
