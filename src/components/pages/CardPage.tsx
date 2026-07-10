@@ -158,6 +158,22 @@ function renderOrdinalText(text: string) {
     });
 }
 
+function renderServiceRole(role: string) {
+    const [label, highlight] = role.split('·').map(part => part.trim());
+
+    if (!highlight) {
+        return role;
+    }
+
+    return (
+        <>
+            <span className="text-neutral-600 dark:text-neutral-500">{label}</span>
+            <span className="mx-2 text-neutral-300 dark:text-neutral-600">·</span>
+            <span className="text-accent-dark dark:text-accent-light">{highlight}</span>
+        </>
+    );
+}
+
 function AwardsCardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
     const items = config.items || [];
     const sortedItems = sortAwardsByDate(items);
@@ -392,8 +408,10 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                                 </p>
                                                             )}
                                                             {role && (
-                                                                <p className="mt-2 text-sm font-semibold text-accent-dark dark:text-accent-light">
-                                                                    {role}
+                                                                <p className="mt-2 text-sm font-semibold">
+                                                                    {isService ? renderServiceRole(role) : (
+                                                                        <span className="text-accent-dark dark:text-accent-light">{role}</span>
+                                                                    )}
                                                                 </p>
                                                             )}
                                                         </div>
@@ -410,7 +428,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                     {item.tags && (
                                                         <div className="mt-4 flex flex-wrap gap-2 pl-14">
                                                             {item.tags.map(tag => (
-                                                                <span key={tag} className="rounded border border-neutral-200 bg-neutral-50 px-2 py-1 text-xs text-neutral-500 dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-800/50 dark:text-neutral-500">
+                                                                <span key={tag} className={`${isService ? "rounded-full border-accent/20 bg-accent/5 px-3 py-1.5 text-accent-dark dark:border-accent/25 dark:bg-accent/10 dark:text-accent-light" : "rounded border-neutral-200 bg-neutral-50 px-2 py-1 text-neutral-500 dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-800/50 dark:text-neutral-500"} border text-xs font-medium`}>
                                                                     {tag}
                                                                 </span>
                                                             ))}

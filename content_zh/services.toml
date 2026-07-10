@@ -10,8 +10,15 @@ eyebrow = "精选服务"
 title = "期刊审稿"
 
 [[sections.items]]
-title = "担任 RSC Advances、Physical Chemistry Chemical Physics、Journal of Environmental Chemical Engineering 等期刊审稿人"
+title = "期刊审稿人"
 date = "2022 年至今"
+tags = [
+    "Chemical Engineering Journal",
+    "RSC Advances",
+    "Physical Chemistry Chemical Physics",
+    "Journal of Environmental Chemical Engineering",
+    "等期刊",
+]
 
 [[sections]]
 title = "会议服务"

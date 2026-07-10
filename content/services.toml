@@ -10,18 +10,25 @@ eyebrow = "Selected Service"
 title = "Journal Reviewing"
 
 [[sections.items]]
-title = "Reviewer for journals including RSC Advances, Physical Chemistry Chemical Physics, and Journal of Environmental Chemical Engineering"
+title = "Reviewer"
 date = "2022–present"
+tags = [
+    "Chemical Engineering Journal",
+    "RSC Advances",
+    "Physical Chemistry Chemical Physics",
+    "Journal of Environmental Chemical Engineering",
+    "and other journals",
+]
 
 [[sections]]
 title = "Conference Service"
 
 [[sections.items]]
 title = "The 8th International Congress on Ionic Liquids"
-role = "Conference Organization · Best Organization Award"
+role = "Conference Organizing · Best Organization Award"
 date = "2019"
 
 [[sections.items]]
 title = "The 7th CAS-TWAS Symposium on Green Technology"
-role = "Conference Organization · Best Organization Award"
+role = "Conference Organizing · Best Organization Award"
 date = "2018"
