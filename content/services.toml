@@ -7,28 +7,21 @@ empty = "Academic service activities will be added soon."
 eyebrow = "Selected Service"
 
 [[sections]]
-title = "Journal Reviewing"
+title = "Peer Reviewer"
 
 [[sections.items]]
-title = "Reviewer"
-date = "2022–present"
-tags = [
-    "Chemical Engineering Journal",
-    "RSC Advances",
-    "Physical Chemistry Chemical Physics",
-    "Journal of Environmental Chemical Engineering",
-    "and other journals",
-]
+title = "Chemical Engineering Journal, RSC Advances, Physical Chemistry Chemical Physics, and Journal of Environmental Chemical Engineering"
+date = "Since 2022"
 
 [[sections]]
 title = "Conference Service"
 
 [[sections.items]]
 title = "The 8th International Congress on Ionic Liquids"
-role = "Conference Organizing · Best Organization Award"
+role = "Conference Organization · Best Organization Award"
 date = "2019"
 
 [[sections.items]]
 title = "The 7th CAS-TWAS Symposium on Green Technology"
-role = "Conference Organizing · Best Organization Award"
+role = "Conference Organization · Best Organization Award"
 date = "2018"
