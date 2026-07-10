@@ -166,12 +166,31 @@ function renderServiceRole(role: string) {
     }
 
     return (
-        <>
+        <span className="inline-flex flex-wrap items-center gap-2">
             <span className="text-neutral-600 dark:text-neutral-500">{label}</span>
-            <span className="mx-2 text-neutral-300 dark:text-neutral-600">·</span>
-            <span className="text-accent-dark dark:text-accent-light">{highlight}</span>
-        </>
+            <span className="inline-flex items-center rounded-full border border-accent/25 bg-accent/10 px-2.5 py-1 text-xs font-semibold text-accent-dark dark:border-accent/30 dark:bg-accent/15 dark:text-accent-light">
+                {highlight}
+            </span>
+        </span>
     );
+}
+
+function getServiceJournalTags(sectionTitle: string, title: string, tags?: string[]) {
+    const isReviewSection = /review/i.test(sectionTitle) || sectionTitle.includes('审稿');
+
+    if (!isReviewSection) {
+        return [];
+    }
+
+    if (tags?.length) {
+        return tags;
+    }
+
+    return title
+        .replace(/,\s+and\s+/i, ', ')
+        .split(',')
+        .map(part => part.trim())
+        .filter(Boolean);
 }
 
 function AwardsCardPage({ config, embedded = false }: { config: CardPageConfig; embedded?: boolean }) {
@@ -376,6 +395,8 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                     {section.items.map((item, itemIndex) => {
                                         const date = getTimelineDate(item.date);
                                         const role = item.role || item.subtitle;
+                                        const serviceJournalTags = isService ? getServiceJournalTags(section.title, item.title, item.tags) : [];
+                                        const showJournalTitle = serviceJournalTags.length > 0 && Boolean(item.tags?.length);
 
                                         return (
                                             <motion.li
@@ -399,9 +420,19 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                             <SectionIcon className="h-5 w-5" aria-hidden="true" />
                                                         </div>
                                                         <div className="min-w-0">
-                                                            <h3 className="text-sm font-semibold leading-relaxed text-primary">
+                                                            <h3 className={`${serviceJournalTags.length > 0 && !showJournalTitle ? "sr-only" : "text-sm font-semibold leading-relaxed text-primary"}`}>
                                                                 {renderOrdinalText(item.title)}
                                                             </h3>
+                                                            {serviceJournalTags.length > 0 && (
+                                                                <div className={`${showJournalTitle ? "mt-3 " : ""}flex flex-wrap gap-2`}>
+                                                                    {serviceJournalTags.map(tag => (
+                                                                        <span key={tag} className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100">
+                                                                            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                                                                            {tag}
+                                                                        </span>
+                                                                    ))}
+                                                                </div>
+                                                            )}
                                                             {item.venue && (
                                                                 <p className="mt-2 text-sm font-medium text-neutral-600 dark:text-neutral-500">
                                                                     {item.venue}
@@ -425,7 +456,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                         </div>
                                                     )}
 
-                                                    {item.tags && (
+                                                    {item.tags && serviceJournalTags.length === 0 && (
                                                         <div className="mt-4 flex flex-wrap gap-2 pl-14">
                                                             {item.tags.map(tag => (
                                                                 <span key={tag} className={`${isService ? "rounded-full border-accent/20 bg-accent/5 px-3 py-1.5 text-accent-dark dark:border-accent/25 dark:bg-accent/10 dark:text-accent-light" : "rounded border-neutral-200 bg-neutral-50 px-2 py-1 text-neutral-500 dark:border-[rgba(148,163,184,0.18)] dark:bg-neutral-800/50 dark:text-neutral-500"} border text-xs font-medium`}>
