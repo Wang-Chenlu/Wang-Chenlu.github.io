@@ -166,12 +166,11 @@ function renderServiceRole(role: string) {
     }
 
     return (
-        <span className="inline-flex flex-wrap items-center gap-2">
+        <>
             <span className="text-neutral-600 dark:text-neutral-500">{label}</span>
-            <span className="inline-flex items-center rounded-full border border-accent/25 bg-accent/10 px-2.5 py-1 text-xs font-semibold text-accent-dark dark:border-accent/30 dark:bg-accent/15 dark:text-accent-light">
-                {highlight}
-            </span>
-        </span>
+            <span className="mx-2 text-neutral-300 dark:text-neutral-600">·</span>
+            <span className="text-accent-dark dark:text-accent-light">{highlight}</span>
+        </>
     );
 }
 
