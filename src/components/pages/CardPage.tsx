@@ -431,7 +431,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                                     {firstServiceJournalRow.length > 0 && (
                                                                         <div className="grid gap-2 sm:grid-cols-2">
                                                                             {firstServiceJournalRow.map(tag => (
-                                                                                <span key={tag} className="flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100">
+                                                                                <span key={tag} className="flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-primary">
                                                                                     {tag}
                                                                                 </span>
                                                                             ))}
@@ -440,7 +440,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                                     {(secondServiceJournalRow.length > 0 || hasMoreServiceJournals) && (
                                                                         <div className="flex min-w-0 flex-wrap items-center gap-2">
                                                                             {secondServiceJournalRow.map(tag => (
-                                                                                <span key={tag} className="flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100">
+                                                                                <span key={tag} className="flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-primary">
                                                                                     {tag}
                                                                                 </span>
                                                                             ))}
