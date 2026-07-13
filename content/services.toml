@@ -4,13 +4,13 @@ title = "Academic Service"
 empty = "Academic service activities will be added soon."
 
 [summary]
-eyebrow = "Selected Service"
+eyebrow = "Selected Services"
 
 [[sections]]
 title = "Peer Reviewer"
 
 [[sections.items]]
-title = "Chemical Engineering Journal, RSC Advances, Physical Chemistry Chemical Physics, and Journal of Environmental Chemical Engineering"
+title = "Chemical Engineering Journal, Journal of Environmental Chemical Engineering, RSC Advances, and Physical Chemistry Chemical Physics"
 date = "Since 2022"
 
 [[sections]]

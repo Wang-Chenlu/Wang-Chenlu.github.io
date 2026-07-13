@@ -334,7 +334,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
     const HeaderIcon = isService ? Handshake : BookOpen;
     const sectionStyles = isService ? serviceSectionStyles : teachingSectionStyles;
     const sectionIdPrefix = isService ? 'service-section' : 'teaching-section';
-    const defaultEyebrow = isService ? 'Selected Service' : 'Selected Teaching & Talks';
+    const defaultEyebrow = isService ? 'Selected Services' : 'Selected Teaching & Talks';
 
     return (
         <motion.div
@@ -423,10 +423,9 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                                 {renderOrdinalText(item.title)}
                                                             </h3>
                                                             {serviceJournalTags.length > 0 && (
-                                                                <div className={`${showJournalTitle ? "mt-3 " : ""}flex flex-wrap gap-2`}>
+                                                                <div className={`${showJournalTitle ? "mt-3 " : ""}grid gap-2 sm:grid-cols-2`}>
                                                                     {serviceJournalTags.map(tag => (
-                                                                        <span key={tag} className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100">
-                                                                            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
+                                                                        <span key={tag} className="flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100">
                                                                             {tag}
                                                                         </span>
                                                                     ))}
