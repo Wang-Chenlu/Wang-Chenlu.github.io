@@ -175,14 +175,14 @@ function renderServiceRole(role: string) {
 }
 
 function getServiceJournalTags(sectionTitle: string, title: string, tags?: string[]) {
+    if (tags?.length) {
+        return tags;
+    }
+
     const isReviewSection = /review/i.test(sectionTitle) || sectionTitle.includes('审稿');
 
     if (!isReviewSection) {
         return [];
-    }
-
-    if (tags?.length) {
-        return tags;
     }
 
     return title
@@ -423,9 +423,9 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                                 {renderOrdinalText(item.title)}
                                                             </h3>
                                                             {serviceJournalTags.length > 0 && (
-                                                                <div className={`${showJournalTitle ? "mt-3 " : ""}grid gap-2 sm:grid-cols-2`}>
-                                                                    {serviceJournalTags.map(tag => (
-                                                                        <span key={tag} className="flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100">
+                                                                <div className={`${showJournalTitle ? "mt-3 " : ""}flex flex-wrap gap-2`}>
+                                                                    {serviceJournalTags.map((tag, tagIndex) => (
+                                                                        <span key={tag} className={`flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100 ${tagIndex < 2 ? "basis-[calc(50%-0.25rem)]" : "basis-[calc(33.333%-0.34rem)]"}`}>
                                                                             {tag}
                                                                         </span>
                                                                     ))}
