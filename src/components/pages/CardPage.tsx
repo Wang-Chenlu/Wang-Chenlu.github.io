@@ -395,6 +395,10 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                         const date = getTimelineDate(item.date);
                                         const role = item.role || item.subtitle;
                                         const serviceJournalTags = isService ? getServiceJournalTags(section.title, item.title, item.tags) : [];
+                                        const serviceJournalNames = serviceJournalTags.filter(tag => tag.trim() !== '...');
+                                        const hasMoreServiceJournals = serviceJournalTags.some(tag => tag.trim() === '...');
+                                        const firstServiceJournalRow = serviceJournalNames.slice(0, 2);
+                                        const secondServiceJournalRow = serviceJournalNames.slice(2);
                                         const showJournalTitle = false;
 
                                         return (
@@ -418,17 +422,35 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                         <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ring-1 ${accent.badge}`}>
                                                             <SectionIcon className="h-5 w-5" aria-hidden="true" />
                                                         </div>
-                                                        <div className="min-w-0">
+                                                        <div className="min-w-0 flex-1">
                                                             <h3 className={`${serviceJournalTags.length > 0 && !showJournalTitle ? "sr-only" : "text-sm font-semibold leading-relaxed text-primary"}`}>
                                                                 {renderOrdinalText(item.title)}
                                                             </h3>
                                                             {serviceJournalTags.length > 0 && (
-                                                                <div className={`${showJournalTitle ? "mt-3 " : ""}flex flex-wrap gap-2`}>
-                                                                    {serviceJournalTags.map((tag, tagIndex) => (
-                                                                        <span key={tag} className={`flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100 ${tagIndex < 2 ? "basis-[calc(50%-0.25rem)]" : "basis-[calc(33.333%-0.34rem)]"}`}>
-                                                                            {tag}
-                                                                        </span>
-                                                                    ))}
+                                                                <div className={`${showJournalTitle ? "mt-3 " : ""}space-y-2`}>
+                                                                    {firstServiceJournalRow.length > 0 && (
+                                                                        <div className="grid gap-2 sm:grid-cols-2">
+                                                                            {firstServiceJournalRow.map(tag => (
+                                                                                <span key={tag} className="flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100">
+                                                                                    {tag}
+                                                                                </span>
+                                                                            ))}
+                                                                        </div>
+                                                                    )}
+                                                                    {(secondServiceJournalRow.length > 0 || hasMoreServiceJournals) && (
+                                                                        <div className="flex min-w-0 flex-wrap items-center gap-2">
+                                                                            {secondServiceJournalRow.map(tag => (
+                                                                                <span key={tag} className="flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-neutral-100">
+                                                                                    {tag}
+                                                                                </span>
+                                                                            ))}
+                                                                            {hasMoreServiceJournals && (
+                                                                                <span className="shrink-0 px-0.5 text-xs font-semibold leading-none text-neutral-500 dark:text-neutral-400" aria-label="More journals">
+                                                                                    ...
+                                                                                </span>
+                                                                            )}
+                                                                        </div>
+                                                                    )}
                                                                 </div>
                                                             )}
                                                             {item.venue && (
