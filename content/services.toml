@@ -10,8 +10,15 @@ eyebrow = "Selected Services"
 title = "Peer Reviewer"
 
 [[sections.items]]
-title = "Chemical Engineering Journal, Journal of Environmental Chemical Engineering, RSC Advances, and Physical Chemistry Chemical Physics"
+title = "Peer reviewer"
 date = "Since 2022"
+tags = [
+    "Chemical Engineering Journal",
+    "Journal of Environmental Chemical Engineering",
+    "RSC Advances",
+    "Physical Chemistry Chemical Physics",
+    "...",
+]
 
 [[sections]]
 title = "Conference Service"

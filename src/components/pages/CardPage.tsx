@@ -395,7 +395,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                         const date = getTimelineDate(item.date);
                                         const role = item.role || item.subtitle;
                                         const serviceJournalTags = isService ? getServiceJournalTags(section.title, item.title, item.tags) : [];
-                                        const showJournalTitle = serviceJournalTags.length > 0 && Boolean(item.tags?.length);
+                                        const showJournalTitle = false;
 
                                         return (
                                             <motion.li
