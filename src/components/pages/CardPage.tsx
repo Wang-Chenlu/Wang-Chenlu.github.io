@@ -400,7 +400,8 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                         const hasMoreServiceJournals = serviceJournalTags.some(tag => tag.trim() === '...');
                                         const firstServiceJournalRow = serviceJournalNames.slice(0, 2);
                                         const secondServiceJournalRow = serviceJournalNames.slice(2);
-                                        const serviceJournalTagTextSize = isChineseServicePage ? 'text-[0.68rem] sm:text-[0.7rem]' : 'text-xs';
+                                        const firstServiceJournalRowClass = isChineseServicePage ? 'grid gap-2 sm:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]' : 'grid gap-2 sm:grid-cols-2';
+                                        const serviceJournalTagTextSize = isChineseServicePage ? 'text-[0.6rem] sm:text-[0.64rem]' : 'text-xs';
                                         const showJournalTitle = false;
 
                                         return (
@@ -431,9 +432,9 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                             {serviceJournalTags.length > 0 && (
                                                                 <div className={`${showJournalTitle ? "mt-3 " : ""}space-y-2`}>
                                                                     {firstServiceJournalRow.length > 0 && (
-                                                                        <div className="grid gap-2 sm:grid-cols-2">
+                                                                        <div className={firstServiceJournalRowClass}>
                                                                             {firstServiceJournalRow.map(tag => (
-                                                                                <span key={tag} className={`flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 ${serviceJournalTagTextSize} font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-primary`}>
+                                                                                <span key={tag} className={`flex min-w-0 items-center whitespace-nowrap rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 ${serviceJournalTagTextSize} font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-primary`}>
                                                                                     {tag}
                                                                                 </span>
                                                                             ))}
@@ -442,7 +443,7 @@ function TeachingCardPage({ config, embedded = false }: { config: CardPageConfig
                                                                     {(secondServiceJournalRow.length > 0 || hasMoreServiceJournals) && (
                                                                         <div className="flex min-w-0 flex-wrap items-center gap-2">
                                                                             {secondServiceJournalRow.map(tag => (
-                                                                                <span key={tag} className={`flex min-w-0 items-center rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 ${serviceJournalTagTextSize} font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-primary`}>
+                                                                                <span key={tag} className={`flex min-w-0 items-center whitespace-nowrap rounded-full border border-accent/20 bg-accent/5 px-3 py-1.5 ${serviceJournalTagTextSize} font-semibold text-primary shadow-sm shadow-accent/5 dark:border-accent/25 dark:bg-accent/10 dark:text-primary`}>
                                                                                     {tag}
                                                                                 </span>
                                                                             ))}
