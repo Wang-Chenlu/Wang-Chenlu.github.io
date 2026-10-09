@@ -1,7 +1,9 @@
-Hi! I’m Chenlu Wang, originally from Xi’an, China, a city illuminated by its history as the capital of thirteen dynasties and equally memorable for local favorites including Roujiamo, Liangpi, etc.
+Hi! I’m Chenlu Wang, originally from Xi’an, China, a city with a history spanning thirteen dynasties and plenty of good reasons to stay for another meal. Roujiamo and liangpi are two of my favorites.
 
-I earned my Ph.D. in Chemical Engineering in 2024 from the Institute of Process Engineering, Chinese Academy of Sciences. My research focuses on computational materials science, using density functional theory (DFT), molecular dynamics (MD) simulations, and force field development to study complex molecular and ionic systems. I am especially interested in molecular-level mechanisms relevant to energy storage, CO₂ separation, and functional materials.
+I received my Ph.D. in Chemical Engineering from the Institute of Process Engineering, Chinese Academy of Sciences, in 2024. My research focuses on computational materials science. I use density functional theory (DFT), molecular dynamics (MD) simulations, and force field development to study complex molecular and ionic systems, with a particular interest in the molecular mechanisms involved in electrochemical energy storage, CO₂ separation, and functional materials.
 
-Outside research, my life is shaped by many things I love: 🐱 Mi, who firmly believes she runs the household; a kitchen that occasionally smells wonderful; films and books worth returning to; and journeys that keep leading me somewhere new. These everyday joys are even more precious with 🍊 by my side. I’m also a Les Mills instructor, and I love helping people move, sweat, unwind, and grow stronger with music.
+At home, I live with two cats, 🐱🍊 and 🐱🌰, both girls and both quite sure the place belongs to them. I enjoy cooking, getting lost in a good book or film, and exploring somewhere new. With 👨🍊 by my side and the cats keeping an eye on us, even an ordinary day has plenty to love.
 
-If you’re interested in molecular simulations, materials chemistry, fitness training, or simply exchanging a few cat photos, I’d be happy to hear from you.
+I’m also a Les Mills group fitness instructor. I love a good workout, a good playlist, and seeing people leave class a little happier and stronger than when they arrived.
+
+If you’re interested in molecular simulations, materials chemistry, or fitness, I’d love to hear from you. Cat photos are always welcome, too.
