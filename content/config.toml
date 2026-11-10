@@ -9,7 +9,7 @@ name = "Chenlu Wang"
 aliases = ["王琛璐"]
 title = "Postdoctoral Researcher"
 institution = "Suzhou Laboratory"
-avatar = "/bio.jpg"
+avatar = "/bio.png"
 
 [social]
 email = "wangchenlu20@mails.ucas.ac.cn"

@@ -171,6 +171,19 @@ html[data-locale^="zh"] .leading-relaxed {
   line-height: 1.85;
 }
 
+/* Keep the homepage biography compact while retaining readable Chinese spacing. */
+.home-bio {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  text-align: start;
+}
+
+html:lang(zh) .home-bio,
+html[data-locale^="zh"] .home-bio {
+  line-height: 1.72;
+  text-align: justify;
+}
+
 html:lang(zh) body,
 html[data-locale^="zh"] body {
   letter-spacing: 0.006em;

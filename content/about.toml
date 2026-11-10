@@ -3,11 +3,11 @@ title = "About"
 
 [profile]
 research_interests = [
-  "Molecular Simulations",
-  "Polarizable Force Fields",
-  "Electrolytes",
   "Ionic Liquids",
-  "Nanoconfined Transport"
+  "Gas Separation",
+  "Nanoconfined Transport",
+  "Electrolytes",
+  "Molecular Simulations"
 ]
 
 [[sections]]
