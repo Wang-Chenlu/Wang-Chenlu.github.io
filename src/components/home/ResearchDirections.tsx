@@ -111,15 +111,16 @@ function ResearchDirectionCard({
         </p>
       )}
 
-      <p className="text-xs leading-5 text-neutral-600 dark:text-neutral-500 lg:min-h-10">
-        <em>
-          {isChinese ? keywords.map((keyword, keywordIndex) => (
-            <span key={keyword} className="inline-block">
-              {keyword}{keywordIndex < keywords.length - 1 ? ' · ' : ''}
-            </span>
-          )) : keywords.join(' · ')}
-        </em>
-      </p>
+      <div className="flex flex-col items-start gap-1">
+        {keywords.map((keyword) => (
+          <span
+            key={keyword}
+            className={`whitespace-nowrap rounded-md border px-1.5 py-0.5 text-[0.64rem] font-medium leading-4 ${direction.accent.chip}`}
+          >
+            {keyword}
+          </span>
+        ))}
+      </div>
 
       <div className="mt-3 flex-1 border-t border-neutral-200/65 pt-3 dark:border-neutral-800/80">
         <h4 className="mb-1.5 text-[0.6rem] font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
