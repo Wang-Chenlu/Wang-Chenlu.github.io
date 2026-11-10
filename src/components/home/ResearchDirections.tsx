@@ -12,16 +12,16 @@ interface ResearchDirectionsProps {
 
 const ZH_DIRECTION_CONTENT: Record<string, { titleLines: string[]; keywords: string[] }> = {
   'electrolytes-energy-storage': {
-    titleLines: ['电解质与储能'],
-    keywords: ['离子输运', '溶剂化结构', '极化力场'],
+    titleLines: ['电解质与离子输运'],
+    keywords: ['溶剂化结构', '离子输运', '可极化力场'],
   },
   'molecular-ionic-liquids': {
-    titleLines: ['水与离子液体'],
-    keywords: ['体相结构', '相互作用', '气体溶解'],
+    titleLines: ['离子液体与气体分离'],
+    keywords: ['气体溶解', 'CO₂捕集', '分子相互作用'],
   },
   'interfaces-nanoconfinement': {
-    titleLines: ['界面与纳米限域'],
-    keywords: ['润湿行为', '膜分离', '功能材料'],
+    titleLines: ['界面与纳米限域传质'],
+    keywords: ['润湿行为', '膜分离', '响应性材料'],
   },
 };
 
@@ -90,9 +90,9 @@ function ResearchDirectionCard({
       className={`relative flex h-full min-w-0 flex-col overflow-hidden rounded-lg border border-neutral-200/70 bg-white/80 p-4 shadow-[0_4px_16px_rgba(15,23,42,0.035)] transition-colors dark:border-[rgba(148,163,184,0.16)] dark:bg-neutral-900/40 dark:shadow-none ${direction.accent.hover}`}
     >
       <div className={`absolute inset-x-0 top-0 h-0.5 ${direction.accent.line}`} aria-hidden="true" />
-      <div className="mb-3 flex items-start justify-between gap-2.5 pt-0.5">
+      <div className="mb-3 flex items-start justify-between gap-2 pt-0.5">
         <div className="min-w-0">
-          <h3 className="text-[0.92rem] font-semibold leading-tight text-primary">
+          <h3 className="text-sm font-semibold leading-tight text-primary">
             {titleLines.map((line) => (
               <span key={line} className="block">
                 {line}
@@ -100,7 +100,7 @@ function ResearchDirectionCard({
             ))}
           </h3>
         </div>
-        <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-md border ${direction.accent.icon}`}>
+        <div className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md border ${direction.accent.icon}`}>
           <Icon className="h-3.5 w-3.5" aria-hidden="true" />
         </div>
       </div>
@@ -111,16 +111,15 @@ function ResearchDirectionCard({
         </p>
       )}
 
-      <div className={isChinese ? 'flex flex-wrap items-start gap-1.5' : 'flex flex-col items-start gap-1'}>
-        {keywords.map((keyword) => (
-          <span
-            key={keyword}
-            className={`whitespace-nowrap rounded-md border px-1.5 py-0.5 text-[0.64rem] font-medium leading-4 ${direction.accent.chip}`}
-          >
-            {keyword}
-          </span>
-        ))}
-      </div>
+      <p className="text-xs leading-5 text-neutral-600 dark:text-neutral-500 lg:min-h-10">
+        <em>
+          {isChinese ? keywords.map((keyword, keywordIndex) => (
+            <span key={keyword} className="inline-block">
+              {keyword}{keywordIndex < keywords.length - 1 ? ' · ' : ''}
+            </span>
+          )) : keywords.join(' · ')}
+        </em>
+      </p>
 
       <div className="mt-3 flex-1 border-t border-neutral-200/65 pt-3 dark:border-neutral-800/80">
         <h4 className="mb-1.5 text-[0.6rem] font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
