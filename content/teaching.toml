@@ -10,6 +10,12 @@ eyebrow = "Selected Activities"
 title = "Invited and Oral Presentations"
 
 [[sections.items]]
+title = "Artificial Intelligence in Molecular Simulation, The 1st Degree of Freedom Series Workshop"
+venue = "Westlake University"
+role = "Invited Talk"
+date = "2026"
+
+[[sections.items]]
 title = "Academic Salon on “Focusing on Carbon Neutrality and Exploring Sustainable Development Pathways”"
 venue = "University of Chinese Academy of Sciences"
 role = "Invited Talk"

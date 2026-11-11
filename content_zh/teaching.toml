@@ -10,6 +10,11 @@ eyebrow = "精选经历"
 title = "邀请与口头报告"
 
 [[sections.items]]
+title = "西湖大学首届“Degree of Freedom”系列研讨会：人工智能与分子模拟"
+role = "邀请报告"
+date = "2026"
+
+[[sections.items]]
 title = "中国科学院大学“聚焦双碳，探索可持续发展道路”学术沙龙"
 role = "邀请报告"
 date = "2022"
