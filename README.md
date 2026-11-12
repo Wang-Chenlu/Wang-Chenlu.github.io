@@ -33,6 +33,11 @@ npm run build
 - Publication figures are stored under `public/images/publications/`.
 - Source components and styling live in `src/`.
 
+To enable the PDF buttons for a publication, add `pdf = {https://...}` and/or
+`supplementary = {https://...}` to its entry in `content/publications.bib`.
+Links may also point to files under `public/`, such as `/papers/example.pdf`.
+Only publish PDF files when you have permission to distribute them.
+
 ## Analytics
 
 The site loads Statcounter analytics for visitor activity and IP-level logs.

@@ -37,6 +37,7 @@ export interface Publication {
   url?: string;
   code?: string;
   pdfUrl?: string;
+  supplementaryPdfUrl?: string;
   slides?: string;
   video?: string;
   tags: string[];

@@ -621,9 +621,16 @@ export default function PublicationsList({
                                 {pub.url && (
                                     <PublicationLink href={pub.url} label="URL" />
                                 )}
-                                {pub.pdfUrl && (
-                                    <PublicationLink href={pub.pdfUrl} label="PDF" />
-                                )}
+                                <PublicationPdfButton
+                                    href={pub.pdfUrl}
+                                    label={isChinese ? '全文 PDF' : 'Full Text PDF'}
+                                    isChinese={isChinese}
+                                />
+                                <PublicationPdfButton
+                                    href={pub.supplementaryPdfUrl}
+                                    label={isChinese ? '补充材料 PDF' : 'SI PDF'}
+                                    isChinese={isChinese}
+                                />
                                 {(pub.code || highlight) && (
                                     <PublicationCodeDataButton
                                         href={pub.code || highlight?.codeHref}
@@ -1173,6 +1180,23 @@ function PublicationLink({ href, label, icon }: { href: string; label: string; i
             ) : null}
             {label}
         </a>
+    );
+}
+
+function PublicationPdfButton({ href, label, isChinese }: { href?: string; label: string; isChinese: boolean }) {
+    if (href) {
+        return <PublicationLink href={href} label={label} />;
+    }
+
+    return (
+        <button
+            type="button"
+            disabled
+            title={isChinese ? 'PDF 暂不可用' : 'PDF currently unavailable'}
+            className="inline-flex cursor-not-allowed items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500"
+        >
+            {label}
+        </button>
     );
 }
 
