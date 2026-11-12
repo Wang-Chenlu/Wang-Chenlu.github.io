@@ -12,7 +12,9 @@ import {
     ClipboardDocumentIcon,
     ArrowTopRightOnSquareIcon,
     CodeBracketIcon,
+    DocumentMagnifyingGlassIcon,
     DocumentTextIcon,
+    PaperClipIcon,
     SparklesIcon,
     UserGroupIcon,
     ChevronLeftIcon,
@@ -624,11 +626,13 @@ export default function PublicationsList({
                                 <PublicationPdfButton
                                     href={pub.pdfUrl}
                                     label={isChinese ? '全文 PDF' : 'Full Text PDF'}
+                                    icon={<DocumentMagnifyingGlassIcon className="h-3 w-3" />}
                                     isChinese={isChinese}
                                 />
                                 <PublicationPdfButton
                                     href={pub.supplementaryPdfUrl}
                                     label={isChinese ? '补充材料 PDF' : 'SI PDF'}
+                                    icon={<PaperClipIcon className="h-3 w-3" />}
                                     isChinese={isChinese}
                                 />
                                 {(pub.code || highlight) && (
@@ -1183,9 +1187,9 @@ function PublicationLink({ href, label, icon }: { href: string; label: string; i
     );
 }
 
-function PublicationPdfButton({ href, label, isChinese }: { href?: string; label: string; isChinese: boolean }) {
+function PublicationPdfButton({ href, label, icon, isChinese }: { href?: string; label: string; icon: ReactNode; isChinese: boolean }) {
     if (href) {
-        return <PublicationLink href={href} label={label} />;
+        return <PublicationLink href={href} label={label} icon={icon} />;
     }
 
     return (
@@ -1195,6 +1199,9 @@ function PublicationPdfButton({ href, label, isChinese }: { href?: string; label
             title={isChinese ? 'PDF 暂不可用' : 'PDF currently unavailable'}
             className="inline-flex cursor-not-allowed items-center px-3 py-1 rounded-md text-xs font-medium bg-neutral-100 text-neutral-400 dark:bg-neutral-800 dark:text-neutral-500"
         >
+            <span className="mr-1.5 inline-flex h-3 w-3 shrink-0 items-center justify-center" aria-hidden="true">
+                {icon}
+            </span>
             {label}
         </button>
     );
