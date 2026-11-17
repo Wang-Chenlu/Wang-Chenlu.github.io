@@ -24,10 +24,11 @@ import { Publication, PublicationRole } from '@/types/publication';
 import { PublicationPageConfig } from '@/types/page';
 import { cn } from '@/lib/utils';
 import { useMessages } from '@/lib/i18n/useMessages';
-import { getResearchDirectionById, getResearchDirectionForPublication } from '@/lib/researchDirections';
+import { getResearchDirectionById, getResearchDirectionsForPublication } from '@/lib/researchDirections';
 import { useLocaleStore } from '@/lib/stores/localeStore';
 import FormattedBibTeXText from './FormattedBibTeXText';
 import PublicationAuthors from './PublicationAuthors';
+import PublicationResearchTags from './PublicationResearchTags';
 import UnicodeScriptText from './UnicodeScriptText';
 
 interface PublicationsListProps {
@@ -38,14 +39,14 @@ interface PublicationsListProps {
 }
 
 const PUBLICATIONS_SUMMARY_TEXT =
-    'A complete list of my publications, including 8 papers as first, co-first, or corresponding author, 20 collaborative papers, 1 review article, and 1 preprint.';
+    'A complete list of my 32 publications, including 9 papers as first, co-first, or corresponding author, 21 collaborative papers, 1 review article, and 1 preprint.';
 const ZH_PUBLICATIONS_SUMMARY_TEXT =
-    '完整论文列表，包括8篇第一作者、共同一作或通讯作者论文、20篇合作论文、1篇综述论文和1篇预印本。';
+    '完整论文列表，共32篇，包括9篇第一作者、共同一作或通讯作者论文、21篇合作论文、1篇综述论文和1篇预印本。';
 
 const ZH_DIRECTION_TITLES: Record<string, string> = {
-    'electrolytes-energy-storage': '电解质与储能',
-    'molecular-ionic-liquids': '水与离子液体',
-    'interfaces-nanoconfinement': '界面与纳米限域',
+    'electrolytes-energy-storage': '电解质与离子输运',
+    'molecular-ionic-liquids': '气体分离与吸附',
+    'interfaces-nanoconfinement': '界面与纳米限域传质',
 };
 
 const DIRECTION_NOTICE_TEXT_CLASSES: Record<string, string> = {
@@ -547,7 +548,10 @@ export default function PublicationsList({
                     </div>
                 ) : (
                     filteredPublications.map((pub, index) => {
-                        const direction = getResearchDirectionForPublication(pub.id);
+                        const directions = getResearchDirectionsForPublication(pub.id);
+                        const direction = activeDirection && directions.some(({ id }) => id === activeDirection.id)
+                            ? activeDirection
+                            : directions[0];
                         const DirectionIcon = direction?.icon;
                         const figures = getPublicationFigures(pub);
                         const highlight = PUBLICATION_HIGHLIGHTS[pub.id];
@@ -586,9 +590,10 @@ export default function PublicationsList({
                                 authors={pub.authors}
                                 className={`${embedded ? "text-sm" : "text-base"} text-neutral-600 dark:text-slate-300 mb-2`}
                             />
-                            <p className="text-sm text-neutral-800 dark:text-slate-200 mb-3">
+                            <p className="mb-2 text-sm text-neutral-800 dark:text-slate-200">
                                 <PublicationVenue pub={pub} />
                             </p>
+                            <PublicationResearchTags publicationId={pub.id} className="mb-4" />
 
                             {pub.description && (
                                 <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-4 line-clamp-3">
@@ -845,7 +850,7 @@ function PublicationsSummary({
             <div className="grid gap-2 sm:grid-cols-2">
                 <RoleSummaryButton
                     role="lead"
-                    count="8"
+                    count="9"
                     label={isChinese ? '篇第一作者、共同一作或通讯作者论文' : 'papers as first, co-first, or corresponding author'}
                     icon={SparklesIcon}
                     selectedRole={selectedRole}
@@ -853,7 +858,7 @@ function PublicationsSummary({
                 />
                 <RoleSummaryButton
                     role="collaborative"
-                    count="20"
+                    count="21"
                     label={isChinese ? '篇合作论文' : 'collaborative papers'}
                     icon={UserGroupIcon}
                     selectedRole={selectedRole}

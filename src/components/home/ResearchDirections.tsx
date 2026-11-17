@@ -16,12 +16,12 @@ const ZH_DIRECTION_CONTENT: Record<string, { titleLines: string[]; keywords: str
     keywords: ['溶剂化结构', '离子输运', '可极化力场'],
   },
   'molecular-ionic-liquids': {
-    titleLines: ['离子液体与气体分离'],
-    keywords: ['气体溶解', 'CO₂捕集', '分子相互作用'],
+    titleLines: ['气体分离与吸附'],
+    keywords: ['气体溶解', '膜分离', '分子吸附'],
   },
   'interfaces-nanoconfinement': {
     titleLines: ['界面与纳米限域传质'],
-    keywords: ['润湿行为', '膜分离', '响应性材料'],
+    keywords: ['润湿行为', '纳米限域传质', '响应性材料'],
   },
 };
 
