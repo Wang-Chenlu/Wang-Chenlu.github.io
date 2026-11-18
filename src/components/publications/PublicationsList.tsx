@@ -85,6 +85,13 @@ interface PublicationHighlight {
 }
 
 const PUBLICATION_HIGHLIGHTS: Record<string, PublicationHighlight> = {
+    wangIonicLigandAssistedTransport2026: {
+        highlights: [
+            'Develops a fluorinated poly(ionic liquid) electrolyte with anion-rich coordination pathways that facilitate Li⁺ hopping.',
+            'Achieves 0.38 mS cm⁻¹ ionic conductivity and a Li⁺ transference number of 0.77 at 30 °C, with a 4.94 V oxidative stability window.',
+            'Demonstrates a 515 Wh kg⁻¹ solid-state pouch cell and stable cycling of high-voltage Li||NCM90 cells.',
+        ],
+    },
     chenSupramolecularCrystalsBased2024: {
         highlights: [
             'Develops Zn-based supramolecular crystals, Zn(TFSI)₂SN₃, with ordered three-dimensional tunnels for Zn²⁺ conduction.',
